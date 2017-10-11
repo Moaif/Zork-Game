@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 
-using namespace std;
 
 class Npc : public Creature {
 
@@ -17,6 +16,8 @@ public:
 	bool Attack(const vector<string>& args);
 	void Turn();
 	void Talk();
+	void Stun(Item*);
+	void TieUp();
 private:
 	bool inLobby;
 	bool posessed;

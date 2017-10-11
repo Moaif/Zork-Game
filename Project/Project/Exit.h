@@ -5,7 +5,6 @@
 
 class Room;
 
-using namespace std;
 
 class Exit : public Entity
 {

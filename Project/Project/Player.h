@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
 
 class Player : public Creature
 {
@@ -22,9 +21,12 @@ public:
 	bool Lock(const vector<string>& args);
 	bool UnLock(const vector<string>& args);
 	void Talk(const vector<string>& args);
+	void Stun(const vector<string>& args);
+	void Read(const vector<string>& args);
+	void TieUp(const vector<string>& args);
 
-public:
-
+private:
+	int maxItems;//Numero e items maximo en inventario
 };
 
 #endif //__Player__

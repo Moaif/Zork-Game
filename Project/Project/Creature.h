@@ -8,7 +8,6 @@
 class Room;
 class Item;
 
-using namespace std;
 
 class Creature : public Entity
 {
@@ -25,15 +24,19 @@ public:
 	virtual bool UnLock(const vector<string>& args);
 	virtual void Turn();
 	virtual void Talk();
+	virtual void Stun(Item*);
+	virtual void TieUp();
 
 	virtual bool Attack(const vector<string>& args);
 	virtual int MakeAttack();
 	virtual int ReceiveAttack(int damage);
 	virtual void Die();
 
+
 	Room* GetRoom() const;
 	bool PlayerInRoom() const;
 	bool IsAlive() const;
+	bool IsStuned();
 
 public:
 
@@ -42,6 +45,8 @@ public:
 	int max_damage;
 	int min_protection;
 	int max_protection;
+	int stuned; //Es un int para indicar los turnos que estara stuneado, depende el arma que lo golpee
+	bool tiedUp;
 	Creature* combat_target;
 	Item* weapon;
 	Item* armour;

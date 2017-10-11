@@ -1,7 +1,7 @@
 #include "globals.h"
 #include <string>
 
-//using namespace std;
+
 
 // -------------------------------------------------
 bool Same(const string& a, const string& b)

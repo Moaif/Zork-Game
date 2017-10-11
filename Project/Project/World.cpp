@@ -46,27 +46,34 @@ World::World()
 	Item* rock = new Item("Rock", "One simple rock", gardens, { WEAPON });
 	rock->weaponType = BLUNT;
 	Item* gargoyle = new Item("Gargoyle", "A gargoyle statue with a hole inside", gardens, { IMMOVABLE,CONTAINER });
+	gargoyle->maxItems = 1;
 	Item* key = new Item("Key", "Old iron key.", gargoyle);
 	ex2->key = key;
 
 	//Lobby
 	Item* chalice = new Item("Chalice", "An empty gold chalice", lobby, { CURSED,LIQUID_CONTAINER });
+	chalice->maxItems = 1;
 	Item* cabinet = new Item("Cabinet", "An old wooden cabinet", lobby, {IMMOVABLE,CONTAINER});
+	cabinet->maxItems = 3;
 	Item* rope = new Item("Rope","A simple rope",cabinet);
 	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, {IMMOVABLE,CONTAINER});
+	showcase->maxItems = 2;
 	Item* dagger = new Item("Dagger", "An iron dagger", showcase, {WEAPON});
 	dagger->weaponType = SHARP;
 
 	//Central_Nave
 	Item* altar = new Item("Altar", "A well furnished medium height altar", central_nave, { IMMOVABLE,CONTAINER });
+	altar->maxItems = 3;
 	Item* eBook = new Item("Book", "An old book with mysterious drawings", altar, {BOOK});
-	eBook->bookText = "\n\t\t\t\t\tThe exorcism Book\n \nIn this book you will discover the ritual to exorcise any kind of evil.\n \n1º You need to throw holy water over the afected.\n \n 2º You must pray the 7º chapter of a bible.\n \3º Finally you have to touch him with a sacred cross.\n";
+	eBook->bookText = "\n\t\t\t\t\tThe exorcism Book\n \n\tIn this book you will discover the ritual to exorcise any kind of evil.\n \n\t1 You need to throw holy water over the afected.\n\t2 You must pray chapter from a bible.\n\t3 Finally you have to touch him with a sacred cross.\n";
 	Item* stoup = new Item("Stoup", "A stone stoup setter in the wall", central_nave, { IMMOVABLE,LIQUID_CONTAINER });
+	stoup->maxItems = 1;
 	Item* hwater = new Item("Holy_water", "Water purified by goods", stoup, {LIQUID});
 
 
 	//Chapel
 	Item* chapel_chest = new Item("Chest", "A big beautiful chest", chapel, {IMMOVABLE,CONTAINER});
+	chapel_chest->maxItems = 2;
 	Item* holy_sword = new Item("Lightning", "The holy sword.", chapel_chest, { WEAPON });
 	holy_sword->weaponType = SHARP;
 	Item* cross = new Item("Cross", "A sacred cross placed on the wall", chapel, {WEAPON});
@@ -74,10 +81,14 @@ World::World()
 	ex5->key = cross;
 	//Vestry
 	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, {IMMOVABLE,CONTAINER});
+	shelf->maxItems = 5;
 	Item* bible = new Item("Bible", "One of the first copys of the bible", shelf, {BOOK});
-	bible->bookText = "\nThe bible is too long to be shown here,but you can still pray some of its chapter, like the 7º one.\n";
+	bible->bookText = "\nThe bible is too long to be shown here,but you can still pray some of its chapter.\n";
 	Item* phial = new Item("Phial", "A wonderful glass phial", vestry, {LIQUID_CONTAINER});
+	phial->maxItems = 1;
 	Item* wine = new Item("Wine", "The wine representing the blood of our saviour", phial, {LIQUID});
+	Item* mace = new Item("Mace", "An iron mace", vestry,{WEAPON});
+	mace->weaponType = BLUNT;
 
 	// Player ----
 	player = new Player("Player", "You are investigating a church with your friend", gardens);
@@ -198,6 +209,9 @@ bool World::ParseCommand(vector<string>& args)
 		else if (Same(args[0],"talk") || Same(args[0],"speak")) {
 			player->Talk(args);
 		}
+		else if (Same(args[0], "read")) {
+			player->Read(args);
+		}
 		else
 			ret = false;
 		break;
@@ -223,6 +237,15 @@ bool World::ParseCommand(vector<string>& args)
 		else if (Same(args[0], "drop") || Same(args[0], "put"))
 		{
 			player->Drop(args);
+		}
+		else if (Same(args[0], "stun") || Same(args[0], "knock_out") || Same(args[0], "daze")) {
+			player->Stun(args);
+		}
+		else if (Same(args[0], "tie") || Same(args[0], "attach")) {
+			player->TieUp(args);
+		}
+		else if (Same(args[0],"read")) {
+			player->Read(args);
 		}
 		else
 			ret = false;

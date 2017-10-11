@@ -219,6 +219,21 @@ void Creature::Turn()
 void Creature::Talk() {
 
 }
+
+// ----------------------------------------------------
+void Creature::Stun(Item*) {
+
+}
+
+// ----------------------------------------------------
+void Creature::TieUp() {
+
+}
+
+// ----------------------------------------------------
+bool Creature::IsStuned() {
+	return stuned > 0;
+}
 // ----------------------------------------------------
 bool Creature::Attack(const vector<string>& args)
 {

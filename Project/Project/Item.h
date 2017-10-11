@@ -7,7 +7,6 @@
 
 class Room;
 
-using namespace std;
 
 enum ItemType
 {
@@ -41,6 +40,7 @@ public:
 	vector<ItemType> item_type;
 	WeaponType weaponType;//Solo se usa si es un arma
 	string bookText;//Solo se usa si es un libro
+	int maxItems; //Solo se usa si es un container
 };
 
 #endif //__Item__

@@ -8,7 +8,6 @@
 class Exit;
 class Item;
 
-using namespace std;
 
 class Room : public Entity
 {
