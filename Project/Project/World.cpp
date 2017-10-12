@@ -11,6 +11,7 @@
 #include "npc.h"
 
 // ----------------------------------------------------
+Npc* npcG;//variable global definida en Npc.h, mas info alli
 
 World::World()
 {
@@ -65,7 +66,7 @@ World::World()
 	Item* altar = new Item("Altar", "A well furnished medium height altar", central_nave, { IMMOVABLE,CONTAINER });
 	altar->maxItems = 3;
 	Item* eBook = new Item("Book", "An old book with mysterious drawings", altar, {BOOK});
-	eBook->bookText = "\n\t\t\t\t\tThe exorcism Book\n \n\tIn this book you will discover the ritual to exorcise any kind of evil.\n \n\t1 You need to throw holy water over the afected.\n\t2 You must pray chapter from a bible.\n\t3 Finally you have to touch him with a sacred cross.\n";
+	eBook->bookText = "\n\t\t\t\t\tThe exorcism Book\n \n\tIn this book you will discover the ritual to exorcise any kind of evil.\n \n\t1 You need to pour holy water over the afected.\n\t2 You must pray chapter 7 from a bible.\n\t3 Finally you have to touch him with a sacred cross.\n";
 	Item* stoup = new Item("Stoup", "A stone stoup setter in the wall", central_nave, { IMMOVABLE,LIQUID_CONTAINER });
 	stoup->maxItems = 1;
 	Item* hwater = new Item("Holy_water", "Water purified by goods", stoup, {LIQUID});
@@ -82,8 +83,18 @@ World::World()
 	//Vestry
 	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, {IMMOVABLE,CONTAINER});
 	shelf->maxItems = 5;
-	Item* bible = new Item("Bible", "One of the first copys of the bible", shelf, {BOOK});
-	bible->bookText = "\nThe bible is too long to be shown here,but you can still pray some of its chapter.\n";
+	Item* bible = new Item("Bible", "An old bible book, with only some of it's chapters", shelf, {CONTAINER});
+	bible->maxItems = 5;
+	Item* ch1 = new Item("Chapter1", "Genesis", bible, {BOOK});
+	ch1->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
+	Item* ch4 = new Item("Chapter4", "The forth chapter of the bible", bible, {BOOK});
+	ch4->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
+	Item* ch7 = new Item("Chapter7", "The seventh chapter of the bible", bible, { BOOK });
+	ch7->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
+	Item* ch10 = new Item("Chapter10", "The tenth chapter of the bible", bible, { BOOK });
+	ch10->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
+	Item* ch15 = new Item("Chapter15", "The fifteen chapter of the bible", bible, { BOOK });
+	ch15->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
 	Item* phial = new Item("Phial", "A wonderful glass phial", vestry, {LIQUID_CONTAINER});
 	phial->maxItems = 1;
 	Item* wine = new Item("Wine", "The wine representing the blood of our saviour", phial, {LIQUID});
@@ -97,6 +108,7 @@ World::World()
 
 	//Npc -----
 	Npc* luis = new Npc("Luis","Your allways trustable friend",gardens);
+	npcG = luis;
 	luis->hit_points = 1;
 	entities.push_back(luis);
 }
@@ -136,6 +148,8 @@ void World::GameLoop()
 bool World::ParseCommand(vector<string>& args)
 {
 	bool ret = true;
+	int phase = player->GetPhase();
+	player->SetPhase(0);
 
 	switch (args.size())
 	{
@@ -212,6 +226,9 @@ bool World::ParseCommand(vector<string>& args)
 		else if (Same(args[0], "read")) {
 			player->Read(args);
 		}
+		else if (Same(args[0],"pray")) {
+			player->Pray(args,phase);
+		}
 		else
 			ret = false;
 		break;
@@ -247,6 +264,12 @@ bool World::ParseCommand(vector<string>& args)
 		else if (Same(args[0],"read")) {
 			player->Read(args);
 		}
+		else if (Same(args[0], "pray")) {
+			player->Pray(args,phase);
+		}
+		else if (Same(args[0],"touch")) {
+			player->Touch(args,phase);
+		}
 		else
 			ret = false;
 		break;
@@ -258,6 +281,12 @@ bool World::ParseCommand(vector<string>& args)
 		else if(Same(args[0],"drop") || Same(args[0],"put"))
 		{
 			player->Drop(args);
+		}
+		else if (Same(args[0],"pour")) {
+			player->Pour(args);
+		}
+		else if (Same(args[0],"pierce")) {
+			player->Pierce(args);
 		}
 		else
 		{

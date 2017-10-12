@@ -22,10 +22,18 @@ public:
 	bool UnLock(const vector<string>& args);
 	void Talk(const vector<string>& args);
 	void Stun(const vector<string>& args);
-	void Read(const vector<string>& args);
-	void TieUp(const vector<string>& args);
+	void Read(const vector<string>& args) const;
+	void TieUp(const vector<string>& args) const;
+	void Pour(const vector<string>& args);
+	void Pray(const vector<string>& args,int phase);
+	void Touch(const vector<string>& args,int phase);
+	void Pierce(const vector<string>& args) const;
+
+	int GetPhase() const;
+	void SetPhase(int phase);
 
 private:
+	int phase;
 	int maxItems;//Numero e items maximo en inventario
 };
 

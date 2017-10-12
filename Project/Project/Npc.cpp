@@ -100,30 +100,42 @@ void Npc::Talk() {
 			switch (phase)
 			{
 			case -1:
+			{
 				cout << "\n" << "Mordecai: \t" << "What a wonderfull day, isn't it?.Im Mordecai a poor citicien death in this church when the war started years ago, I've possesed your friend when he touched the chalice.Im trapped in that chalice, if we destroy it, i can go free and release your friends body.\n";
 				++phase;
+			}
 				break;
 			case 0:
+			{
 				if (player->Find("Lightning", ITEM)) {
 					cout << endl;
 					cout << "\n" << "Mordecai: \t" << "Well done, you found 'Lightning', now we can go for the next task\n";
 					++phase;
+					break;
 				}
 				cout << endl;
 				cout << "\n" << "Mordecai: \t" << "Your first taks to destroy the chalice is search 'Lightning' the holy sword somewhere in this church\n";
+			}
 				break;
 			case 1:
-				if (player->Find("Chalice", ITEM)->Find("Wine", ITEM)) {
-					cout << endl;
-					cout << "\n" << "Mordecai: \t" << "Well done, you found the 'Wine', now we can go for the last task\n";
-					++phase;
+			{
+				Item* container = (Item*)player->Find("Chalice", ITEM);
+				if (container != nullptr) {
+					if (container->Find("Wine", ITEM) != nullptr) {
+						cout << endl;
+						cout << "\n" << "Mordecai: \t" << "Well done, you found the 'Wine', now we can go for the last task\n";
+						++phase;
+						break;
+					}
 				}
 				cout << endl;
 				cout << "\n" << "Mordecai: \t" << "Your second taks to destroy the chalice is search 'Wine' the blood of our saviour somewhere in this church\n";
-				break;
-			case 2:
-				cout << endl;
-				cout << "\n" << "Mordecai: \t" << "Now it's time to break this curse, place the filled chalice on the center nave altar and cut it with 'Lightning\n";
+			}
+			break;
+			case 2: {
+					cout << endl;
+					cout << "\n" << "Mordecai: \t" << "Now it's time to break this curse, place the filled chalice on the center nave's altar and pierce it with 'Lightning\n";
+			}
 				break;
 			default:
 				break;
@@ -165,4 +177,12 @@ void Npc::Stun(Item* weapon) {
 
 void Npc::TieUp() {
 	tiedUp = true;
+}
+
+void Npc::Exorciced() {
+	cout << "\n\n\t\t\t\tHe llegado a Exorciced\n\n";
+}
+
+void Npc::FinalForm() {
+	cout << "\n\n\t\t\t\tHe llegado a Final form\n\n";
 }

@@ -11,6 +11,7 @@ Player::Player(const char* title, const char* description, Room* room) :
 	Creature(title, description, room)
 {
 	type = PLAYER;
+	phase = 0;
 	maxItems = 5;
 }
 
@@ -501,7 +502,7 @@ void Player::Stun(const vector<string>& args) {
 
 }
 
-void Player::Read(const vector<string>& args) {
+void Player::Read(const vector<string>& args) const{
 	if (args.size() == 2) {
 		Item* item = (Item*)parent->Find(args[1], ITEM);
 		if (item == nullptr) {
@@ -546,7 +547,7 @@ void Player::Read(const vector<string>& args) {
 	}
 }
 
-void Player::TieUp(const vector<string>& args) {
+void Player::TieUp(const vector<string>& args) const {
 	Creature* npc = (Creature*)parent->Find(args[1], CREATURE);
 	if (npc == nullptr) {
 		cout << "\n'" << args[1] << "' is not in the room.\n";
@@ -569,4 +570,151 @@ void Player::TieUp(const vector<string>& args) {
 		return;
 	}
 	cout << "\n" << npc->name << " evade your action.\n";
+}
+
+void Player::Pour(const vector<string>& args) {
+	Item* container = (Item*)Find(args[5], ITEM);
+	if (container == nullptr) {
+		cout << "\n'" << args[5] << "' is not in your inventory.\n";
+		return;
+	}
+
+	Creature* npc = (Creature*)parent->Find(args[3], CREATURE);
+	if (npc == nullptr) {
+		cout << "\n'" << args[3] << "' is not in the room.\n";
+		return;
+	}
+
+	Item* item = (Item*)container->Find(args[1],ITEM);
+	if (item == nullptr) {
+		cout << "\n'" << args[1] << "' is not in " << container->name << ".\n";
+		return;
+	}
+
+	if (!item->Contains(LIQUID)) {
+		cout << "\n" << item->name << "is not pourable.\n";
+	}
+
+	cout << "\n Your poured " << item->name << " over " << npc->name << " from " << container->name << ".\n";
+
+	if (Same(item->name, "Holy_water") && Same(npc->name, "Mordecai")) {
+		SetPhase(phase+1);
+	}
+}
+void Player::Pray(const vector<string>& args,int phase) {
+	Creature* npc = (Creature*)parent->Find("Mordecai",CREATURE);//In order to verify if it's in the room
+	if (args.size() == 2) {
+		Item* item = (Item*)parent->Find(args[1], ITEM);
+		if (item == nullptr) {
+			item = (Item*)Find(args[1], ITEM);
+		}
+		if (item == nullptr) {
+			cout << "\n'" << args[1] << "' is not in this room or inventory.\n";
+			return;
+		}
+
+		if (!item->Contains(BOOK)) {
+			cout << "\nYou can't pray the" << item->name << ".\n";
+			return;
+		}
+
+		cout << "\n You pray the " << item->name << ".\n";
+		if (phase == 1) {
+			if (Same(item->name, "Chapter7") && npc!=nullptr) {
+				SetPhase(phase + 1);
+			}
+		}
+		
+	}
+	else if (args.size() == 4) {
+		Item* cont = (Item*)parent->Find(args[3], ITEM);
+		if (cont == nullptr) {
+			cont = (Item*)Find(args[3], ITEM);
+		}
+
+		if (cont == nullptr) {
+			cout << "\n'" << args[3] << "' is not in this room or inventory";
+			return;
+		}
+
+		Item* item = (Item*)cont->Find(args[1], ITEM);
+
+		if (item == nullptr) {
+			cout << "\n'" << args[1] << "' is not in " << cont->name << ".\n";
+			return;
+		}
+
+		if (!item->Contains(BOOK)) {
+			cout << "\nYou can't pray the" << item->name << ".\n";
+			return;
+		}
+
+		cout << "\n You pray the " << item->name << " from "<<cont->name << ".\n";
+		if (phase == 1) {
+			if (Same(item->name, "Chapter7") && npc!=nullptr) {
+				SetPhase(phase + 1);
+			}
+		}
+	}
+}
+void Player::Touch(const vector<string>& args,int phase) {
+	Creature* npc = (Creature*)parent->Find(args[1],CREATURE);
+	if (npc == nullptr) {
+		cout << "\n'" << args[1] << "' is not in the room.\n";
+		return;
+	}
+
+	Item* item = (Item*)Find(args[3], ITEM);
+	if (item == nullptr) {
+		cout << "\n'" << args[3] << "' is not in the room.\n";
+		return;
+	}
+
+	cout << "\nYou touched " << npc->name << " with " << item->name << ".\n";
+	if (phase == 2) {
+		if (Same(item->name, "Cross") && Same(npc->name, "Mordecai")) {
+			((Npc*)npc)->Exorciced();
+		}
+	}
+
+}
+void Player::Pierce(const vector<string>& args) const {
+	Item* container = (Item*)parent->Find(args[3], ITEM);
+	if (container == nullptr) {
+		cout << "\n'" << args[3] << "' is not in the room";
+		return;
+	}
+
+	Item* item = (Item*)container->Find(args[1],ITEM);
+	if (item == nullptr) {
+		cout << "\n'" << "' is not in " << container->name << ".\n";
+		return;
+	}
+
+	Item* tool = (Item*)Find(args[5], ITEM);
+	if (tool == nullptr) {
+		cout << "\n'" << args[5] << "' is not in your inventory.\n";
+		return;
+	}
+
+	Item* subItem = (Item*)item->Find("Wine", ITEM);
+	if (subItem == nullptr && Same(item->name, "Chalice")) {
+		cout << "\n The chalice should be filled with wine";
+	}
+
+	if (Same(tool->name, "Lightning") && Same(container->name, "Altar") && Same(item->name, "Chalice")) {
+		npcG->FinalForm();
+	}
+	else
+	{
+		cout << "\nSorry, you missed something in the formula.\n";
+	}
+}
+
+int Player::GetPhase() const {
+	return phase;
+}
+
+void Player::SetPhase(int phase) {
+	this->phase = phase;
 }
