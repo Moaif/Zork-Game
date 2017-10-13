@@ -4,7 +4,8 @@
 #include <list>
 #include <vector>
 #include <string>
-
+#include <ctime>
+#define TURN_FREC 5
 
 class Entity;
 class Player;
@@ -24,6 +25,7 @@ private:
 
 	list<Entity*> entities;
 	Player* player;
+	clock_t timer;
 };
 
 #endif //__World__

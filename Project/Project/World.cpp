@@ -7,14 +7,15 @@
 #include "room.h"
 #include "player.h"
 #include "world.h"
-#include <vector>
 #include "npc.h"
+
 
 // ----------------------------------------------------
 Npc* npcG;//variable global definida en Npc.h, mas info alli
 
 World::World()
 {
+	clock_t timer = clock();
 
 	// Rooms ----
 	Room* gardens = new Room("Gardens", "You are in front of a church, surrounded by the flowers of the church's garden.");
@@ -46,6 +47,7 @@ World::World()
 	//Garden
 	Item* rock = new Item("Rock", "One simple rock", gardens, { WEAPON });
 	rock->weaponType = BLUNT;
+	rock->weapondDmg = 3;
 	Item* gargoyle = new Item("Gargoyle", "A gargoyle statue with a hole inside", gardens, { IMMOVABLE,CONTAINER });
 	gargoyle->maxItems = 1;
 	Item* key = new Item("Key", "Old iron key.", gargoyle);
@@ -61,6 +63,7 @@ World::World()
 	showcase->maxItems = 2;
 	Item* dagger = new Item("Dagger", "An iron dagger", showcase, {WEAPON});
 	dagger->weaponType = SHARP;
+	dagger->weapondDmg = 7;
 
 	//Central_Nave
 	Item* altar = new Item("Altar", "A well furnished medium height altar", central_nave, { IMMOVABLE,CONTAINER });
@@ -77,8 +80,10 @@ World::World()
 	chapel_chest->maxItems = 2;
 	Item* holy_sword = new Item("Lightning", "The holy sword.", chapel_chest, { WEAPON });
 	holy_sword->weaponType = SHARP;
+	holy_sword->weapondDmg = 15;
 	Item* cross = new Item("Cross", "A sacred cross placed on the wall", chapel, {WEAPON});
 	cross->weaponType = BLUNT;
+	cross->weapondDmg = 5;
 	ex5->key = cross;
 	//Vestry
 	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, {IMMOVABLE,CONTAINER});
@@ -100,16 +105,19 @@ World::World()
 	Item* wine = new Item("Wine", "The wine representing the blood of our saviour", phial, {LIQUID});
 	Item* mace = new Item("Mace", "An iron mace", vestry,{WEAPON});
 	mace->weaponType = BLUNT;
+	mace->weapondDmg = 10;
 
 	// Player ----
 	player = new Player("Player", "You are investigating a church with your friend", gardens);
 	player->hit_points = 25;
+	player->basicDmg = 1;
 	entities.push_back(player);
 
 	//Npc -----
 	Npc* luis = new Npc("Luis","Your allways trustable friend",gardens);
 	npcG = luis;
-	luis->hit_points = 1;
+	luis->basicDmg = 1;
+	luis->hit_points = 5;
 	entities.push_back(luis);
 }
 
@@ -130,7 +138,11 @@ bool World::Turn(vector<string>& args)
 	if (args.size() > 0 && args[0].length() > 0)
 		ret = ParseCommand(args);
 
-	GameLoop();
+	double elapsedTime = (clock() - timer) / CLOCKS_PER_SEC;
+	if (elapsedTime >= TURN_FREC) {
+		GameLoop();
+		timer = clock();
+	}
 
 	return ret;
 }
@@ -158,6 +170,9 @@ bool World::ParseCommand(vector<string>& args)
 		if (Same(args[0], "look") || Same(args[0], "l"))
 		{
 			player->Look(args);
+		}
+		else if (Same(args[0],"quit")) {
+
 		}
 		else if (Same(args[0], "north") || Same(args[0], "n"))
 		{
@@ -193,13 +208,16 @@ bool World::ParseCommand(vector<string>& args)
 		{
 			player->Inventory();
 		}
+		else if (Same(args[0],"dodge") || Same(args[0], "avoid") || Same(args[0], "evade")) {
+			player->Dodge();
+		}
 		else
 			ret = false;
 		break;
 	}
 	case 2: // commands with one argument ------------------------------
 	{
-		if (Same(args[0], "look") || Same(args[0], "l"))
+		if (Same(args[0], "look"))
 		{
 			player->Look(args);
 		}
@@ -231,10 +249,6 @@ bool World::ParseCommand(vector<string>& args)
 		}
 		else
 			ret = false;
-		break;
-	}
-	case 3: // commands with two arguments ------------------------------
-	{
 		break;
 	}
 	case 4: // commands with three arguments ------------------------------
@@ -269,6 +283,9 @@ bool World::ParseCommand(vector<string>& args)
 		}
 		else if (Same(args[0],"touch")) {
 			player->Touch(args,phase);
+		}
+		else if (Same(args[0], "attack")) {
+			player->Attack(args);
 		}
 		else
 			ret = false;

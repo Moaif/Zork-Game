@@ -22,36 +22,12 @@ Npc::~Npc()
 
 }
 
-// ----------------------------------------------------
-bool Npc::Go(const vector<string>& args)
-{
-	list<Exit*> exits = GetRoom()->GetExitsByDirection(args[1]);
-
-	if (exits.size() <= 0)
-	{
-		return false;
-	}
-
-	for (list<Exit*>::iterator it = exits.begin(); it != exits.end(); ++it) {
-		Exit* ex = (Exit*)*it;
-		if (!ex->locked) {
-			ChangeParentTo(ex->GetDestinationFrom((Room*)parent));
-			Player* player = (Player*)parent->Find(PLAYER);
-			if (player != NULL) {
-				cout << "\nLuis enter the room.\n";
-			}
-
-			return true;
-		}
-	}
-	return false;
-}
 
 // ----------------------------------------------------
 
-bool Npc::Attack(const vector<string>& args) 
+void Npc::Attack(const vector<string>& args) 
 {
-	return false;
+	
 }
 
 // ----------------------------------------------------
@@ -153,21 +129,9 @@ void Npc::Talk() {
 }
 
 void Npc::Stun(Item* weapon) {
-	//Armas romas: roca,cruz,maza
 	if (posessed) {
-		string wName = weapon->name;
-		if (Same(wName, "Rock")) {
-			stuned = 3;
-			cout << "\n You stuned " << name << ".\n";
-		}
-		else if (Same(wName , "Cross")) {
-			stuned = 5;
-			cout << "\n You stuned " << name << ".\n";
-		}
-		else if (Same(wName , "Mace")) {
-			stuned = 10;
-			cout << "\n You stuned " << name << ".\n";
-		}
+		stuned =(int) weapon->weapondDmg;
+		cout << "\n You stuned " << name << ".\n";
 	}
 	else
 	{
@@ -175,9 +139,6 @@ void Npc::Stun(Item* weapon) {
 	}
 }
 
-void Npc::TieUp() {
-	tiedUp = true;
-}
 
 void Npc::Exorciced() {
 	cout << "\n\n\t\t\t\tHe llegado a Exorciced\n\n";

@@ -39,6 +39,7 @@ public:
 public:
 	vector<ItemType> item_type;
 	WeaponType weaponType;//Solo se usa si es un arma
+	float weapondDmg;//Solo si es arma
 	string bookText;//Solo se usa si es un libro
 	int maxItems; //Solo se usa si es un container
 };

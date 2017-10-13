@@ -12,12 +12,10 @@ public:
 	Npc(const char* name, const char* description, Room* room);
 	~Npc();
 
-	bool Go(const vector<string>& args);
-	bool Attack(const vector<string>& args);
+	void Attack(const vector<string>& args);
 	void Turn();
 	void Talk();
 	void Stun(Item*);
-	void TieUp();
 	void Exorciced();
 	void FinalForm();
 private:
