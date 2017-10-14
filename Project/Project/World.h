@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include <ctime>
-#define TURN_FREC 5
+#define TURN_FREC 10
 
 class Entity;
 class Player;

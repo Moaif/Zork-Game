@@ -19,6 +19,7 @@ public:
 
 	Exit* GetExit(const string& direction) const;
 	list<Exit*> GetExitsByDirection(const string& direction) const;
+	void BlockAllExits();
 
 public:
 };

@@ -117,7 +117,7 @@ World::World()
 	Npc* luis = new Npc("Luis","Your allways trustable friend",gardens);
 	npcG = luis;
 	luis->basicDmg = 1;
-	luis->hit_points = 5;
+	luis->hit_points = 1;
 	entities.push_back(luis);
 }
 

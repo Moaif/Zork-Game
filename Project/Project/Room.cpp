@@ -93,3 +93,19 @@ list<Exit*> Room::GetExitsByDirection(const string& direction) const
 
 	return sol;
 }
+
+void Room::BlockAllExits()  {
+	list<Entity*>::iterator it = container.begin();
+
+	while (it != container.end())
+	{
+		if ((*it)->type == EXIT)
+		{
+			it=container.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}

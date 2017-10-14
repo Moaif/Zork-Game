@@ -6,6 +6,7 @@
 using namespace std;
 
 void End();
+void Win();
 bool Same(const string& a, const string& b);
 bool Same(const char* a, const string& b);
 bool Same(const string& a, const char* b);

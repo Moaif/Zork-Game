@@ -73,12 +73,11 @@ int main()
 			break;
 
 		
+		if (endGame)
+			break;
 
 		if (args.size() > 0)
 		{
-			if (endGame)
-				break;
-
 			args.clear();
 			player_input = "";
 			cout << "> ";

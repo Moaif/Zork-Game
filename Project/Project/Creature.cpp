@@ -125,11 +125,8 @@ void Creature::Turn()
 					combat_target->ReceiveAttack(weapon->weapondDmg);
 				}
 			}
-			else
-				combat_target = nullptr;
 		}
 		combat_target = nullptr;
-		dodging = false;
 	}
 }
 
@@ -187,7 +184,8 @@ void Creature::Attack(const vector<string>& args)
 
 		weapon = nullptr;
 		combat_target = target;
-		cout << "\n" << name << " prepares to attack " << target->name << " with bared hands"  << "!\n";
+		string temp =  name + " prepares to attack " + target->name + " with bared hands"  + "!\n";
+		turnCout(temp);
 	}
 	else if (args.size() == 4) {
 		Creature *target = (Creature*)parent->Find(args[1], CREATURE);
@@ -206,11 +204,13 @@ void Creature::Attack(const vector<string>& args)
 
 		if (item == nullptr) {
 			cout << "\n'" << args[3] << "' is not in your inventory";
+			return;
 		}
 
 		weapon = item;
 		combat_target = target;
-		cout << "\n" << name << " prepares to attack " << target->name << " with "<< item->name<< "!\n";
+		string temp = name + " prepares to attack " + target->name + " with "+ item->name+ "!\n";
+		turnCout(temp);
 	}
 }
 
@@ -221,7 +221,8 @@ void Creature::Dodge() {
 
 	combat_target = nullptr;
 	dodging = true;
-	cout << "\n" << name << " prepares to dodge.\n";
+	string temp = name + " prepares to dodge.\n";
+	turnCout(temp);
 }
 
 
@@ -265,7 +266,7 @@ void Creature::ReceiveAttack(float damage)
 			hit_points -= damage;
 		}
 	}
-
+	dodging = false;
 	if (hit_points <= 0) {
 		Die();
 	}

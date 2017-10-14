@@ -665,7 +665,7 @@ void Player::Pierce(const vector<string>& args) const {
 	}
 
 	if (Same(tool->name, "Lightning") && Same(container->name, "Altar") && Same(item->name, "Chalice")) {
-		npcG->FinalForm();
+		npcG->FinalForm((Room*)parent);
 	}
 	else
 	{

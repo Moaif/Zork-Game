@@ -10,6 +10,11 @@ void End() {
 	endGame = true;
 }
 
+void Win() {
+	cout << "\n\n\n\n\t\t\t\t\t You defeated the evil, well played!!\n\n\n\n\n";
+	End();
+}
+
 // -------------------------------------------------
 bool Same(const string& a, const string& b)
 {

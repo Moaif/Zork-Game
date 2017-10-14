@@ -6,22 +6,35 @@
 #include <string>
 
 
+enum class NpcForms
+{
+	HIGH,
+	MEDIUM,
+	LOW,
+	NONE
+};
+
 class Npc : public Creature {
 
 public:
 	Npc(const char* name, const char* description, Room* room);
 	~Npc();
 
-	void Attack(const vector<string>& args);
+	void Combat();
+	void ReceiveAttack(float);
 	void Turn();
 	void Talk();
 	void Stun(Item*);
 	void Exorciced();
-	void FinalForm();
+	void Killed();
+	void FinalForm(Room*);
+	void Die();
 private:
 	bool inLobby;
 	bool posessed;
+	bool chargedAttack;
 	int phase;
+	NpcForms form=NpcForms::NONE;
 };
 
 extern Npc* npcG;//Hasta tener una idea mejor, se usa para llamarlo cuando se pasa a la ultima fase, 
