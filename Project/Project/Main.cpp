@@ -82,7 +82,7 @@ int main()
 
 		if (args.size() > 0)
 		{
-			if (!args[0].length() > 0) {
+			if (!(args[0].length() > 0)) {
 				cout << "\n> ";
 			}
 			else
