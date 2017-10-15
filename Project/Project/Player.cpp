@@ -7,7 +7,7 @@
 #include "Npc.h"
 
 
-// ----------------------------------------------------
+
 Player::Player(const char* title, const char* description, Room* room) :
 	Creature(title, description, room)
 {
@@ -16,12 +16,12 @@ Player::Player(const char* title, const char* description, Room* room) :
 	maxItems = 5;
 }
 
-// ----------------------------------------------------
+
 Player::~Player()
 {
 }
 
-// ----------------------------------------------------
+
 void Player::Look(const vector<string>& args) const
 {
 	if (args.size() > 1)
@@ -60,7 +60,7 @@ void Player::Look(const vector<string>& args) const
 	}
 }
 
-// ----------------------------------------------------
+
 void Player::Go(const vector<string>& args)
 {
 	list<Exit*> exits = GetRoom()->GetExitsByDirection(args[1]);
@@ -86,9 +86,9 @@ void Player::Go(const vector<string>& args)
 }
 
 
-// ----------------------------------------------------
 void Player::Take(const vector<string>& args)
 {
+	Npc* npc =(Npc*) parent->Find("Mordecai",CREATURE);//We want to see if the npc is in the room
 	if (args.size()==6) {
 		Item* item = (Item*)parent->Find(args[3], ITEM);
 
@@ -144,6 +144,10 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
+		if (npc != nullptr) {
+			npc->Observe(subitem);
+		}
+
 		cout << "\nYou take " << subitem->name << " from " << item->name << ".\n";
 		subitem->ChangeParentTo(tool);
 	}
@@ -187,6 +191,10 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
+		if (npc != nullptr) {
+			npc->Observe(subitem);
+		}
+
 		cout << "\nYou take " << subitem->name << " from " << item->name << ".\n";
 		subitem->ChangeParentTo(this);
 	}
@@ -219,12 +227,16 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
+		if (npc != nullptr) {
+			npc->Observe(item);
+		}
+
 		cout << "\nYou take " << item->name << ".\n";
 		item->ChangeParentTo(this);
 	}
 }
 
-// ----------------------------------------------------
+
 void Player::Inventory() const
 {
 	list<Entity*> items;
@@ -244,7 +256,7 @@ void Player::Inventory() const
 	cout << "\n";
 }
 
-// ----------------------------------------------------
+
 void Player::Drop(const vector<string>& args)
 {
 	if (args.size() == 2)
@@ -347,7 +359,7 @@ void Player::Drop(const vector<string>& args)
 	}
 }
 
-// ----------------------------------------------------
+
 void Player::Lock(const vector<string>& args)
 {
 	if (!IsAlive())
@@ -386,7 +398,7 @@ void Player::Lock(const vector<string>& args)
 	exit->locked = true;
 }
 
-// ----------------------------------------------------
+
 void Player::UnLock(const vector<string>& args)
 {
 	Exit* exit = GetRoom()->GetExit(args[1]);
@@ -434,6 +446,7 @@ void Player::UnLock(const vector<string>& args)
 	exit->locked = false;
 }
 
+
 void Player::Talk(const vector<string>& args) {
 	Creature* creature = (Creature*)parent->Find(args[1],CREATURE);
 	if (creature == nullptr) {
@@ -443,6 +456,7 @@ void Player::Talk(const vector<string>& args) {
 	creature->Talk();
 
 }
+
 
 void Player::Stun(const vector<string>& args) {
 	Creature* npc = (Creature*)parent->Find(args[1],CREATURE);
@@ -463,6 +477,7 @@ void Player::Stun(const vector<string>& args) {
 	cout << "\n You can't do that with '"<< item->name <<"'\n";
 
 }
+
 
 void Player::Read(const vector<string>& args) const{
 	if (args.size() == 2) {
@@ -509,7 +524,8 @@ void Player::Read(const vector<string>& args) const{
 	}
 }
 
-void Player::TieUp(const vector<string>& args) const {
+
+void Player::TieUp(const vector<string>& args)  {
 	Creature* npc = (Creature*)parent->Find(args[1], CREATURE);
 	if (npc == nullptr) {
 		cout << "\n'" << args[1] << "' is not in the room.\n";
@@ -534,6 +550,7 @@ void Player::TieUp(const vector<string>& args) const {
 	cout << "\n" << npc->name << " evade your action.\n";
 }
 
+
 void Player::Pour(const vector<string>& args) {
 	Item* container = (Item*)Find(args[5], ITEM);
 	if (container == nullptr) {
@@ -541,7 +558,7 @@ void Player::Pour(const vector<string>& args) {
 		return;
 	}
 
-	Creature* npc = (Creature*)parent->Find(args[3], CREATURE);
+	Npc* npc = (Npc*)parent->Find(args[3], CREATURE);
 	if (npc == nullptr) {
 		cout << "\n'" << args[3] << "' is not in the room.\n";
 		return;
@@ -561,10 +578,13 @@ void Player::Pour(const vector<string>& args) {
 
 	if (Same(item->name, "Holy_water") && Same(npc->name, "Mordecai")) {
 		SetPhase(phase+1);
+		npc->Stab();
 	}
 }
+
+
 void Player::Pray(const vector<string>& args,int phase) {
-	Creature* npc = (Creature*)parent->Find("Mordecai",CREATURE);//In order to verify if it's in the room
+	Npc* npc = (Npc*)parent->Find("Mordecai",CREATURE);//In order to verify if it's in the room
 	if (args.size() == 2) {
 		Item* item = (Item*)parent->Find(args[1], ITEM);
 		if (item == nullptr) {
@@ -584,6 +604,7 @@ void Player::Pray(const vector<string>& args,int phase) {
 		if (phase == 1) {
 			if (Same(item->name, "Chapter7") && npc!=nullptr) {
 				SetPhase(phase + 1);
+				npc->Stab();
 			}
 		}
 		
@@ -615,10 +636,13 @@ void Player::Pray(const vector<string>& args,int phase) {
 		if (phase == 1) {
 			if (Same(item->name, "Chapter7") && npc!=nullptr) {
 				SetPhase(phase + 1);
+				
 			}
 		}
 	}
 }
+
+
 void Player::Touch(const vector<string>& args,int phase) {
 	Creature* npc = (Creature*)parent->Find(args[1],CREATURE);
 	if (npc == nullptr) {
@@ -640,6 +664,8 @@ void Player::Touch(const vector<string>& args,int phase) {
 	}
 
 }
+
+
 void Player::Pierce(const vector<string>& args) const {
 	Item* container = (Item*)parent->Find(args[3], ITEM);
 	if (container == nullptr) {
@@ -673,14 +699,17 @@ void Player::Pierce(const vector<string>& args) const {
 	}
 }
 
+
 void Player::Die() {
 	cout << "\n" << name << " dies.\n";
 	End();
 }
 
+
 int Player::GetPhase() const {
 	return phase;
 }
+
 
 void Player::SetPhase(int phase) {
 	this->phase = phase;

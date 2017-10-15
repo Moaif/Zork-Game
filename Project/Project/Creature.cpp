@@ -5,7 +5,7 @@
 #include "item.h"
 #include "creature.h"
 
-// ----------------------------------------------------
+
 Creature::Creature(const char* title, const char* description, Room* room) :
 	Entity(title, description, (Entity*)room),basicDmg(basicDmg)
 {
@@ -15,11 +15,11 @@ Creature::Creature(const char* title, const char* description, Room* room) :
 	combat_target = nullptr;
 }
 
-// ----------------------------------------------------
+
 Creature::~Creature()
 {}
 
-// ----------------------------------------------------
+
 void Creature::Look(const vector<string>& args) const
 {
 	if (IsAlive())
@@ -34,7 +34,7 @@ void Creature::Look(const vector<string>& args) const
 	}
 }
 
-// ----------------------------------------------------
+
 void Creature::Go(const vector<string>& args)
 {
 	if (!IsAlive() || IsStuned() || IsTiedUp())
@@ -53,61 +53,62 @@ void Creature::Go(const vector<string>& args)
 		if (!ex->locked) {
 			ChangeParentTo(ex->GetDestinationFrom((Room*)parent));
 			if (PlayerInRoom()) {
-				cout << "\n" << name << " enter the room.\n";
+				string temp= name + " enter the room.";
+				turnCout(temp);
 			}
 			return;
 		}
 	}
 }
 
-// ----------------------------------------------------
+
 void Creature::Take(const vector<string>& args)
 {
 	
 }
 
-// ----------------------------------------------------
+
 void Creature::Inventory() const
 {
 }
 
-// ----------------------------------------------------
+
 void Creature::Lock(const vector<string>& args)
 {
 	
 }
 
-// ----------------------------------------------------
+
 void Creature::UnLock(const vector<string>& args)
 {
 	
 }
 
-// ----------------------------------------------------
+
 void Creature::Drop(const vector<string>& args)
 {
 	
 }
 
-// ----------------------------------------------------
+
 Room* Creature::GetRoom() const
 {
 	return (Room*)parent;
 }
 
-// ----------------------------------------------------
+
 bool Creature::PlayerInRoom() const
 {
 	return parent->Find(PLAYER) != nullptr;
 }
 
-// ----------------------------------------------------
+
 bool Creature::IsAlive() const
 {
 	return hit_points > 0;
 }
 
-// ----------------------------------------------------
+
 void Creature::Turn()
 {
 	if (IsAlive() && !IsStuned() && !IsTiedUp()) {
@@ -128,14 +129,24 @@ void Creature::Turn()
 		}
 		combat_target = nullptr;
 	}
+
+	if (IsStuned()) {
+		--stuned;
+		if (!IsStuned()) {
+			if (parent->Find(PLAYER) != nullptr) {
+				string temp = name + " is no more stuned.";
+				turnCout(temp);
+			}
+		}
+	}
 }
 
-// ----------------------------------------------------
+
 void Creature::Talk() {
 
 }
 
-// ----------------------------------------------------
+
 void Creature::Stun(Item* weapon) {
 	if (!IsAlive())
 		return;
@@ -144,7 +155,7 @@ void Creature::Stun(Item* weapon) {
 	cout << "\n You stuned " << name << ".\n";
 }
 
-// ----------------------------------------------------
+
 void Creature::TieUp() {
 	if (!IsAlive())
 		return;
@@ -152,17 +163,17 @@ void Creature::TieUp() {
 	tiedUp = true;
 }
 
-// ----------------------------------------------------
+
 bool Creature::IsStuned() const{
 	return stuned > 0;
 }
 
-// ----------------------------------------------------
+
 bool Creature::IsTiedUp() const{
 	return tiedUp;
 }
 
-// ----------------------------------------------------
+
 void Creature::Attack(const vector<string>& args)
 {
 	if (!IsAlive() || IsStuned() || IsTiedUp())
@@ -184,7 +195,7 @@ void Creature::Attack(const vector<string>& args)
 
 		weapon = nullptr;
 		combat_target = target;
-		string temp =  name + " prepares to attack " + target->name + " with bared hands"  + "!\n";
+		string temp =  name + " prepares to attack " + target->name + " with bared hands"  + "!";
 		turnCout(temp);
 	}
 	else if (args.size() == 4) {
@@ -207,26 +218,31 @@ void Creature::Attack(const vector<string>& args)
 			return;
 		}
 
+		if (!item->Contains(WEAPON)) {
+			cout << "\n" << item->name << " is not a weapon.\n";
+			return;
+		}
+
 		weapon = item;
 		combat_target = target;
-		string temp = name + " prepares to attack " + target->name + " with "+ item->name+ "!\n";
+		string temp = name + " prepares to attack " + target->name + " with "+ item->name+ "!";
 		turnCout(temp);
 	}
 }
 
-// ----------------------------------------------------
+
 void Creature::Dodge() {
 	if (!IsAlive() || IsStuned() || IsTiedUp())
 		return;
 
 	combat_target = nullptr;
 	dodging = true;
-	string temp = name + " prepares to dodge.\n";
+	string temp = name + " prepares to dodge.";
 	turnCout(temp);
 }
 
 
-// ----------------------------------------------------
+
 void Creature::ReceiveAttack(float damage)
 {
 	//5% proc of atac faillure 10%proc half dmg
@@ -272,7 +288,7 @@ void Creature::ReceiveAttack(float damage)
 	}
 }
 
-// ----------------------------------------------------
+
 void Creature::Die()
 {
 	if (PlayerInRoom())

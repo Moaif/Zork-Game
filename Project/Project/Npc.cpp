@@ -7,8 +7,8 @@
 #include "player.h"
 
 // ----------------------------------------------------
-Npc::Npc(const char* name, const char* description, Room* room) :
-Creature(name,description,room)
+Npc::Npc(const char* name, const char* description, Room* room,vector<Item*> items) :
+Creature(name,description,room),prohibitedItems(items)
 {
 	inLobby = false;
 	posessed = false;
@@ -43,13 +43,13 @@ void Npc::Combat()
 		if (temp >= 30)
 		{
 			combat_target = target;
-			string temp =  name + " prepares to attack " + target->name + "!\n";
+			string temp =  name + " prepares to attack " + target->name + "!";
 			turnCout(temp);
 		}
 		else if (temp >= 20) {
 			combat_target = target;
 			chargedAttack = true;
-			string temp = name + " charge power for his next attack " + "!\n";
+			string temp = name + " charge power for his next attack " + "!";
 			turnCout(temp);
 		}
 		else
@@ -62,14 +62,14 @@ void Npc::Combat()
 		if (temp >= 60)
 		{
 			combat_target = target;
-			string temp= name + " prepares to attack " + target->name + "!\n";
+			string temp= name + " prepares to attack " + target->name + "!";
 			turnCout(temp);
 		}
 		else if (temp >=30)
 		{
 			combat_target = target;
 			chargedAttack = true;
-			string temp= name + " charge power for his next attack " + "!\n";
+			string temp= name + " charge power for his next attack " + "!";
 			turnCout(temp);
 		}
 		else
@@ -134,14 +134,12 @@ void Npc::ReceiveAttack(float damage) {
 void Npc::Turn() 
 {
 
-	if (parent->Find(PLAYER) == NULL && !posessed) {
-		vector<string> args;
-		args.push_back("go");
-		args.push_back("east");
-		Go(args);
-		inLobby = true;
+	//Automatic moves when possessed
+	if (posessed && !IsTiedUp() && !IsStuned()) {
+		RandomMove();
 	}
 
+	//Npc become possessed
 	if (inLobby && !posessed) {
 		Player* player = (Player*)parent->Find(PLAYER);
 		if (player !=nullptr) {
@@ -154,7 +152,7 @@ void Npc::Turn()
 				posessed = true;
 				name = "Mordecai";
 				description = "Your friend beeing possessed by a ghost";
-				temp= "Ghost: \tWhat a wonderfull day, isn't it?.Im Mordecai a poor citicien death in this church when the war started years ago.Im here trapped in that chalice, if we destroy it, i can go free and release your friends body.\n";
+				temp= "Ghost: \tWhat a wonderfull day, isn't it?.Im Mordecai a poor citicien death in this church when the war started years ago.Im here trapped in that chalice, if we destroy it, i can go free and release your friends body.";
 				turnCout(temp);
 			}
 		}
@@ -169,6 +167,14 @@ void Npc::Turn()
 		}
 	}
 
+	//First automatic move, when player enter the church
+	if (parent->Find(PLAYER) == NULL && !posessed) {
+		vector<string> args;
+		args.push_back("go");
+		args.push_back("east");
+		Go(args);
+		inLobby = true;
+	}
 
 	if (combat_target != nullptr) {
 		if (combat_target->IsAlive() && IsAlive()) {
@@ -193,6 +199,16 @@ void Npc::Turn()
 
 	if (form != NpcForms::NONE) {
 		Combat();
+	}
+
+	if (IsStuned()) {
+		--stuned;
+		if (!IsStuned()) {
+			if (parent->Find(PLAYER) != nullptr) {
+				string temp = name + " is no more stuned.";
+				turnCout(temp);
+			}
+		}
 	}
 	
 }
@@ -273,6 +289,26 @@ void Npc::Stun(Item* weapon) {
 	}
 }
 
+void Npc::Observe(Item* item) {
+	if (!IsTiedUp() && !IsStuned() && IsAlive()) {
+		for (vector<Item*>::const_iterator it = prohibitedItems.begin(); it != prohibitedItems.cend(); ++it) {
+			if (*it == item) {
+				cout << "\n"<< name << " saw you taking " << item->name << ".\n";
+				Stab();
+			}
+		}
+	}
+}
+
+void Npc::Stab() {
+	if (!IsTiedUp() && !IsStuned() && IsAlive()) {
+		Player* player = (Player*)parent->Find(PLAYER);
+		if (player != nullptr) {
+			cout << "\n" << name << " stabs you.\n";
+			player->Die();
+		}
+	}
+}
 
 void Npc::Exorciced() {
 	((Room*)parent)->BlockAllExits();
@@ -321,4 +357,26 @@ void Npc::Die() {
 		cout << "\n" << name << " dies.\n";
 		Win();
 	}
+}
+
+void Npc::RandomMove() {
+	//25% proc for all directions, if there is no exit in that dir, it's the same than stand in the room
+	double value = rand() % 100;
+	string direction;
+	if (value >= 75) {
+		direction = "north";
+	}
+	else if (value >= 50)
+	{
+		direction = "south";
+	}
+	else if (value >= 25) 
+	{
+		direction = "east";
+	}
+	else
+	{
+		direction = "west";
+	}
+	Go({"go",direction});
 }

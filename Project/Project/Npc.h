@@ -17,7 +17,7 @@ enum class NpcForms
 class Npc : public Creature {
 
 public:
-	Npc(const char* name, const char* description, Room* room);
+	Npc(const char* name, const char* description, Room* room,vector<Item*> items);
 	~Npc();
 
 	void Combat();
@@ -25,15 +25,20 @@ public:
 	void Turn();
 	void Talk();
 	void Stun(Item*);
+	void Observe(Item*);
+	void Stab();
 	void Exorciced();
 	void Killed();
 	void FinalForm(Room*);
 	void Die();
 private:
+	void RandomMove();
+private:
 	bool inLobby;
 	bool posessed;
 	bool chargedAttack;
 	int phase;
+	vector<Item*> prohibitedItems;
 	NpcForms form=NpcForms::NONE;
 };
 

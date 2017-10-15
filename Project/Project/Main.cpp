@@ -10,7 +10,7 @@ using namespace std;
 bool endGame;
 string player_input;
 
-// -------------------------------------------------
+
 int main()
 {
 	char key;
@@ -65,6 +65,10 @@ int main()
 			}
 		}
 
+		if (args.size() > 0) {
+			player_input = "";
+		}
+
 		if (my_world.Turn(args) == false) {
 			cout << "\nSorry, I do not understand your command.\n";
 		}
@@ -78,9 +82,14 @@ int main()
 
 		if (args.size() > 0)
 		{
+			if (!args[0].length() > 0) {
+				cout << "\n> ";
+			}
+			else
+			{
+				cout << "> ";
+			}
 			args.clear();
-			player_input = "";
-			cout << "> ";
 		}
 	}
 
@@ -88,5 +97,6 @@ int main()
 	cout << "\nThanks for playing, Bye!\n";
 	cout << endl;
 	system("pause");
+	args.clear();//Autodelete vector when empty and not in use
 	return 0;
 }

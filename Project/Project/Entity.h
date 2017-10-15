@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <iostream>
 
 using namespace std;
 
@@ -34,8 +35,8 @@ public:
 
 public:
 	EntityType type;
-	std::string name;
-	std::string description;
+	string name;
+	string description;
 
 	Entity* parent;
 	list<Entity*> container;

@@ -2,7 +2,7 @@
 #include "globals.h"
 #include "Entity.h"
 
-// ----------------------------------------------------
+
 Entity::Entity(const char* name, const char* description, Entity* parent = NULL):
 	name(name),description(description),parent(parent)
 {
@@ -13,22 +13,22 @@ Entity::Entity(const char* name, const char* description, Entity* parent = NULL)
 		parent->container.push_back(this);
 }
 
-// ----------------------------------------------------
+
 Entity::~Entity()
 {}
 
-// ----------------------------------------------------
+
 void Entity::Look() const
 {
 	cout << name << "\n";
 	cout << description << "\n";
 }
 
-// ----------------------------------------------------
+
 void Entity::Turn()
 {}
 
-// ----------------------------------------------------
+
 void Entity::ChangeParentTo(Entity* new_parent)
 {
 	if (parent != NULL)
@@ -40,7 +40,7 @@ void Entity::ChangeParentTo(Entity* new_parent)
 		parent->container.push_back(this);
 }
 
-// ----------------------------------------------------
+
 bool Entity::Find(Entity* entity) const
 {
 	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
@@ -52,7 +52,7 @@ bool Entity::Find(Entity* entity) const
 	return false;
 }
 
-// ----------------------------------------------------
+
 Entity* Entity::Find(EntityType type) const
 {
 	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
@@ -64,7 +64,7 @@ Entity* Entity::Find(EntityType type) const
 	return NULL;
 }
 
-// ----------------------------------------------------
+
 Entity* Entity::Find(const string& name, EntityType type) const
 {
 	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
@@ -79,7 +79,7 @@ Entity* Entity::Find(const string& name, EntityType type) const
 	return NULL;
 }
 
-// ----------------------------------------------------
+
 void Entity::FindAll(EntityType type, list<Entity*>& list_to_fill) const
 {
 	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)

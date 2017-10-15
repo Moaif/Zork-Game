@@ -34,7 +34,7 @@ public:
 
 	void Look() const;
 	void ChangeItemType(ItemType old, ItemType remplace);
-	bool Contains(ItemType type);
+	bool Contains(ItemType type)const;
 
 public:
 	vector<ItemType> item_type;

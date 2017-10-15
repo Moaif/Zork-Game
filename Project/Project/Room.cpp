@@ -5,19 +5,19 @@
 #include "creature.h"
 #include "room.h"
 
-// ----------------------------------------------------
+
 Room::Room(const char* title, const char* description) :
 	Entity(title, description, NULL)
 {
 	type = ROOM;
 }
 
-// ----------------------------------------------------
+
 Room::~Room()
 {
 }
 
-// ----------------------------------------------------
+
 void Room::Look() const
 {
 	cout << "\n" << name << "\n";
@@ -61,7 +61,7 @@ void Room::Look() const
 	cout << "\n";
 }
 
-// ----------------------------------------------------
+
 Exit* Room::GetExit(const string& description) const
 {
 	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
@@ -77,7 +77,7 @@ Exit* Room::GetExit(const string& description) const
 	return NULL;
 }
 
-// ----------------------------------------------------
+
 list<Exit*> Room::GetExitsByDirection(const string& direction) const
 {
 	list<Exit*> sol;

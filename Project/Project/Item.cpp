@@ -4,7 +4,7 @@
 #include "globals.h"
 #include "item.h"
 
-// ----------------------------------------------------
+
 Item::Item(const char* title, const char* description, Entity* parent, vector<ItemType> item_type) :
 	Entity(title, description, parent)
 {
@@ -12,11 +12,11 @@ Item::Item(const char* title, const char* description, Entity* parent, vector<It
 	type = ITEM;
 }
 
-// ----------------------------------------------------
+
 Item::~Item()
 {}
 
-// ----------------------------------------------------
+
 void Item::Look() const
 {
 	cout << "\n" << name << "\n";
@@ -33,6 +33,7 @@ void Item::Look() const
 	}
 }
 
+
 void Item::ChangeItemType(ItemType old,ItemType remplace) {
 	for (vector<ItemType>::iterator it= item_type.begin(); it != item_type.end();++it)
 	{
@@ -42,8 +43,9 @@ void Item::ChangeItemType(ItemType old,ItemType remplace) {
 	}
 }
 
-bool Item::Contains(ItemType type) {
-	for (vector<ItemType>::iterator it = item_type.begin(); it != item_type.end(); ++it)
+
+bool Item::Contains(ItemType type)const {
+	for (vector<ItemType>::const_iterator it = item_type.begin(); it != item_type.cend(); ++it)
 	{
 		if (*it == type) {
 			return true;

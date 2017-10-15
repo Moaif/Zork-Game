@@ -10,7 +10,6 @@
 #include "npc.h"
 
 
-// ----------------------------------------------------
 Npc* npcG;//variable global definida en Npc.h, mas info alli
 
 World::World()
@@ -53,6 +52,10 @@ World::World()
 	Item* key = new Item("Key", "Old iron key.", gargoyle);
 	ex2->key = key;
 
+	entities.push_back(rock);
+	entities.push_back(gargoyle);
+	entities.push_back(key);
+
 	//Lobby
 	Item* chalice = new Item("Chalice", "An empty gold chalice", lobby, { CURSED,LIQUID_CONTAINER });
 	chalice->maxItems = 1;
@@ -65,6 +68,12 @@ World::World()
 	dagger->weaponType = SHARP;
 	dagger->weapondDmg = 7;
 
+	entities.push_back(chalice);
+	entities.push_back(cabinet);
+	entities.push_back(rope);
+	entities.push_back(showcase);
+	entities.push_back(dagger);
+
 	//Central_Nave
 	Item* altar = new Item("Altar", "A well furnished medium height altar", central_nave, { IMMOVABLE,CONTAINER });
 	altar->maxItems = 3;
@@ -74,6 +83,10 @@ World::World()
 	stoup->maxItems = 1;
 	Item* hwater = new Item("Holy_water", "Water purified by goods", stoup, {LIQUID});
 
+	entities.push_back(altar);
+	entities.push_back(eBook);
+	entities.push_back(stoup);
+	entities.push_back(hwater);
 
 	//Chapel
 	Item* chapel_chest = new Item("Chest", "A big beautiful chest", chapel, {IMMOVABLE,CONTAINER});
@@ -85,6 +98,11 @@ World::World()
 	cross->weaponType = BLUNT;
 	cross->weapondDmg = 5;
 	ex5->key = cross;
+
+	entities.push_back(chapel_chest);
+	entities.push_back(holy_sword);
+	entities.push_back(cross);
+
 	//Vestry
 	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, {IMMOVABLE,CONTAINER});
 	shelf->maxItems = 5;
@@ -107,17 +125,30 @@ World::World()
 	mace->weaponType = BLUNT;
 	mace->weapondDmg = 10;
 
+	entities.push_back(shelf);
+	entities.push_back(bible);
+	entities.push_back(ch1);
+	entities.push_back(ch4);
+	entities.push_back(ch7);
+	entities.push_back(ch10);
+	entities.push_back(ch15);
+	entities.push_back(phial);
+	entities.push_back(wine);
+	entities.push_back(mace);
+
 	// Player ----
 	player = new Player("Player", "You are investigating a church with your friend", gardens);
 	player->hit_points = 25;
 	player->basicDmg = 1;
+
 	entities.push_back(player);
 
 	//Npc -----
-	Npc* luis = new Npc("Luis","Your allways trustable friend",gardens);
+	Npc* luis = new Npc("Luis", "Your allways trustable friend", gardens, {hwater,bible,ch7});
 	npcG = luis;
 	luis->basicDmg = 1;
 	luis->hit_points = 1;
+
 	entities.push_back(luis);
 }
 

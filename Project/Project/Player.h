@@ -22,7 +22,7 @@ public:
 	void Talk(const vector<string>& args);
 	void Stun(const vector<string>& args);
 	void Read(const vector<string>& args) const;
-	void TieUp(const vector<string>& args) const;
+	void TieUp(const vector<string>& args);
 	void Pour(const vector<string>& args);
 	void Pray(const vector<string>& args,int phase);
 	void Touch(const vector<string>& args,int phase);
