@@ -7,15 +7,16 @@
 
 using namespace std;
 
-bool endGame=false;
+bool endGame;
+string player_input;
 
-// -------------------------------------------------
+
 int main()
 {
 	char key;
-	string player_input;
 	vector<string> args;
 	args.reserve(10);
+	endGame = false;
 
 	cout << "Welcome to Adrian's Zork\n";
 	cout << "----------------\n";
@@ -64,24 +65,31 @@ int main()
 			}
 		}
 
+		if (args.size() > 0) {
+			player_input = "";
+		}
+
+		if (my_world.Turn(args) == false) {
+			cout << "\nSorry, I do not understand your command.\n";
+		}
 
 		if (args.size() > 0 && Same(args[0], "quit"))
 			break;
 
 		
+		if (endGame)
+			break;
 
 		if (args.size() > 0)
 		{
-			if (my_world.Turn(args) == false) {
-				cout << "\nSorry, I do not understand your command.\n";
+			if (!args[0].length() > 0) {
+				cout << "\n> ";
 			}
-
-			if (endGame)
-				break;
-
+			else
+			{
+				cout << "> ";
+			}
 			args.clear();
-			player_input = "";
-			cout << "> ";
 		}
 	}
 
@@ -89,9 +97,6 @@ int main()
 	cout << "\nThanks for playing, Bye!\n";
 	cout << endl;
 	system("pause");
+	args.clear();//Autodelete vector when empty and not in use
 	return 0;
-}
-
-void EndGame() {
-	endGame = true;
 }

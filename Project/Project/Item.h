@@ -34,11 +34,12 @@ public:
 
 	void Look() const;
 	void ChangeItemType(ItemType old, ItemType remplace);
-	bool Contains(ItemType type);
+	bool Contains(ItemType type)const;
 
 public:
 	vector<ItemType> item_type;
 	WeaponType weaponType;//Solo se usa si es un arma
+	float weapondDmg;//Solo si es arma
 	string bookText;//Solo se usa si es un libro
 	int maxItems; //Solo se usa si es un container
 };

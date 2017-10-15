@@ -1,7 +1,9 @@
 #ifndef _Main_
 #define _Main
 
-void EndGame();
+extern bool endGame;
+extern string player_input;
+
 
 #endif // !_Main_
 

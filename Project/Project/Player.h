@@ -12,20 +12,28 @@ public:
 	Player(const char* name, const char* description, Room* room);
 	~Player();
 
-	bool Go(const vector<string>& args);
+	void Go(const vector<string>& args);
 	void Look(const vector<string>& args) const;
-	bool Take(const vector<string>& args);
-	bool Drop(const vector<string>& args);
+	void Take(const vector<string>& args);
+	void Drop(const vector<string>& args);
 	void Inventory() const;
-	bool Attack(const vector<string>& args);
-	bool Lock(const vector<string>& args);
-	bool UnLock(const vector<string>& args);
+	void Lock(const vector<string>& args);
+	void UnLock(const vector<string>& args);
 	void Talk(const vector<string>& args);
 	void Stun(const vector<string>& args);
-	void Read(const vector<string>& args);
+	void Read(const vector<string>& args) const;
 	void TieUp(const vector<string>& args);
+	void Pour(const vector<string>& args);
+	void Pray(const vector<string>& args,int phase);
+	void Touch(const vector<string>& args,int phase);
+	void Pierce(const vector<string>& args) const;
+	void Die();
+
+	int GetPhase() const;
+	void SetPhase(int phase);
 
 private:
+	int phase;
 	int maxItems;//Numero e items maximo en inventario
 };
 
