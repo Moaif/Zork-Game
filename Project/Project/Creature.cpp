@@ -24,7 +24,7 @@ void Creature::Look(const vector<string>& args) const
 {
 	if (IsAlive())
 	{
-		cout << name << "\n";
+		cout << "\n" << name << "\n";
 		cout << description << "\n";
 	}
 	else
@@ -51,6 +51,10 @@ void Creature::Go(const vector<string>& args)
 	for (list<Exit*>::iterator it = exits.begin(); it != exits.end(); ++it) {
 		Exit* ex = (Exit*)*it;
 		if (!ex->locked) {
+			if (PlayerInRoom()) {
+				string temp = name + " leaves the room.";
+				turnCout(temp);
+			}
 			ChangeParentTo(ex->GetDestinationFrom((Room*)parent));
 			if (PlayerInRoom()) {
 				string temp= name + " enter the room.";

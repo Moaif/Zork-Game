@@ -329,7 +329,7 @@ void Npc::Killed() {
 	form = NpcForms::MEDIUM;
 	stuned = false;
 	tiedUp = false;
-	cout << "\n You just murdered your friend, when from its body a dense smoke start spawning blocking all exits and summoning a demon to this world.\n";
+	cout << "\nYou just murdered your friend, when from its body a dense smoke start spawning blocking all exits and summoning a demon to this world.\n";
 	name = "Lucifer";
 	cout << "\n" << name << ":\t" << "You just killed your friend, you would be a nice demon. However you frustrate my full resurection, and you will pay for it.\n";
 }
@@ -342,7 +342,7 @@ void Npc::FinalForm(Room* room) {
 	form = NpcForms::HIGH;
 	stuned = false;
 	tiedUp = false;
-	cout << "\n When you cut the chalice, the room turns red and all exits disapeared, while a strange smoke start spawning in front of you.\n";
+	cout << "\nWhen you cut the chalice, the room turns red and all exits disapeared, while a strange smoke start spawning in front of you.\n";
 	name = "Lucifer";
 	cout << "\n" << name << ":\t" << "Thanks to you now i've recovered my true form! Now you must die!.\n";
 }

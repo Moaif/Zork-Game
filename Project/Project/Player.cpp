@@ -144,12 +144,12 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
+		cout << "\nYou take " << subitem->name << " from " << item->name << ".\n";
+		subitem->ChangeParentTo(tool);
+
 		if (npc != nullptr) {
 			npc->Observe(subitem);
 		}
-
-		cout << "\nYou take " << subitem->name << " from " << item->name << ".\n";
-		subitem->ChangeParentTo(tool);
 	}
 	else if (args.size() == 4)
 	{
@@ -191,12 +191,12 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
+		cout << "\nYou take " << subitem->name << " from " << item->name << ".\n";
+		subitem->ChangeParentTo(this);
+
 		if (npc != nullptr) {
 			npc->Observe(subitem);
 		}
-
-		cout << "\nYou take " << subitem->name << " from " << item->name << ".\n";
-		subitem->ChangeParentTo(this);
 	}
 	else if (args.size() == 2)
 	{
@@ -227,12 +227,12 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
+		cout << "\nYou take " << item->name << ".\n";
+		item->ChangeParentTo(this);
+
 		if (npc != nullptr) {
 			npc->Observe(item);
 		}
-
-		cout << "\nYou take " << item->name << ".\n";
-		item->ChangeParentTo(this);
 	}
 }
 
