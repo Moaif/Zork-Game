@@ -234,7 +234,7 @@ void Npc::Talk() {
 					break;
 				}
 				cout << endl;
-				cout << "\n" << "Mordecai: \t" << "Your first taks to destroy the chalice is search 'Lightning' the holy sword somewhere in this church\n";
+				cout << "\n" << "Mordecai: \t" << "Your first task to destroy the chalice is search 'Lightning' the holy sword somewhere in this church\n";
 			}
 				break;
 			case 1:
@@ -249,7 +249,7 @@ void Npc::Talk() {
 					}
 				}
 				cout << endl;
-				cout << "\n" << "Mordecai: \t" << "Your second taks to destroy the chalice is search 'Wine' the blood of our saviour somewhere in this church\n";
+				cout << "\n" << "Mordecai: \t" << "Your second task to destroy the chalice is fill the chalice with 'Wine' the blood of our saviour somewhere in this church\n";
 			}
 			break;
 			case 2: {

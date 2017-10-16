@@ -42,6 +42,7 @@ public:
 	float weapondDmg;//Solo si es arma
 	string bookText;//Solo se usa si es un libro
 	int maxItems; //Solo se usa si es un container
+	string cursedText; // Solo se usa si es cursed
 };
 
 #endif //__Item__

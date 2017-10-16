@@ -59,6 +59,7 @@ World::World()
 	//Lobby
 	Item* chalice = new Item("Chalice", "An empty gold chalice", lobby, { CURSED,LIQUID_CONTAINER });
 	chalice->maxItems = 1;
+	chalice->cursedText = "You have been possessed by a ghost.";
 	Item* cabinet = new Item("Cabinet", "An old wooden cabinet", lobby, {IMMOVABLE,CONTAINER});
 	cabinet->maxItems = 3;
 	Item* rope = new Item("Rope","A simple rope",cabinet);
@@ -94,7 +95,7 @@ World::World()
 	Item* holy_sword = new Item("Lightning", "The holy sword.", chapel_chest, { WEAPON });
 	holy_sword->weaponType = SHARP;
 	holy_sword->weapondDmg = 15;
-	Item* cross = new Item("Cross", "A sacred cross placed on the wall", chapel, {WEAPON});
+	Item* cross = new Item("Cross", "A sacred cross", chapel, {WEAPON});
 	cross->weaponType = BLUNT;
 	cross->weapondDmg = 5;
 	ex5->key = cross;

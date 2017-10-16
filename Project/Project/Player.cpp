@@ -126,6 +126,7 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 		if (subitem->Contains(CURSED)) {
+			cout << "\n" << subitem->cursedText << "\n";
 			Die();
 			return;
 		}
@@ -177,6 +178,7 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 		if (subitem->Contains(CURSED)) {
+			cout << "\n" << subitem->cursedText << "\n";
 			Die();
 			return;
 		}
@@ -209,6 +211,7 @@ void Player::Take(const vector<string>& args)
 		}
 
 		if(item->Contains(CURSED)) {
+			cout << "\n" << item->cursedText << "\n";
 			Die();
 			return;
 		}
