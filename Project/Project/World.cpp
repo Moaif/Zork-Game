@@ -199,44 +199,34 @@ bool World::ParseCommand(vector<string>& args)
 	{
 	case 1: // commands with no arguments ------------------------------
 	{
-		if (Same(args[0], "look") || Same(args[0], "l"))
+		if (Same(args[0], "look"))
 		{
 			player->Look(args);
 		}
 		else if (Same(args[0],"quit")) {
 
 		}
-		else if (Same(args[0], "north") || Same(args[0], "n"))
+		else if (Same(args[0], "north"))
 		{
 			(args.size() == 1) ? args.push_back("north") : args[1] = "north";
 			player->Go(args);
 		}
-		else if (Same(args[0], "south") || Same(args[0], "s"))
+		else if (Same(args[0], "south"))
 		{
 			(args.size() == 1) ? args.push_back("south") : args[1] = "south";
 			player->Go(args);
 		}
-		else if (Same(args[0], "east") || Same(args[0], "e"))
+		else if (Same(args[0], "east"))
 		{
 			(args.size() == 1) ? args.push_back("east") : args[1] = "east";
 			player->Go(args);
 		}
-		else if (Same(args[0], "west") || Same(args[0], "w"))
+		else if (Same(args[0], "west"))
 		{
 			(args.size() == 1) ? args.push_back("west") : args[1] = "west";
 			player->Go(args);
 		}
-		else if (Same(args[0], "up") || Same(args[0], "u"))
-		{
-			(args.size() == 1) ? args.push_back("up") : args[1] = "up";
-			player->Go(args);
-		}
-		else if (Same(args[0], "down") || Same(args[0], "d"))
-		{
-			(args.size() == 1) ? args.push_back("down") : args[1] = "down";
-			player->Go(args);
-		}
-		else if (Same(args[0], "inventory") || Same(args[0], "i"))
+		else if (Same(args[0], "inventory"))
 		{
 			player->Inventory();
 		}
