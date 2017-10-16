@@ -20,3 +20,45 @@ In this zork, you are able to do multiple actions, but all of them are restriste
 * action target preposition second-target
 * action target preposition second-target preposition tool
 
+## All actions
+
+* North
+* South
+* East
+* West
+* Go direction
+* Dodge / Avoid / Evade
+* Talk / Speak someone
+* Unlock / Break / Open exit with key/weapon
+* Lock exit with key
+* Stun / Knock_out / daze someone with weapon
+* Tie / Attach someone with rope
+* Pour item over someone from something
+* Pierce item from somewhere with weapon (not common action, restricted one)
+
+* Look:
+  * Look
+  * Look something
+
+* Take:
+  * Take item
+  * Take item from somewhere
+  * Take item from somewhere with something
+
+* Drop:
+  * Drop item
+  * Drop item in something
+  * Drop item in something from something
+
+* Attack:
+  * Attack someone
+  * Attack someone with weapon
+
+* Read:
+  * Read book
+  * Read book from somewhere
+
+* Pray:
+  * Pray book
+  * Pray book from somewhere
+
