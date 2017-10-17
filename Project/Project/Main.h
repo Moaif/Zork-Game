@@ -5,5 +5,5 @@ extern bool endGame;
 extern string player_input;
 
 
-#endif // !_Main_
+#endif // _Main_
 

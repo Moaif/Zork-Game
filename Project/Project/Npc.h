@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#define COMBATFrec 20.0
+
 
 enum class NpcForms
 {
@@ -20,11 +22,12 @@ public:
 	Npc(const char* name, const char* description, Room* room,vector<Item*> items);
 	~Npc();
 
+	void Dodge();
 	void Combat();
 	void ReceiveAttack(float);
+	void ReceiveStun(float);
 	void Turn();
 	void Talk();
-	void Stun(Item*);
 	void Observe(Item*);
 	void Stab();
 	void Exorciced();

@@ -449,6 +449,62 @@ void Player::UnLock(const vector<string>& args)
 	exit->locked = false;
 }
 
+void Player::Attack(const vector<string>& args)
+{
+	if (!IsAlive())
+		return;
+
+	if (args.size() == 2) {
+		Creature *target = (Creature*)parent->Find(args[1], CREATURE);
+
+		if (target == nullptr) {
+			cout << "\n'" << args[1] << "' is not in the room.\n";
+			return;
+		}
+
+		if (!target->IsAlive()) {
+			cout << "\n'" << args[1] << "' is aready dead.\n";
+			return;
+		}
+
+		weapon = nullptr;
+		combat_target = target;
+		action = Action::ATTACK;
+		string temp = name + " prepares to attack " + target->name + " with bared hands" + "!";
+		turnCout(temp);
+	}
+	else if (args.size() == 4) {
+		Creature *target = (Creature*)parent->Find(args[1], CREATURE);
+
+		if (target == nullptr) {
+			cout << "\n'" << args[1] << "' is not in the room.\n";
+			return;
+		}
+
+		if (!target->IsAlive()) {
+			cout << "\n'" << args[1] << "' is aready dead.\n";
+			return;
+		}
+
+		Item* item = (Item*)Find(args[3], ITEM);
+
+		if (item == nullptr) {
+			cout << "\n'" << args[3] << "' is not in your inventory";
+			return;
+		}
+
+		if (!item->Contains(WEAPON)) {
+			cout << "\n" << item->name << " is not a weapon.\n";
+			return;
+		}
+
+		weapon = item;
+		combat_target = target;
+		action = Action::ATTACK;
+		string temp = name + " prepares to attack " + target->name + " with " + item->name + "!";
+		turnCout(temp);
+	}
+}
 
 void Player::Talk(const vector<string>& args) {
 	Creature* creature = (Creature*)parent->Find(args[1],CREATURE);
@@ -462,8 +518,8 @@ void Player::Talk(const vector<string>& args) {
 
 
 void Player::Stun(const vector<string>& args) {
-	Creature* npc = (Creature*)parent->Find(args[1],CREATURE);
-	if (npc == nullptr) {
+	Creature* target = (Creature*)parent->Find(args[1],CREATURE);
+	if (target == nullptr) {
 		cout << "\n'" << args[1] << "' is not in this room.\n";
 		return;
 	}
@@ -472,8 +528,10 @@ void Player::Stun(const vector<string>& args) {
 		cout << "\n'" << args[3] << "' is not in your inventory.\n";
 	}
 	if (item->weaponType == BLUNT && item->Contains(WEAPON)) {
-		cout << "\n You try to hit " << npc->name << " with " << item->name << ".\n";
-		npc->Stun(item);
+		cout << "\nYou prepares to stun " << target->name << " with " << item->name << ".\n";
+		combat_target = target;
+		weapon = item;
+		action = Action::STUN;
 		return;
 	}
 
@@ -529,6 +587,10 @@ void Player::Read(const vector<string>& args) const{
 
 
 void Player::TieUp(const vector<string>& args)  {
+	if (IsInCombat()) {
+		cout << "\nYou cant do it while in combat.\n";
+		return;
+	}
 	Creature* npc = (Creature*)parent->Find(args[1], CREATURE);
 	if (npc == nullptr) {
 		cout << "\n'" << args[1] << "' is not in the room.\n";

@@ -19,6 +19,7 @@ public:
 	void Inventory() const;
 	void Lock(const vector<string>& args);
 	void UnLock(const vector<string>& args);
+	void Attack(const vector<string>& args);
 	void Talk(const vector<string>& args);
 	void Stun(const vector<string>& args);
 	void Read(const vector<string>& args) const;

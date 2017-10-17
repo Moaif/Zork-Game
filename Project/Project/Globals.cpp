@@ -3,8 +3,12 @@
 #include <conio.h>
 #include <iostream>
 #include "Main.h"
+#include <time.h>
+#include "World.h"
 
 using namespace std;
+bool seeded = false;
+World* wInstance;
 
 void End() {
 	endGame = true;
@@ -53,3 +57,26 @@ void turnCout(const char* output) {
 	}
 	cout << "\r" << output << padding << "\n"<< ">" << player_input;
 }
+
+int getPseudoRand(){
+	return rand();
+}
+int getRand(){
+
+	if (!seeded) {
+		srand((unsigned int)time(NULL));
+		seeded = true;
+	}
+
+	return rand();
+}
+
+//I made this, cause i know that i will only have 1 world
+void worldSubscribe(World* world) {
+	wInstance = world;
+}
+
+void SetTurnFrec(double value) {
+	wInstance->SetTurnFrec(value);
+}
+

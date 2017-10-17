@@ -15,6 +15,7 @@ Npc* npcG;//variable global definida en Npc.h, mas info alli
 World::World()
 {
 	clock_t timer = clock();
+	turnFrec = INIT_TurnFrec;
 
 	// Rooms ----
 	Room* gardens = new Room("Gardens", "You are in front of a church, surrounded by the flowers of the church's garden.");
@@ -151,9 +152,12 @@ World::World()
 	luis->hit_points = 1;
 
 	entities.push_back(luis);
+
+	//Subscribe to global
+	worldSubscribe(this);
 }
 
-// ----------------------------------------------------
+
 World::~World()
 {
 	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
@@ -162,7 +166,7 @@ World::~World()
 	entities.clear();
 }
 
-// ----------------------------------------------------
+
 bool World::Turn(vector<string>& args)
 {
 	bool ret = true;
@@ -171,7 +175,7 @@ bool World::Turn(vector<string>& args)
 		ret = ParseCommand(args);
 
 	double elapsedTime = (clock() - timer) / CLOCKS_PER_SEC;
-	if (elapsedTime >= TURN_FREC) {
+	if (elapsedTime >= turnFrec) {
 		GameLoop();
 		timer = clock();
 	}
@@ -179,21 +183,26 @@ bool World::Turn(vector<string>& args)
 	return ret;
 }
 
-// ----------------------------------------------------
+
 void World::GameLoop()
 {
 
 	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
 		(*it)->Turn();
-
+	turnCout("------------------------------------------------------------------------------------------");
 }
 
-// ----------------------------------------------------
+
 bool World::ParseCommand(vector<string>& args)
 {
 	bool ret = true;
 	int phase = player->GetPhase();
 	player->SetPhase(0);
+
+	if (player->IsStuned()) {
+			cout << "\nYou are stunned.\n";
+			return ret;
+	}
 
 	switch (args.size())
 	{
@@ -337,4 +346,8 @@ bool World::ParseCommand(vector<string>& args)
 	}
 
 	return ret;
+}
+
+void World::SetTurnFrec(double value) {
+	turnFrec = value;
 }
