@@ -15,7 +15,7 @@ public:
 	Room(const char* name, const char* description);
 	~Room();
 
-	void Look() const;
+	void Look() const override;
 
 	Exit* GetExit(const string& direction) const;
 	list<Exit*> GetExitsByDirection(const string& direction) const;

@@ -12,13 +12,14 @@ public:
 	Player(const char* name, const char* description, Room* room);
 	~Player();
 
-	void Go(const vector<string>& args);
-	void Look(const vector<string>& args) const;
+	void Go(const vector<string>& args) override;
+	void Look(const vector<string>& args) const override;
 	void Take(const vector<string>& args);
 	void Drop(const vector<string>& args);
 	void Inventory() const;
 	void Lock(const vector<string>& args);
 	void UnLock(const vector<string>& args);
+	void Break(const vector<string>& args);
 	void Attack(const vector<string>& args);
 	void Talk(const vector<string>& args);
 	void Stun(const vector<string>& args);
@@ -28,7 +29,7 @@ public:
 	void Pray(const vector<string>& args,int phase);
 	void Touch(const vector<string>& args,int phase);
 	void Pierce(const vector<string>& args) const;
-	void Die();
+	void Die() override;
 
 	int GetPhase() const;
 	void SetPhase(int phase);

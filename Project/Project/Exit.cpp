@@ -38,7 +38,7 @@ const string& Exit::GetDirectionFrom(const Room* room) const
 	if (room == destination)
 		return opposite_direction;
 
-	return name; // error ?
+	return name;
 }
 
 

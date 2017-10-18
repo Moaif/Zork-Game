@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -15,7 +16,6 @@ enum EntityType
 	ITEM,
 	CREATURE,
 	PLAYER,
-	NPC
 };
 
 class Entity
@@ -39,7 +39,7 @@ public:
 	string description;
 
 	Entity* parent;
-	list<Entity*> container;
+	vector<Entity*> container;
 };
 
 #endif //__Entity__

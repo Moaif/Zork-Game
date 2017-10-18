@@ -68,35 +68,6 @@ void Creature::Go(const vector<string>& args)
 }
 
 
-void Creature::Take(const vector<string>& args)
-{
-	
-}
-
-
-void Creature::Inventory() const
-{
-}
-
-
-void Creature::Lock(const vector<string>& args)
-{
-	
-}
-
-
-void Creature::UnLock(const vector<string>& args)
-{
-	
-}
-
-
-void Creature::Drop(const vector<string>& args)
-{
-	
-}
-
-
 Room* Creature::GetRoom() const
 {
 	return (Room*)parent;
@@ -184,11 +155,6 @@ void Creature::Talk() {
 }
 
 
-void Creature::Stun(const vector<string>& args) {
-	
-}
-
-
 void Creature::TieUp() {
 	if (!IsAlive())
 		return;
@@ -208,12 +174,6 @@ bool Creature::IsTiedUp() const{
 
 bool Creature::IsInCombat()const {
 	return inCombat;
-}
-
-
-void Creature::Attack(const vector<string>& args)
-{
-	
 }
 
 

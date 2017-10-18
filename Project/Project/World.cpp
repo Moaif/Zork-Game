@@ -48,8 +48,9 @@ World::World()
 	Item* rock = new Item("Rock", "One simple rock", gardens, { WEAPON });
 	rock->weaponType = BLUNT;
 	rock->weapondDmg = 3;
-	Item* gargoyle = new Item("Gargoyle", "A gargoyle statue with a hole inside", gardens, { IMMOVABLE,CONTAINER });
+	Item* gargoyle = new Item("Gargoyle", "A gargoyle statue with a hole inside", gardens, { IMMOVABLE,CONTAINER,DESTRUCTIBLE });
 	gargoyle->maxItems = 1;
+	gargoyle->dmgResistance = 4;
 	Item* key = new Item("Key", "Old iron key.", gargoyle);
 	ex2->key = key;
 
@@ -61,11 +62,13 @@ World::World()
 	Item* chalice = new Item("Chalice", "An empty gold chalice", lobby, { CURSED,LIQUID_CONTAINER });
 	chalice->maxItems = 1;
 	chalice->cursedText = "You have been possessed by a ghost.";
-	Item* cabinet = new Item("Cabinet", "An old wooden cabinet", lobby, {IMMOVABLE,CONTAINER});
+	Item* cabinet = new Item("Cabinet", "An old wooden cabinet", lobby, {IMMOVABLE,CONTAINER,DESTRUCTIBLE});
 	cabinet->maxItems = 3;
+	cabinet->dmgResistance = 10;
 	Item* rope = new Item("Rope","A simple rope",cabinet);
-	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, {IMMOVABLE,CONTAINER});
+	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, {IMMOVABLE,CONTAINER,DESTRUCTIBLE});
 	showcase->maxItems = 2;
+	showcase->dmgResistance = 5;
 	Item* dagger = new Item("Dagger", "An iron dagger", showcase, {WEAPON});
 	dagger->weaponType = SHARP;
 	dagger->weapondDmg = 7;
@@ -91,8 +94,9 @@ World::World()
 	entities.push_back(hwater);
 
 	//Chapel
-	Item* chapel_chest = new Item("Chest", "A big beautiful chest", chapel, {IMMOVABLE,CONTAINER});
+	Item* chapel_chest = new Item("Chest", "A big beautiful chest", chapel, {IMMOVABLE,CONTAINER,DESTRUCTIBLE});
 	chapel_chest->maxItems = 2;
+	chapel_chest->dmgResistance = 15;
 	Item* holy_sword = new Item("Lightning", "The holy sword.", chapel_chest, { WEAPON });
 	holy_sword->weaponType = SHARP;
 	holy_sword->weapondDmg = 15;
@@ -106,8 +110,9 @@ World::World()
 	entities.push_back(cross);
 
 	//Vestry
-	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, {IMMOVABLE,CONTAINER});
+	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, {IMMOVABLE,CONTAINER,DESTRUCTIBLE});
 	shelf->maxItems = 5;
+	shelf->dmgResistance = 15;
 	Item* bible = new Item("Bible", "An old bible book, with only some of it's chapters", shelf, {CONTAINER});
 	bible->maxItems = 5;
 	Item* ch1 = new Item("Chapter1", "Genesis", bible, {BOOK});
@@ -284,9 +289,12 @@ bool World::ParseCommand(vector<string>& args)
 	}
 	case 4: // commands with three arguments ------------------------------
 	{
-		if (Same(args[0], "unlock") || Same(args[0], "break") || Same(args[0], "open"))
+		if (Same(args[0], "unlock") || Same(args[0], "open"))
 		{
 			player->UnLock(args);
+		}
+		else if (Same(args[0], "break")) {
+			player->Break(args);
 		}
 		else if (Same(args[0], "lock") )
 		{

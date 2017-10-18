@@ -22,18 +22,18 @@ public:
 	Npc(const char* name, const char* description, Room* room,vector<Item*> items);
 	~Npc();
 
-	void Dodge();
+	void Dodge()override;
 	void Combat();
-	void ReceiveAttack(float);
-	void ReceiveStun(float);
-	void Turn();
-	void Talk();
+	void ReceiveAttack(float)override;
+	void ReceiveStun(float)override;
+	void Turn()override;
+	void Talk()override;
 	void Observe(Item*);
 	void Stab();
 	void Exorciced();
 	void Killed();
 	void FinalForm(Room*);
-	void Die();
+	void Die()override;
 private:
 	void RandomMove();
 private:

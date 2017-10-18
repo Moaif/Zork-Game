@@ -5,10 +5,9 @@
 #include "item.h"
 
 
-Item::Item(const char* title, const char* description, Entity* parent, vector<ItemType> item_type) :
-	Entity(title, description, parent)
+Item::Item(const char* title, const char* description, Entity* parent,vector<ItemType> item_type,bool locked, Entity* key) :
+	Entity(title, description, parent),locked(locked),key(key),item_type(item_type)
 {
-	this->item_type = item_type;
 	type = ITEM;
 }
 
@@ -22,14 +21,15 @@ void Item::Look() const
 	cout << "\n" << name << "\n";
 	cout << description << "\n";
 
-	list<Entity*> stuff;
-	FindAll(ITEM, stuff);
-
-	if (stuff.size() > 0)
+	if (locked) {
+		cout << keyDescription;
+	}
+	else
 	{
 		cout << "It contains: " << "\n";
-		for (list<Entity*>::const_iterator it = stuff.begin(); it != stuff.cend(); ++it)
+		for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it) {
 			cout << (*it)->name << "\n";
+		}
 	}
 }
 
@@ -45,11 +45,17 @@ void Item::ChangeItemType(ItemType old,ItemType remplace) {
 
 
 bool Item::Contains(ItemType type)const {
-	for (vector<ItemType>::const_iterator it = item_type.begin(); it != item_type.cend(); ++it)
+	for (vector<ItemType>::const_iterator it = item_type.cbegin(); it != item_type.cend(); ++it)
 	{
 		if (*it == type) {
 			return true;
 		}
 	}
 	return false;
+}
+
+void Item::DropItems() {
+	while (container.size() != 0) {
+		container[0]->ChangeParentTo(parent);
+	}
 }

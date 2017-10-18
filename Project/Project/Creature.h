@@ -25,17 +25,10 @@ public:
 
 	virtual void Go(const vector<string>& args);
 	virtual void Look(const vector<string>& args) const;
-	virtual void Take(const vector<string>& args);
-	virtual void Drop(const vector<string>& args);
-	virtual void Inventory() const;
-	virtual void Lock(const vector<string>& args);
-	virtual void UnLock(const vector<string>& args);
-	virtual void Turn();
+	virtual void Turn() override;
 	virtual void Talk();
-	virtual void Stun(const vector<string>& args);
 	virtual void TieUp();
 
-	virtual void Attack(const vector<string>& args);
 	virtual void Dodge();
 	virtual void ReceiveAttack(float damage);
 	virtual void ReceiveStun(float duration);
@@ -45,20 +38,20 @@ public:
 
 	Room* GetRoom() const;
 	bool PlayerInRoom() const;
-	bool IsAlive() const;
-	bool IsStuned()const;
-	bool IsTiedUp()const;
-	bool IsInCombat() const;
+	virtual bool IsAlive() const;
+	virtual bool IsStuned()const;
+	virtual bool IsTiedUp()const;
+	virtual bool IsInCombat() const;
 
 public:
 	float basicDmg;
 	float hit_points;
-	float stuned; //Es un float para indicar los turnos que estara stuneado, depende el arma que lo golpee
-	bool tiedUp;
-	bool inCombat;
 	Creature* combat_target;
 	Action action;
 	Item* weapon;
+	float stuned; //Es un float para indicar los turnos que estara stuneado, depende el arma que lo golpee
+	bool tiedUp;
+	bool inCombat;
 };
 
 #endif //__Creature__

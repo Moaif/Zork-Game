@@ -45,19 +45,25 @@ void Npc::Combat()
 	}
 
 	if (form == NpcForms::HIGH || form == NpcForms::LOW) {
-		int temp = RAND() % 100; //70%attack 20% dodge 10%charged attack
-		if (temp >= 30)
+		int temp = RAND() % 100; //50%attack 20% dodge 10%charged attack 20%stun
+		if (temp >= 50)
 		{
 			combat_target = target;
 			action = Action::ATTACK;
 			string temp = name + " prepares his next move " + "!";
 			turnCout(temp);
 		}
-		else if (temp >= 20) {
+		else if (temp >= 30) {
 			combat_target = target;
 			chargedAttack = true;
 			action = Action::ATTACK;
 			string temp = name + " charge power for his next attack " + "!";
+			turnCout(temp);
+		}
+		else if (temp >=10) {
+			combat_target = target;
+			action = Action::STUN;
+			string temp = name + " starts with a spell casting " + "!";
 			turnCout(temp);
 		}
 		else
