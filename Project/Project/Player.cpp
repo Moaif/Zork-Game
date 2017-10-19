@@ -479,7 +479,7 @@ void Player::UnLock(const vector<string>& args)
 
 		cout << "\nYou " << args[0] << " " << item->name << "...\n";
 
-		exit->locked = false;
+		container->locked = false;
 
 	}
 

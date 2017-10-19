@@ -38,6 +38,9 @@ void Npc::Combat()
 		return;
 
 	Creature *target = (Creature*)parent->Find(PLAYER);
+	if (!target->IsAlive()) {
+		return;
+	}
 
 	if (target == nullptr) {
 		cout << "\n'" << target->name << "' is not in the room.\n";
@@ -195,15 +198,15 @@ void Npc::ReceiveStun(float duration) {
 				stuned = duration;
 			}
 		}
-		//50% proc of atac faillure 50%proc half duration		
+		//75% proc of stun faillure 20%proc half duration		
 		else
 		{
 			int temp = RAND() % 100; 
-			if (temp >= 85)
+			if (temp >= 25)
 			{
 				turnCout("Stun missed");
 			}
-			else if (temp >= 35) {
+			else if (temp >= 5) {
 				turnCout("Stun hits, but with only half force");
 				stuned = duration / 2;
 			}
@@ -304,9 +307,11 @@ void Npc::Turn()
 		else {
 			if (IsInCombat()) {
 				stuned -= 5;
-				if (parent->Find(PLAYER) != nullptr) {
-					string temp = name + " is no more stuned.";
-					turnCout(temp);
+				if (!IsStuned()) {
+					if (parent->Find(PLAYER) != nullptr) {
+						string temp = name + " is no more stuned.";
+						turnCout(temp);
+					}
 				}
 
 			}
@@ -416,7 +421,7 @@ void Npc::Stab() {
 
 void Npc::Exorciced() {
 	((Room*)parent)->BlockAllExits();
-	hit_points = 30;
+	hit_points = 40;
 	basicDmg = 5;
 	form = NpcForms::LOW;
 	stuned = false;
@@ -430,8 +435,8 @@ void Npc::Exorciced() {
 
 void Npc::Killed() {
 	((Room*)parent)->BlockAllExits();
-	hit_points = 66;
-	basicDmg = 6;
+	hit_points = 100;
+	basicDmg = 7;
 	form = NpcForms::MEDIUM;
 	stuned = false;
 	tiedUp = false;
@@ -445,8 +450,8 @@ void Npc::Killed() {
 void Npc::FinalForm(Room* room) {
 	ChangeParentTo(room);
 	room->BlockAllExits();
-	hit_points = 666;
-	basicDmg = 666;
+	hit_points = 200;
+	basicDmg = 10;
 	form = NpcForms::HIGH;
 	stuned = false;
 	tiedUp = false;

@@ -129,9 +129,11 @@ void Creature::Turn()
 		else {
 			if (IsInCombat()) {
 				stuned -= 5;
-				if (parent->Find(PLAYER) != nullptr) {
-					string temp = name + " is no more stuned.";
-					turnCout(temp);
+				if (!IsStuned()) {
+					if (parent->Find(PLAYER) != nullptr) {
+						string temp = name + " is no more stuned.";
+						turnCout(temp);
+					}
 				}
 
 			}
@@ -190,15 +192,15 @@ void Creature::Dodge() {
 
 void Creature::ReceiveAttack(float damage)
 {
-	//If dodging 50% proc of reduce half-dmg and 25% atac faillure
+	//If dodging 60% proc of reduce half-dmg and 30% atac faillure
 	if (action == Action::DODGE){
 		int temp = RAND() % 100;//Random value between 0-99
-		if (temp >= 75)
+		if (temp >= 70)
 		{
 			string temp = name + " dodged the attack";
 			turnCout(temp);
 		}
-		else if (temp >= 25) {
+		else if (temp >= 10) {
 			string temp = name + " dodged half of the attack";
 			turnCout(temp);
 			hit_points -= damage / 2;

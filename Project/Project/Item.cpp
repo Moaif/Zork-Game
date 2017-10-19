@@ -22,7 +22,7 @@ void Item::Look() const
 	cout << description << "\n";
 
 	if (locked) {
-		cout << keyDescription;
+		cout << keyDescription << "\n";
 	}
 	else
 	{

@@ -25,7 +25,7 @@ World::World()
 	Room* vestry = new Room("Vestry", "The small room seems to not have been open for years.");
 
 	Exit* ex1 = new Exit("east", "west", "Window", gardens, lobby,true,NULL,"Stained glass window");
-	Exit* ex2 = new Exit("east", "west", "Door", gardens, lobby,true,NULL,"A wooden door with a tipical key lock");
+	Exit* ex2 = new Exit("east", "west", "Door", gardens, lobby,true,NULL,"A wooden door with a copper lock");
 	Exit* ex3 = new Exit("east", "west", "Corridor", lobby, central_nave, false, NULL,"A simple corridor");
 	Exit* ex4 = new Exit("north", "south", "Arch", central_nave, chapel, false, NULL,"A wonderfull arch made on stone");
 	Exit* ex5 = new Exit("south","north","Door",central_nave,vestry,true,NULL,"A weird iron door with a big cross lock");
@@ -50,13 +50,21 @@ World::World()
 	rock->weapondDmg = 3;
 	Item* gargoyle = new Item("Gargoyle", "A gargoyle statue with a hole inside", gardens, { IMMOVABLE,CONTAINER,DESTRUCTIBLE });
 	gargoyle->maxItems = 1;
-	gargoyle->dmgResistance = 4;
-	Item* key = new Item("Key", "Old iron key.", gargoyle);
-	ex2->key = key;
+	gargoyle->dmgResistance = 20;
+	Item* cKey = new Item("Copper_Key", "Old copper key.", gargoyle);
+	ex2->key = cKey;
+	Item* shed = new Item("Shed", "An old wooden shed near the church", gardens, {IMMOVABLE,CONTAINER},true);
+	shed->maxItems = 10;
+	shed->keyDescription = "It's locked, and its lock seems to be made on iron";
+	Item* hammer = new Item("Hammer", "A wll preserved old war hammer from the templar times", shed, {WEAPON});
+	hammer->weaponType = BLUNT;
+	hammer->weapondDmg = 15;
 
 	entities.push_back(rock);
 	entities.push_back(gargoyle);
-	entities.push_back(key);
+	entities.push_back(cKey);
+	entities.push_back(shed);
+	entities.push_back(hammer);
 
 	//Lobby
 	Item* chalice = new Item("Chalice", "An empty gold chalice", lobby, { CURSED,LIQUID_CONTAINER });
@@ -66,18 +74,21 @@ World::World()
 	cabinet->maxItems = 3;
 	cabinet->dmgResistance = 10;
 	Item* rope = new Item("Rope","A simple rope",cabinet);
-	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, {IMMOVABLE,CONTAINER,DESTRUCTIBLE});
+	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, {IMMOVABLE,CONTAINER,DESTRUCTIBLE},true,nullptr);
 	showcase->maxItems = 2;
 	showcase->dmgResistance = 5;
+	showcase->keyDescription = "This item is closed but it have any visible lock";
 	Item* dagger = new Item("Dagger", "An iron dagger", showcase, {WEAPON});
 	dagger->weaponType = SHARP;
-	dagger->weapondDmg = 7;
+	dagger->weapondDmg = 10;
+	Item* gKey = new Item("Gold_Key", "Old gold key", showcase);
 
 	entities.push_back(chalice);
 	entities.push_back(cabinet);
 	entities.push_back(rope);
 	entities.push_back(showcase);
 	entities.push_back(dagger);
+	entities.push_back(gKey);
 
 	//Central_Nave
 	Item* altar = new Item("Altar", "A well furnished medium height altar", central_nave, { IMMOVABLE,CONTAINER });
@@ -94,17 +105,23 @@ World::World()
 	entities.push_back(hwater);
 
 	//Chapel
-	Item* chapel_chest = new Item("Chest", "A big beautiful chest", chapel, {IMMOVABLE,CONTAINER,DESTRUCTIBLE});
+	Item* fake = new Item("Fake_Wall", "A wall with some diferences from the rest", chapel, {IMMOVABLE,CONTAINER,DESTRUCTIBLE},true,nullptr);
+	fake->maxItems = 1;
+	fake->dmgResistance = 20;
+	fake->keyDescription = "A plain wall, anything else";
+	Item* chapel_chest = new Item("Chest", "A big beautiful chest", fake, {IMMOVABLE,CONTAINER,DESTRUCTIBLE},true,gKey);
 	chapel_chest->maxItems = 2;
-	chapel_chest->dmgResistance = 15;
+	chapel_chest->dmgResistance = 30;
+	chapel_chest->keyDescription = "It's locked, and its lock seems to be made on gold";
 	Item* holy_sword = new Item("Lightning", "The holy sword.", chapel_chest, { WEAPON });
 	holy_sword->weaponType = SHARP;
-	holy_sword->weapondDmg = 15;
+	holy_sword->weapondDmg = 20;
 	Item* cross = new Item("Cross", "A sacred cross", chapel, {WEAPON});
 	cross->weaponType = BLUNT;
 	cross->weapondDmg = 5;
 	ex5->key = cross;
 
+	entities.push_back(fake);
 	entities.push_back(chapel_chest);
 	entities.push_back(holy_sword);
 	entities.push_back(cross);
@@ -114,7 +131,7 @@ World::World()
 	shelf->maxItems = 5;
 	shelf->dmgResistance = 15;
 	Item* bible = new Item("Bible", "An old bible book, with only some of it's chapters", shelf, {CONTAINER});
-	bible->maxItems = 5;
+	bible->maxItems = 6;
 	Item* ch1 = new Item("Chapter1", "Genesis", bible, {BOOK});
 	ch1->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
 	Item* ch4 = new Item("Chapter4", "The forth chapter of the bible", bible, {BOOK});
@@ -125,6 +142,8 @@ World::World()
 	ch10->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
 	Item* ch15 = new Item("Chapter15", "The fifteen chapter of the bible", bible, { BOOK });
 	ch15->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
+	Item* iKey = new Item("Iron_Key","Old iron key",bible);
+	shed->key = iKey;
 	Item* phial = new Item("Phial", "A wonderful glass phial", vestry, {LIQUID_CONTAINER});
 	phial->maxItems = 1;
 	Item* wine = new Item("Wine", "The wine representing the blood of our saviour", phial, {LIQUID});
@@ -139,13 +158,14 @@ World::World()
 	entities.push_back(ch7);
 	entities.push_back(ch10);
 	entities.push_back(ch15);
+	entities.push_back(iKey);
 	entities.push_back(phial);
 	entities.push_back(wine);
 	entities.push_back(mace);
 
 	// Player ----
 	player = new Player("Player", "You are investigating a church with your friend", gardens);
-	player->hit_points = 25;
+	player->hit_points = 30;
 	player->basicDmg = 1;
 
 	entities.push_back(player);
