@@ -11,19 +11,21 @@ class World;
 	#define RAND() getRand()
 #endif
 
-using namespace std;
+
 
 void End();
 void Win();
-bool Same(const string& a, const string& b);
-bool Same(const char* a, const string& b);
-bool Same(const string& a, const char* b);
-void turnCout(const string& a);
+bool Same(const std::string& a, const std::string& b);
+bool Same(const char* a, const std::string& b);
+bool Same(const std::string& a, const char* b);
+void turnCout(const std::string& a);
 void turnCout(const char* a);
 int getPseudoRand();
 int getRand();
 void worldSubscribe(World*);
 void SetTurnFrec(double);
+void SetPlayerInput(std::string s);
+bool GetEndGame();
 
 
 #endif //__Globals__

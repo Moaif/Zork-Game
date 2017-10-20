@@ -19,7 +19,7 @@ enum class NpcForms
 class Npc : public Creature {
 
 public:
-	Npc(const char* name, const char* description, Room* room,vector<Item*> items);
+	Npc(const char* name, const char* description, Room* room, std::vector<Item*> items);
 	~Npc();
 
 	void Dodge()override;
@@ -41,7 +41,7 @@ private:
 	bool posessed;
 	bool chargedAttack;
 	int phase;
-	vector<Item*> prohibitedItems;
+	std::vector<Item*> prohibitedItems;
 	NpcForms form=NpcForms::NONE;
 };
 

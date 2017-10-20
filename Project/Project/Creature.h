@@ -23,8 +23,8 @@ public:
 	Creature(const char* name, const char* description, Room* room);
 	~Creature();
 
-	virtual void Go(const vector<string>& args);
-	virtual void Look(const vector<string>& args) const;
+	virtual void Go(const std::vector<std::string>& args);
+	virtual void Look(const std::vector<std::string>& args) const;
 	virtual void Turn() override;
 	virtual void Talk();
 	virtual void TieUp();

@@ -30,7 +30,7 @@ enum WeaponType
 class Item : public Entity
 {
 public:
-	Item(const char* name, const char* description, Entity* parent,vector<ItemType> item_type = { COMMON }, bool locked=false, Entity* key=nullptr);
+	Item(const char* name, const char* description, Entity* parent, std::vector<ItemType> item_type = { COMMON }, bool locked=false, Entity* key=nullptr);
 	~Item();
 
 	void Look() const override;
@@ -39,16 +39,16 @@ public:
 	void DropItems();
 
 public:
-	vector<ItemType> item_type;
+	std::vector<ItemType> item_type;
 	bool locked;
 	Entity* key;
 	WeaponType weaponType;//Solo se usa si es un arma
 	float weapondDmg;//Solo si es arma
-	string bookText;//Solo se usa si es un libro
+	std::string bookText;//Solo se usa si es un libro
 	int maxItems; //Solo se usa si es un container
-	string cursedText; // Solo se usa si es cursed
+	std::string cursedText; // Solo se usa si es cursed
 	float dmgResistance;//Solo se usa si es destructible
-	string keyDescription;//Solo se usa si el item tiene llave
+	std::string keyDescription;//Solo se usa si el item tiene llave
 };
 
 #endif //__Item__

@@ -15,12 +15,12 @@ public:
 	void Look(const Room*) const;
 	void LookDetails()const;
 
-	const string& GetDirectionFrom(const Room* room) const;
+	const std::string& GetDirectionFrom(const Room* room) const;
 	Room* GetDestinationFrom(const Room* room) const;
 
 public:
 	bool locked;
-	string opposite_direction;
+	std::string opposite_direction;
 	Room* destination;
 	Entity* key;
 	const char* details;

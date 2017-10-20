@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "item.h"
 
+using namespace std;
 
 Item::Item(const char* title, const char* description, Entity* parent,vector<ItemType> item_type,bool locked, Entity* key) :
 	Entity(title, description, parent),locked(locked),key(key),item_type(item_type)

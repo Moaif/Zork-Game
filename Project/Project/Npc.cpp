@@ -6,6 +6,7 @@
 #include "item.h"
 #include "player.h"
 
+using namespace std;
 
 Npc::Npc(const char* name, const char* description, Room* room,vector<Item*> items) :
 Creature(name,description,room),prohibitedItems(items)

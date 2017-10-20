@@ -9,6 +9,7 @@
 #include "world.h"
 #include "npc.h"
 
+using namespace std;
 
 Npc* npcG;//variable global definida en Npc.h, mas info alli
 

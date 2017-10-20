@@ -2,6 +2,7 @@
 #include "globals.h"
 #include "Entity.h"
 
+using namespace std;
 
 Entity::Entity(const char* name, const char* description, Entity* parent = NULL):
 	name(name),description(description),parent(parent)

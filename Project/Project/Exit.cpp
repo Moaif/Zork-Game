@@ -2,6 +2,7 @@
 #include "room.h"
 #include "Exit.h"
 
+using namespace std;
 
 Exit::Exit(const char* direction, const char* opposite_direction, const char* description, Room* origin, Room* destination,bool locked, Entity* key,const char* details) :
 	Entity(direction, description, (Entity*)origin),locked(locked),key(key),destination(destination),opposite_direction(opposite_direction),details(details)

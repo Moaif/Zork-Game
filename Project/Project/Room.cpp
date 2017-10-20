@@ -5,6 +5,7 @@
 #include "creature.h"
 #include "room.h"
 
+using namespace std;
 
 Room::Room(const char* title, const char* description) :
 	Entity(title, description, NULL)

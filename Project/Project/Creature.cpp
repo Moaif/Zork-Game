@@ -5,6 +5,7 @@
 #include "item.h"
 #include "creature.h"
 
+using namespace std;
 
 Creature::Creature(const char* title, const char* description, Room* room) :
 	Entity(title, description, (Entity*)room),basicDmg(basicDmg)
@@ -98,7 +99,7 @@ void Creature::Turn()
 					{
 					case Action::ATTACK:
 					{
-						string temp = name + " attacks " + combat_target->name;
+						string temp = name + " try to attack " + combat_target->name;
 						turnCout(temp);
 						if (weapon == nullptr) {
 							combat_target->ReceiveAttack(basicDmg);

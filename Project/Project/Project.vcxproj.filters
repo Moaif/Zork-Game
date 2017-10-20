@@ -18,9 +18,6 @@
     <ClInclude Include="Item.h">
       <Filter>Archivos de código fuente</Filter>
     </ClInclude>
-    <ClInclude Include="Main.h">
-      <Filter>Archivos de código fuente</Filter>
-    </ClInclude>
     <ClInclude Include="Npc.h">
       <Filter>Archivos de código fuente</Filter>
     </ClInclude>

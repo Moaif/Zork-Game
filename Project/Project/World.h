@@ -18,14 +18,14 @@ public:
 	World();
 	~World();
 
-	bool Turn(vector<string>& args);
-	bool ParseCommand(vector<string>& args);
+	bool Turn(std::vector<std::string>& args);
+	bool ParseCommand(std::vector<std::string>& args);
 	void GameLoop();
 	void SetTurnFrec(double);
 
 private:
 
-	list<Entity*> entities;
+	std::list<Entity*> entities;
 	Player* player;
 	clock_t timer;
 	double turnFrec;

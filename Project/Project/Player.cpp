@@ -6,7 +6,7 @@
 #include "player.h"
 #include "Npc.h"
 
-
+using namespace std;
 
 Player::Player(const char* title, const char* description, Room* room) :
 	Creature(title, description, room)
