@@ -477,7 +477,7 @@ void Player::UnLock(const vector<string>& args)
 			return;
 		}
 
-		cout << "\nYou " << args[0] << " " << item->name << "...\n";
+		cout << "\nYou " << args[0] << " " << container->name << "...\n";
 
 		container->locked = false;
 

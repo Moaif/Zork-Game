@@ -161,9 +161,17 @@ void Npc::ReceiveAttack(float damage) {
 
 void Npc::ReceiveStun(float duration) {
 	if (posessed) {
+
+		if (form == NpcForms::NONE) {
+			stuned = duration;
+			turnCout("Stun hits");
+			return;
+		}
+
 		if (IsStuned()) {
 			duration /= 2;
 		}
+
 		//If dodging 10% proc of reduce half-duration and 90% atac faillure
 		if (action == Action::DODGE) {
 
@@ -185,12 +193,10 @@ void Npc::ReceiveStun(float duration) {
 			int temp = RAND() % 100;
 			if (temp >= 95)
 			{
-				string temp = name + " dodged the stun";
-				turnCout(temp);
+				turnCout("Stun missed");
 			}
 			else if (temp >= 70) {
-				string temp = name + " dodged half of the stun";
-				turnCout(temp);
+				turnCout("Stun hits, but with only half force");
 				stuned = duration / 2;
 			}
 			else
