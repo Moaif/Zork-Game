@@ -77,7 +77,7 @@ World::World()
 	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE},true,nullptr);
 	showcase->maxItems = 2;
 	showcase->dmgResistance = 5;
-	showcase->keyDescription = "This item is closed but it have any visible lock";
+	showcase->keyDescription = "This item is closed and it hasn't any visible lock";
 	Item* dagger = new Item("Dagger", "An iron dagger", showcase, { ItemType::WEAPON});
 	dagger->weaponType = WeaponType::SHARP;
 	dagger->weapondDmg = 10;

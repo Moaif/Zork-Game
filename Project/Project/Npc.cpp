@@ -250,7 +250,7 @@ void Npc::Turn()
 				posessed = true;
 				name = "Mordecai";
 				description = "Your friend beeing possessed by a ghost";
-				temp= "Ghost: \tWhat a wonderfull day, isn't it?.Im Mordecai a poor citicien death in this church when the war started years ago.Im here trapped in that chalice, if we destroy it, i can go free and release your friends body.";
+				temp= "Ghost: \tWhat a wonderfull day, isn't it?.Im Mordecai a poor citizen death in this church when the war started years ago.Im here trapped in that chalice, if we destroy it, i can go free and release your friends body.";
 				turnCout(temp);
 			}
 		}
@@ -348,7 +348,7 @@ void Npc::Talk() {
 				{
 				case -1:
 				{
-					cout << "\n" << name << ":\t" << "What a wonderfull day, isn't it?.Im Mordecai a poor citicien death in this church when the war started years ago, I've possesed your friend when he touched the chalice.Im trapped in that chalice, if we destroy it, i can go free and release your friends body.\n";
+					cout << "\n" << name << ":\t" << "What a wonderfull day, isn't it?.Im Mordecai a poor citizen death in this church when the war started years ago, I've possesed your friend when he touched the chalice.Im trapped in that chalice, if we destroy it, i can go free and release your friends body.\n";
 					++phase;
 				}
 				break;

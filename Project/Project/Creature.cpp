@@ -212,6 +212,7 @@ void Creature::ReceiveAttack(float damage)
 			turnCout("Attack hits");
 			hit_points -= damage;
 		}
+		action = Action::NONE;
 	}
 	//5% proc of atac faillure 10%proc half dmg
 	else
@@ -234,7 +235,6 @@ void Creature::ReceiveAttack(float damage)
 	if (hit_points <= 0) {
 		Die();
 	}
-	action = Action::NONE;
 }
 
 void Creature::ReceiveStun(float duration) {
@@ -259,6 +259,7 @@ void Creature::ReceiveStun(float duration) {
 			turnCout("Stun hits");
 			stuned = duration;
 		}
+		action = Action::NONE;
 	}
 	//5% proc of atac faillure 10%proc half duration
 	else
