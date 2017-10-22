@@ -7,16 +7,12 @@
 
 using namespace std;
 
-bool endGame;
-string player_input;
-
-
 int main()
 {
 	char key;
+	string player_input;
 	vector<string> args;
 	args.reserve(10);
-	endGame = false;
 
 	cout << "Welcome to Adrian's Zork\n";
 	cout << "----------------\n";
@@ -59,8 +55,9 @@ int main()
 
 					while (*str != ' ' && *str)
 						str++;
-					
-					args.push_back(string(begin, str));
+					if (string(begin, str) != "") {
+						args.push_back(string(begin, str));
+					}
 				} while (0 != *str++);
 			}
 		}
@@ -68,6 +65,7 @@ int main()
 		if (args.size() > 0) {
 			player_input = "";
 		}
+		SetPlayerInput(player_input);
 
 		if (my_world.Turn(args) == false) {
 			cout << "\nSorry, I do not understand your command.\n";
@@ -77,7 +75,7 @@ int main()
 			break;
 
 		
-		if (endGame)
+		if (GetEndGame())
 			break;
 
 		if (args.size() > 0)

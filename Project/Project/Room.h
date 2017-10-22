@@ -15,13 +15,12 @@ public:
 	Room(const char* name, const char* description);
 	~Room();
 
-	void Look() const;
+	void Look() const override;
 
-	Exit* GetExit(const string& direction) const;
-	list<Exit*> GetExitsByDirection(const string& direction) const;
+	Exit* GetExit(const std::string& direction) const;
+	std::list<Exit*> GetExitsByDirection(const std::string& direction) const;
 	void BlockAllExits();
 
-public:
 };
 
 #endif //__Room__

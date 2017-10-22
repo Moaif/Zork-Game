@@ -5,6 +5,7 @@
 #include "creature.h"
 #include "room.h"
 
+using namespace std;
 
 Room::Room(const char* title, const char* description) :
 	Entity(title, description, NULL)
@@ -25,7 +26,7 @@ void Room::Look() const
 
 
 	// List exits --
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		
 		bool write = true;
@@ -37,7 +38,7 @@ void Room::Look() const
 	}
 
 	// List items --
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		if ((*it)->type == ITEM)
 		{
@@ -47,7 +48,7 @@ void Room::Look() const
 	}
 
 	// List creatures --
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		if ((*it)->type == CREATURE)
 		{
@@ -64,7 +65,7 @@ void Room::Look() const
 
 Exit* Room::GetExit(const string& description) const
 {
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		if ((*it)->type == EXIT)
 		{
@@ -81,7 +82,7 @@ Exit* Room::GetExit(const string& description) const
 list<Exit*> Room::GetExitsByDirection(const string& direction) const
 {
 	list<Exit*> sol;
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		if ((*it)->type == EXIT)
 		{
@@ -95,7 +96,7 @@ list<Exit*> Room::GetExitsByDirection(const string& direction) const
 }
 
 void Room::BlockAllExits()  {
-	list<Entity*>::iterator it = container.begin();
+	vector<Entity*>::iterator it = container.begin();
 
 	while (it != container.end())
 	{

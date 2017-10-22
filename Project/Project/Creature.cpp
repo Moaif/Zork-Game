@@ -5,6 +5,7 @@
 #include "item.h"
 #include "creature.h"
 
+using namespace std;
 
 Creature::Creature(const char* title, const char* description, Room* room) :
 	Entity(title, description, (Entity*)room),basicDmg(basicDmg)
@@ -13,6 +14,8 @@ Creature::Creature(const char* title, const char* description, Room* room) :
 	hit_points = 1;
 	weapon = nullptr;
 	combat_target = nullptr;
+	inCombat = false;
+	action = Action::NONE;
 }
 
 
@@ -66,35 +69,6 @@ void Creature::Go(const vector<string>& args)
 }
 
 
-void Creature::Take(const vector<string>& args)
-{
-	
-}
-
-
-void Creature::Inventory() const
-{
-}
-
-
-void Creature::Lock(const vector<string>& args)
-{
-	
-}
-
-
-void Creature::UnLock(const vector<string>& args)
-{
-	
-}
-
-
-void Creature::Drop(const vector<string>& args)
-{
-	
-}
-
-
 Room* Creature::GetRoom() const
 {
 	return (Room*)parent;
@@ -115,48 +89,73 @@ bool Creature::IsAlive() const
 
 void Creature::Turn()
 {
-	if (IsAlive() && !IsStuned() && !IsTiedUp()) {
-		if (combat_target != nullptr)
-		{
-			if (parent->Find(combat_target) == true)
+	if (IsAlive()) {
+		if (!IsStuned()) {
+			if (combat_target != nullptr)
 			{
-				string temp = name + " attacks " + combat_target->name;
-				turnCout(temp);
-				if (weapon == nullptr) {
-					combat_target->ReceiveAttack(basicDmg);
-				}
-				else
+				if (parent->Find(combat_target) == true)
 				{
-					combat_target->ReceiveAttack(weapon->weapondDmg);
+					switch (action)
+					{
+					case Action::ATTACK:
+					{
+						string temp = name + " try to attack " + combat_target->name;
+						turnCout(temp);
+						if (weapon == nullptr) {
+							combat_target->ReceiveAttack(basicDmg);
+						}
+						else
+						{
+							combat_target->ReceiveAttack(weapon->weapondDmg);
+						}
+						action = Action::NONE;
+					}
+					break;
+					case Action::STUN:
+					{
+						string temp = name + " try to stun " + combat_target->name;
+						turnCout(temp);
+
+						combat_target->ReceiveStun(weapon->weapondDmg);
+						action = Action::NONE;
+					}
+					break;
+					default:
+						break;
+					}
 				}
 			}
+			combat_target = nullptr;
 		}
-		combat_target = nullptr;
-	}
+		//If in combat, stun disappear faster
+		else {
+			if (IsInCombat()) {
+				stuned -= 5;
+				if (!IsStuned()) {
+					if (parent->Find(PLAYER) != nullptr) {
+						string temp = name + " is no more stuned.";
+						turnCout(temp);
+					}
+				}
 
-	if (IsStuned()) {
-		--stuned;
-		if (!IsStuned()) {
-			if (parent->Find(PLAYER) != nullptr) {
-				string temp = name + " is no more stuned.";
-				turnCout(temp);
+			}
+			else {
+				--stuned;
+				if (!IsStuned()) {
+					if (parent->Find(PLAYER) != nullptr) {
+						string temp = name + " is no more stuned.";
+						turnCout(temp);
+					}
+				}
 			}
 		}
 	}
 }
+
 
 
 void Creature::Talk() {
 
-}
-
-
-void Creature::Stun(Item* weapon) {
-	if (!IsAlive())
-		return;
-
-	stuned =(int) weapon->weapondDmg;
-	cout << "\n You stuned " << name << ".\n";
 }
 
 
@@ -177,61 +176,8 @@ bool Creature::IsTiedUp() const{
 	return tiedUp;
 }
 
-
-void Creature::Attack(const vector<string>& args)
-{
-	if (!IsAlive() || IsStuned() || IsTiedUp())
-		return;
-
-	dodging = false;
-	if (args.size() == 2) {
-		Creature *target = (Creature*)parent->Find(args[1], CREATURE);
-
-		if (target == nullptr) {
-			cout << "\n'" << args[1] << "' is not in the room.\n";
-			return;
-		}
-
-		if (!target->IsAlive()) {
-			cout << "\n'" << args[1] << "' is aready dead.\n";
-			return;
-		}
-
-		weapon = nullptr;
-		combat_target = target;
-		string temp =  name + " prepares to attack " + target->name + " with bared hands"  + "!";
-		turnCout(temp);
-	}
-	else if (args.size() == 4) {
-		Creature *target = (Creature*)parent->Find(args[1], CREATURE);
-
-		if (target == nullptr) {
-			cout << "\n'" << args[1] << "' is not in the room.\n";
-			return;
-		}
-
-		if (!target->IsAlive()) {
-			cout << "\n'" << args[1] << "' is aready dead.\n";
-			return;
-		}
-
-		Item* item = (Item*)Find(args[3],ITEM);
-
-		if (item == nullptr) {
-			cout << "\n'" << args[3] << "' is not in your inventory";
-			return;
-		}
-
-		if (!item->Contains(WEAPON)) {
-			cout << "\n" << item->name << " is not a weapon.\n";
-			return;
-		}
-
-		weapon = item;
-		combat_target = target;
-		string temp = name + " prepares to attack " + target->name + " with "+ item->name+ "!";
-		turnCout(temp);
-	}
+bool Creature::IsInCombat()const {
+	return inCombat;
 }
 
 
@@ -239,8 +185,7 @@ void Creature::Dodge() {
 	if (!IsAlive() || IsStuned() || IsTiedUp())
 		return;
 
-	combat_target = nullptr;
-	dodging = true;
+	action = Action::DODGE;
 	string temp = name + " prepares to dodge.";
 	turnCout(temp);
 }
@@ -249,9 +194,29 @@ void Creature::Dodge() {
 
 void Creature::ReceiveAttack(float damage)
 {
+	//If dodging 60% proc of reduce half-dmg and 30% atac faillure
+	if (action == Action::DODGE){
+		int temp = RAND() % 100;//Random value between 0-99
+		if (temp >= 70)
+		{
+			string temp = name + " dodged the attack";
+			turnCout(temp);
+		}
+		else if (temp >= 10) {
+			string temp = name + " dodged half of the attack";
+			turnCout(temp);
+			hit_points -= damage / 2;
+		}
+		else
+		{
+			turnCout("Attack hits");
+			hit_points -= damage;
+		}
+	}
 	//5% proc of atac faillure 10%proc half dmg
-	if (!dodging) {
-		int temp = rand() % 100; //Random value between 0-99
+	else
+	{
+		int temp = RAND() % 100; 
 		if (temp >= 95)
 		{
 			turnCout("Attack missed");
@@ -266,30 +231,63 @@ void Creature::ReceiveAttack(float damage)
 			hit_points -= damage;
 		}
 	}
-	//If dodging 35% proc of reduce half-dmg and 15% atac faillure
-	else
-	{
-		int temp = rand() % 100;
-		if (temp >= 85)
-		{
-			string temp = name + " dodged the attack";
-			turnCout(temp);
-		}
-		else if (temp >= 50) {
-			string temp = name + " dodged half of the attack";
-			turnCout(temp);
-			hit_points -= damage / 2;
-		}
-		else
-		{
-			turnCout("Attack hits");
-			hit_points -= damage;
-		}
-	}
-	dodging = false;
 	if (hit_points <= 0) {
 		Die();
 	}
+	action = Action::NONE;
+}
+
+void Creature::ReceiveStun(float duration) {
+	if (IsStuned()) {
+		duration /= 2;
+	}
+	//If dodging 50% proc of reduce half-duration and 25% atac faillure
+	if (action == Action::DODGE) {
+		int temp = RAND() % 100;
+		if (temp >= 75)
+		{
+			string temp = name + " dodged the stun";
+			turnCout(temp);
+		}
+		else if (temp >= 25) {
+			string temp = name + " dodged half of the stun";
+			turnCout(temp);
+			stuned = duration / 2;
+		}
+		else
+		{
+			turnCout("Stun hits");
+			stuned = duration;
+		}
+	}
+	//5% proc of atac faillure 10%proc half duration
+	else
+	{
+		int temp = RAND() % 100;
+		if (temp >= 95)
+		{
+			turnCout("Stun missed");
+		}
+		else if (temp >= 85) {
+			turnCout("Stun hits, but with only half force");
+			stuned = duration / 2;
+		}
+		else
+		{
+			turnCout("Stun hits");
+			stuned = duration;
+		}
+	}
+}
+
+void Creature::StartCombat(Creature* c1) {
+	c1->inCombat = true;
+	inCombat = true;
+}
+
+void Creature::EndCombat(Creature* c1) {
+	c1->inCombat = false;
+	inCombat = false;
 }
 
 

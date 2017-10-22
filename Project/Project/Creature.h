@@ -8,6 +8,14 @@
 class Room;
 class Item;
 
+enum class Action
+{
+	NONE,
+	ATTACK,
+	STUN,
+	DODGE
+}; 
+
 
 class Creature : public Entity
 {
@@ -15,38 +23,35 @@ public:
 	Creature(const char* name, const char* description, Room* room);
 	~Creature();
 
-	virtual void Go(const vector<string>& args);
-	virtual void Look(const vector<string>& args) const;
-	virtual void Take(const vector<string>& args);
-	virtual void Drop(const vector<string>& args);
-	virtual void Inventory() const;
-	virtual void Lock(const vector<string>& args);
-	virtual void UnLock(const vector<string>& args);
-	virtual void Turn();
+	virtual void Go(const std::vector<std::string>& args);
+	virtual void Look(const std::vector<std::string>& args) const;
+	virtual void Turn() override;
 	virtual void Talk();
-	virtual void Stun(Item*);
 	virtual void TieUp();
 
-	virtual void Attack(const vector<string>& args);
 	virtual void Dodge();
 	virtual void ReceiveAttack(float damage);
+	virtual void ReceiveStun(float duration);
 	virtual void Die();
-
+	virtual void StartCombat( Creature*);
+	virtual void EndCombat( Creature*);
 
 	Room* GetRoom() const;
 	bool PlayerInRoom() const;
-	bool IsAlive() const;
-	bool IsStuned()const;
-	bool IsTiedUp()const;
+	virtual bool IsAlive() const;
+	virtual bool IsStuned()const;
+	virtual bool IsTiedUp()const;
+	virtual bool IsInCombat() const;
 
 public:
 	float basicDmg;
 	float hit_points;
-	int stuned; //Es un int para indicar los turnos que estara stuneado, depende el arma que lo golpee
-	bool tiedUp;
 	Creature* combat_target;
-	bool dodging;
+	Action action;
 	Item* weapon;
+	float stuned; //Es un float para indicar los turnos que estara stuneado, depende el arma que lo golpee
+	bool tiedUp;
+	bool inCombat;
 };
 
 #endif //__Creature__

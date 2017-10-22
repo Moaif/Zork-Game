@@ -2,6 +2,7 @@
 #include "globals.h"
 #include "Entity.h"
 
+using namespace std;
 
 Entity::Entity(const char* name, const char* description, Entity* parent = NULL):
 	name(name),description(description),parent(parent)
@@ -31,19 +32,22 @@ void Entity::Turn()
 
 void Entity::ChangeParentTo(Entity* new_parent)
 {
-	if (parent != NULL)
-		parent->container.remove(this);
+
+	bool found = false;
+	if (parent != nullptr) {
+		parent->container.erase(find(parent->container.begin(),parent->container.end(),this));
+	}
 
 	parent = new_parent;
 
-	if (parent != NULL)
+	if (parent != nullptr)
 		parent->container.push_back(this);
 }
 
 
 bool Entity::Find(Entity* entity) const
 {
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		if ((*it) == entity)
 			return true;
@@ -55,7 +59,7 @@ bool Entity::Find(Entity* entity) const
 
 Entity* Entity::Find(EntityType type) const
 {
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		if ((*it)->type == type)
 			return *it;
@@ -67,7 +71,7 @@ Entity* Entity::Find(EntityType type) const
 
 Entity* Entity::Find(const string& name, EntityType type) const
 {
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		if ((*it)->type == type)
 		{
@@ -82,7 +86,7 @@ Entity* Entity::Find(const string& name, EntityType type) const
 
 void Entity::FindAll(EntityType type, list<Entity*>& list_to_fill) const
 {
-	for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it)
+	for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 	{
 		if ((*it)->type == type)
 			list_to_fill.push_back(*it);

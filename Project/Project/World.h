@@ -5,7 +5,8 @@
 #include <vector>
 #include <string>
 #include <ctime>
-#define TURN_FREC 10
+
+#define INIT_TurnFrec 10
 
 class Entity;
 class Player;
@@ -17,15 +18,17 @@ public:
 	World();
 	~World();
 
-	bool Turn(vector<string>& args);
-	bool ParseCommand(vector<string>& args);
+	bool Turn(std::vector<std::string>& args);
+	bool ParseCommand(std::vector<std::string>& args);
 	void GameLoop();
+	void SetTurnFrec(double);
 
 private:
 
-	list<Entity*> entities;
+	std::list<Entity*> entities;
 	Player* player;
 	clock_t timer;
+	double turnFrec;
 };
 
 #endif //__World__

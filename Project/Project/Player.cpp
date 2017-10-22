@@ -6,14 +6,14 @@
 #include "player.h"
 #include "Npc.h"
 
-
+using namespace std;
 
 Player::Player(const char* title, const char* description, Room* room) :
 	Creature(title, description, room)
 {
 	type = PLAYER;
 	phase = 0;
-	maxItems = 5;
+	maxItems = 6;
 }
 
 
@@ -26,7 +26,7 @@ void Player::Look(const vector<string>& args) const
 {
 	if (args.size() > 1)
 	{	//Look over the room 
-		for (list<Entity*>::const_iterator it = parent->container.begin(); it != parent->container.cend(); ++it)
+		for (vector<Entity*>::const_iterator it = parent->container.cbegin(); it != parent->container.cend(); ++it)
 		{
 			if (Same((*it)->name, args[1])  )
 			{
@@ -39,7 +39,7 @@ void Player::Look(const vector<string>& args) const
 			}
 		}
 		//Look in inventory
-		for (list<Entity*>::const_iterator it = container.begin(); it != container.cend(); ++it) {
+		for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it) {
 			if (Same((*it)->name, args[1]))
 			{
 				(*it)->Look();
@@ -82,7 +82,7 @@ void Player::Go(const vector<string>& args)
 		}
 	}
 
-	cout << "\nThat exit is locked.\n";
+	cout << "\nThat direction is locked.\n";
 }
 
 
@@ -99,6 +99,11 @@ void Player::Take(const vector<string>& args)
 		if (item == nullptr)
 		{
 			cout << "\nCannot find '" << args[3] << "' in this room or in your inventory.\n";
+			return;
+		}
+
+		if (item->locked) {
+			cout << "\n" << item->name << " is locked.\n";
 			return;
 		}
 
@@ -121,21 +126,21 @@ void Player::Take(const vector<string>& args)
 		}
 
 
-		if (subitem->Contains(IMMOVABLE)) {
+		if (subitem->Contains(ItemType::IMMOVABLE)) {
 			cout << "\n You cant take this item from the room. \n";
 			return;
 		}
-		if (subitem->Contains(CURSED)) {
+		if (subitem->Contains(ItemType::CURSED)) {
 			cout << "\n" << subitem->cursedText << "\n";
 			Die();
 			return;
 		}
 
-		if (subitem->Contains(LIQUID) && !tool->Contains(LIQUID_CONTAINER)){
+		if (subitem->Contains(ItemType::LIQUID) && !tool->Contains(ItemType::LIQUID_CONTAINER)){
 			cout << "\n You can't take '" << subitem->name << "' with '" << tool->name << "'.\n";
 			return;
 		}
-		if (!tool->Contains(CONTAINER) && !tool->Contains(LIQUID_CONTAINER)) {
+		if (!tool->Contains(ItemType::CONTAINER) && !tool->Contains(ItemType::LIQUID_CONTAINER)) {
 			cout << "\n You cant put '" << subitem->name << "' in '" << tool->name << "'.\n";
 			return;
 		}
@@ -166,6 +171,11 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
+		if (item->locked) {
+			cout << "\n" << item->name << " is locked.\n";
+			return;
+		}
+
 		Item* subitem = (Item*)item->Find(args[1], ITEM);
 
 		if (subitem == nullptr)
@@ -173,17 +183,17 @@ void Player::Take(const vector<string>& args)
 			cout << "\n" << item->name << " does not contain '" << args[1] << "'.\n";
 			return;
 		}
-		if (subitem->Contains(IMMOVABLE)) {
+		if (subitem->Contains(ItemType::IMMOVABLE)) {
 			cout << "\n You cant take this item from the room. \n";
 			return;
 		}
-		if (subitem->Contains(CURSED)) {
+		if (subitem->Contains(ItemType::CURSED)) {
 			cout << "\n" << subitem->cursedText << "\n";
 			Die();
 			return;
 		}
 
-		if (subitem->Contains(LIQUID)) {
+		if (subitem->Contains(ItemType::LIQUID)) {
 			cout << "\n You cant take  this item with your hands. \n";
 			return;
 		}
@@ -210,17 +220,17 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
-		if(item->Contains(CURSED)) {
+		if(item->Contains(ItemType::CURSED)) {
 			cout << "\n" << item->cursedText << "\n";
 			Die();
 			return;
 		}
 
-		if (item->Contains(IMMOVABLE)) {
+		if (item->Contains(ItemType::IMMOVABLE)) {
 			cout << "\n You cant take this item from the room. \n";
 			return;
 		}
-		if (item->Contains(LIQUID)) {
+		if (item->Contains(ItemType::LIQUID)) {
 			cout << "\n You cant take  this item with your hands. \n";
 			return;
 		}
@@ -296,8 +306,12 @@ void Player::Drop(const vector<string>& args)
 			cout << "\nCan not find '" << args[3] << "' in your inventory or in the room.\n";
 			return;
 		}
-		if (!container->Contains(CONTAINER)) {
+		if (!container->Contains(ItemType::CONTAINER)) {
 			cout << "\n You cant put '" << item->name << "' in '" << container->name << "'.\n";
+			return;
+		}
+		if (container->locked) {
+			cout << "\n" << container->name << " is locked.\n";
 			return;
 		}
 
@@ -323,6 +337,11 @@ void Player::Drop(const vector<string>& args)
 			return;
 		}
 
+		if (actualContainer->locked) {
+			cout << "\n" << actualContainer->name << " is locked.\n";
+			return;
+		}
+
 		Item* item = (Item*)actualContainer->Find(args[1], ITEM);
 
 		if (item == nullptr)
@@ -342,17 +361,22 @@ void Player::Drop(const vector<string>& args)
 			return;
 		}
 
+		if (container->locked) {
+			cout << "\n" << container->name << " is locked.\n";
+			return;
+		}
+
 		if (container->maxItems == container->container.size()) {
 			cout << "\n" << container->name << " is out of space.\n";
 			return;
 		}
 
-		if (container->Contains(CONTAINER) && !item->Contains(LIQUID)) {
+		if (container->Contains(ItemType::CONTAINER) && !item->Contains(ItemType::LIQUID)) {
 			cout << "\nYou put " << item->name << " into " << container->name <<" from " << actualContainer->name << ".\n";
 			item->ChangeParentTo(container);
 			return;
 		}
-		if (container->Contains(LIQUID_CONTAINER) && item->Contains(LIQUID)) {
+		if (container->Contains(ItemType::LIQUID_CONTAINER) && item->Contains(ItemType::LIQUID)) {
 			cout << "\nYou put " << item->name << " into " << container->name << " from " << actualContainer->name << ".\n";
 			item->ChangeParentTo(container);
 			return;
@@ -365,9 +389,6 @@ void Player::Drop(const vector<string>& args)
 
 void Player::Lock(const vector<string>& args)
 {
-	if (!IsAlive())
-		return;
-
 	Exit* exit = GetRoom()->GetExit(args[1]);
 
 	if (exit == nullptr)
@@ -405,28 +426,98 @@ void Player::Lock(const vector<string>& args)
 void Player::UnLock(const vector<string>& args)
 {
 	Exit* exit = GetRoom()->GetExit(args[1]);
+	Item* container = (Item*)parent->Find(args[1], ITEM);
 
-	if (exit == nullptr)
+	if (container == nullptr) {
+		container = (Item*)Find(args[1], ITEM);
+	}
+
+	if (exit != nullptr)
+	{
+		if (exit->locked == false)
+		{
+			cout << "\nThat exit is not locked.\n";
+			return;
+		}
+
+		Item* item = (Item*)Find(args[3], ITEM);
+
+		if (item == nullptr)
+		{
+			cout << "\n'" << args[3] << "' not found in your inventory.\n";
+			return;
+		}
+
+		if (exit->key != item)
+		{
+			cout << "\nYou cant "<<  args[0] << " '" << exit->description << "' with " << item->name << ".\n";
+			return;
+		}
+
+		cout << "\nYou "<<args[0] << " " << exit->GetDirectionFrom((Room*)parent) << "...\n";
+
+		exit->locked = false;
+	}
+
+	else if (container != nullptr) {
+		if (container->locked == false) {
+			cout << "\nThat " << container->name << " is not locked.\n";
+			return;
+		};
+
+		Item* item = (Item*)Find(args[3], ITEM);
+
+		if (item == nullptr)
+		{
+			cout << "\n'" << args[3] << "' not found in your inventory.\n";
+			return;
+		}
+		if (container->key != item) {
+			cout << "\nYou cant " << args[0] << " '" << container->name << "' with " << item->name << ".\n";
+			return;
+		}
+
+		cout << "\nYou " << args[0] << " " << container->name << "...\n";
+
+		container->locked = false;
+
+	}
+
+	else
 	{
 		cout << "\nThere is no '" << args[1] << "'.\n";
-		return;
+	}
+}
+
+void Player::Break(const vector<string>& args) {
+	Exit* exit = GetRoom()->GetExit(args[1]);
+	Item* container = (Item*)parent->Find(args[1],ITEM);
+
+	if (container == nullptr) {
+		container = (Item*)Find(args[1],ITEM);
 	}
 
-	if (exit->locked == false)
+	if (exit != nullptr)
 	{
-		cout << "\nThat exit is not locked.\n";
-		return;
-	}
+		if (exit->locked == false)
+		{
+			cout << "\nThat exit is not locked.\n";
+			return;
+		}
 
-	Item* item = (Item*)Find(args[3], ITEM);
+		Item* item = (Item*)Find(args[3], ITEM);
 
-	if (item == nullptr)
-	{
-		cout << "\n'" << args[3] << "' not found in your inventory.\n";
-		return;
-	}
-	if (exit->key == nullptr) {
-		if (item->Contains(WEAPON)) {
+		if (item == nullptr)
+		{
+			cout << "\n'" << args[3] << "' not found in your inventory.\n";
+			return;
+		}
+		if (exit->key != nullptr) {
+			cout << "\nThis exit is not breakeable.\n";
+			return;
+		}
+
+		if (item->Contains(ItemType::WEAPON)) {
 			cout << "\nYou break the " << exit->description << "...\n";
 			exit->locked = false;
 			exit->description = "Broken " + exit->description;
@@ -438,17 +529,102 @@ void Player::UnLock(const vector<string>& args)
 			return;
 		}
 	}
-	if (exit->key != item)
-	{
-		cout << "\nYou cant unlock '" << exit-> description << "' with " << item->name << ".\n";
+
+	else if (container != nullptr) {
+
+		Item* item = (Item*)Find(args[3], ITEM);
+
+		if (item == nullptr)
+		{
+			cout << "\n'" << args[3] << "' not found in your inventory.\n";
+			return;
+		}
+		if (!container->Contains(ItemType::DESTRUCTIBLE)) {
+			cout << "\n" << container->name << " is not breakable.\n";
+			return;
+		}
+
+		if (item->Contains(ItemType::WEAPON)) {
+			float minDmg = container->dmgResistance;
+			if (item->weaponType == WeaponType::BLUNT) {
+				minDmg /= 2;//If it's a blunt weapon, it just need half of the dmg
+			}
+
+			if ((item->weapondDmg) >= minDmg) {
+				cout << "\nYou break the " << container->name << "...\n";
+				container->DropItems();
+				container->ChangeParentTo(nullptr);
+				return;
+			}
+		}
+
+		cout << "\n" << item->name << " is not enough to break " << container->name << "\n";
 		return;
+
 	}
 
-	cout << "\nYou unlock " << exit->GetDirectionFrom((Room*)parent) << "...\n";
-
-	exit->locked = false;
+	else
+	{
+		cout << "\nThere is no '" << args[1] << "'.\n";
+	}
 }
 
+void Player::Attack(const vector<string>& args)
+{
+	if (!IsAlive())
+		return;
+
+	if (args.size() == 2) {
+		Creature *target = (Creature*)parent->Find(args[1], CREATURE);
+
+		if (target == nullptr) {
+			cout << "\n'" << args[1] << "' is not in the room.\n";
+			return;
+		}
+
+		if (!target->IsAlive()) {
+			cout << "\n'" << args[1] << "' is aready dead.\n";
+			return;
+		}
+
+		weapon = nullptr;
+		combat_target = target;
+		action = Action::ATTACK;
+		string temp = name + " prepares to attack " + target->name + " with bared hands" + "!";
+		turnCout(temp);
+	}
+	else if (args.size() == 4) {
+		Creature *target = (Creature*)parent->Find(args[1], CREATURE);
+
+		if (target == nullptr) {
+			cout << "\n'" << args[1] << "' is not in the room.\n";
+			return;
+		}
+
+		if (!target->IsAlive()) {
+			cout << "\n'" << args[1] << "' is aready dead.\n";
+			return;
+		}
+
+		Item* item = (Item*)Find(args[3], ITEM);
+
+		if (item == nullptr) {
+			cout << "\n'" << args[3] << "' is not in your inventory";
+			return;
+		}
+
+		if (!item->Contains(ItemType::WEAPON)) {
+			cout << "\n" << item->name << " is not a weapon.\n";
+			return;
+		}
+
+		weapon = item;
+		combat_target = target;
+		action = Action::ATTACK;
+		string temp = name + " prepares to attack " + target->name + " with " + item->name + "!";
+		turnCout(temp);
+	}
+}
 
 void Player::Talk(const vector<string>& args) {
 	Creature* creature = (Creature*)parent->Find(args[1],CREATURE);
@@ -462,8 +638,8 @@ void Player::Talk(const vector<string>& args) {
 
 
 void Player::Stun(const vector<string>& args) {
-	Creature* npc = (Creature*)parent->Find(args[1],CREATURE);
-	if (npc == nullptr) {
+	Creature* target = (Creature*)parent->Find(args[1],CREATURE);
+	if (target == nullptr) {
 		cout << "\n'" << args[1] << "' is not in this room.\n";
 		return;
 	}
@@ -471,9 +647,11 @@ void Player::Stun(const vector<string>& args) {
 	if (item == nullptr) {
 		cout << "\n'" << args[3] << "' is not in your inventory.\n";
 	}
-	if (item->weaponType == BLUNT && item->Contains(WEAPON)) {
-		cout << "\n You try to hit " << npc->name << " with " << item->name << ".\n";
-		npc->Stun(item);
+	if (item->weaponType == WeaponType::BLUNT && item->Contains(ItemType::WEAPON)) {
+		cout << "\nYou prepares to stun " << target->name << " with " << item->name << ".\n";
+		combat_target = target;
+		weapon = item;
+		action = Action::STUN;
 		return;
 	}
 
@@ -493,7 +671,7 @@ void Player::Read(const vector<string>& args) const{
 			return;
 		}
 
-		if (item->Contains(BOOK)) {
+		if (item->Contains(ItemType::BOOK)) {
 			cout << item->bookText;
 			return;
 		}
@@ -518,7 +696,7 @@ void Player::Read(const vector<string>& args) const{
 			return;
 		}
 
-		if (item->Contains(BOOK)) {
+		if (item->Contains(ItemType::BOOK)) {
 			cout << item->bookText;
 			return;
 		}
@@ -529,6 +707,10 @@ void Player::Read(const vector<string>& args) const{
 
 
 void Player::TieUp(const vector<string>& args)  {
+	if (IsInCombat()) {
+		cout << "\nYou cant do it while in combat.\n";
+		return;
+	}
 	Creature* npc = (Creature*)parent->Find(args[1], CREATURE);
 	if (npc == nullptr) {
 		cout << "\n'" << args[1] << "' is not in the room.\n";
@@ -573,7 +755,7 @@ void Player::Pour(const vector<string>& args) {
 		return;
 	}
 
-	if (!item->Contains(LIQUID)) {
+	if (!item->Contains(ItemType::LIQUID)) {
 		cout << "\n" << item->name << "is not pourable.\n";
 	}
 
@@ -598,7 +780,7 @@ void Player::Pray(const vector<string>& args,int phase) {
 			return;
 		}
 
-		if (!item->Contains(BOOK)) {
+		if (!item->Contains(ItemType::BOOK)) {
 			cout << "\nYou can't pray the" << item->name << ".\n";
 			return;
 		}
@@ -630,7 +812,7 @@ void Player::Pray(const vector<string>& args,int phase) {
 			return;
 		}
 
-		if (!item->Contains(BOOK)) {
+		if (!item->Contains(ItemType::BOOK)) {
 			cout << "\nYou can't pray the" << item->name << ".\n";
 			return;
 		}
@@ -694,7 +876,7 @@ void Player::Pierce(const vector<string>& args) const {
 	}
 
 	if (Same(tool->name, "Lightning") && Same(container->name, "Altar") && Same(item->name, "Chalice")) {
-		npcG->FinalForm((Room*)parent);
+		GetNpcInstance()->FinalForm((Room*)parent);
 	}
 	else
 	{

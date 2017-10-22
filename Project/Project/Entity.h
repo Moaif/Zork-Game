@@ -4,8 +4,7 @@
 #include <string>
 #include <list>
 #include <iostream>
-
-using namespace std;
+#include <vector>
 
 enum EntityType
 {
@@ -15,7 +14,6 @@ enum EntityType
 	ITEM,
 	CREATURE,
 	PLAYER,
-	NPC
 };
 
 class Entity
@@ -30,16 +28,16 @@ public:
 	void	ChangeParentTo(Entity* new_parent);
 	bool    Find(Entity* entity) const;
 	Entity* Find(EntityType type) const;
-	Entity* Find(const string& name, EntityType type) const;
-	void	FindAll(EntityType type, list<Entity*>& list_to_fill) const;
+	Entity* Find(const std::string& name, EntityType type) const;
+	void	FindAll(EntityType type, std::list<Entity*>& list_to_fill) const;
 
 public:
 	EntityType type;
-	string name;
-	string description;
+	std::string name;
+	std::string description;
 
 	Entity* parent;
-	list<Entity*> container;
+	std::vector<Entity*> container;
 };
 
 #endif //__Entity__
