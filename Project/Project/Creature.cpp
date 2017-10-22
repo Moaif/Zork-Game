@@ -242,7 +242,7 @@ void Creature::ReceiveStun(float duration) {
 		duration /= 2;
 	}
 	//If dodging 50% proc of reduce half-duration and 25% atac faillure
-	if (!(action == Action::DODGE)) {
+	if (action == Action::DODGE) {
 		int temp = RAND() % 100;
 		if (temp >= 75)
 		{
