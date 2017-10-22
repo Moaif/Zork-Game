@@ -29,12 +29,19 @@ In this zork, you are able to do multiple actions, but all of them are restriste
 * Go direction
 * Dodge / Avoid / Evade
 * Talk / Speak someone
-* Unlock / Break / Open exit with key/weapon
 * Lock exit with key
 * Stun / Knock_out / daze someone with weapon
 * Tie / Attach someone with rope
 * Pour item over someone from something
 * Pierce item from somewhere with weapon (not common action, restricted one)
+
+* Unlock:
+  * Unlock/Open item with key
+  * Unlock/Open exit with key
+  
+* Break:
+  * Break/Destroy item with weapon
+  * Break/Destroy exit with weapon
 
 * Look:
   * Look
@@ -47,12 +54,12 @@ In this zork, you are able to do multiple actions, but all of them are restriste
 
 * Drop:
   * Drop item
-  * Drop item in something
-  * Drop item in something from something
+  * Drop/Put item in something
+  * Drop/Put item in something from something
 
 * Attack:
-  * Attack someone
-  * Attack someone with weapon
+  * Attack/Hit someone
+  * Attack/Hit someone with weapon
 
 * Read:
   * Read book
