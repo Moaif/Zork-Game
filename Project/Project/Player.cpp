@@ -13,7 +13,7 @@ Player::Player(const char* title, const char* description, Room* room) :
 {
 	type = PLAYER;
 	phase = 0;
-	maxItems = 5;
+	maxItems = 6;
 }
 
 
@@ -126,21 +126,21 @@ void Player::Take(const vector<string>& args)
 		}
 
 
-		if (subitem->Contains(IMMOVABLE)) {
+		if (subitem->Contains(ItemType::IMMOVABLE)) {
 			cout << "\n You cant take this item from the room. \n";
 			return;
 		}
-		if (subitem->Contains(CURSED)) {
+		if (subitem->Contains(ItemType::CURSED)) {
 			cout << "\n" << subitem->cursedText << "\n";
 			Die();
 			return;
 		}
 
-		if (subitem->Contains(LIQUID) && !tool->Contains(LIQUID_CONTAINER)){
+		if (subitem->Contains(ItemType::LIQUID) && !tool->Contains(ItemType::LIQUID_CONTAINER)){
 			cout << "\n You can't take '" << subitem->name << "' with '" << tool->name << "'.\n";
 			return;
 		}
-		if (!tool->Contains(CONTAINER) && !tool->Contains(LIQUID_CONTAINER)) {
+		if (!tool->Contains(ItemType::CONTAINER) && !tool->Contains(ItemType::LIQUID_CONTAINER)) {
 			cout << "\n You cant put '" << subitem->name << "' in '" << tool->name << "'.\n";
 			return;
 		}
@@ -183,17 +183,17 @@ void Player::Take(const vector<string>& args)
 			cout << "\n" << item->name << " does not contain '" << args[1] << "'.\n";
 			return;
 		}
-		if (subitem->Contains(IMMOVABLE)) {
+		if (subitem->Contains(ItemType::IMMOVABLE)) {
 			cout << "\n You cant take this item from the room. \n";
 			return;
 		}
-		if (subitem->Contains(CURSED)) {
+		if (subitem->Contains(ItemType::CURSED)) {
 			cout << "\n" << subitem->cursedText << "\n";
 			Die();
 			return;
 		}
 
-		if (subitem->Contains(LIQUID)) {
+		if (subitem->Contains(ItemType::LIQUID)) {
 			cout << "\n You cant take  this item with your hands. \n";
 			return;
 		}
@@ -220,17 +220,17 @@ void Player::Take(const vector<string>& args)
 			return;
 		}
 
-		if(item->Contains(CURSED)) {
+		if(item->Contains(ItemType::CURSED)) {
 			cout << "\n" << item->cursedText << "\n";
 			Die();
 			return;
 		}
 
-		if (item->Contains(IMMOVABLE)) {
+		if (item->Contains(ItemType::IMMOVABLE)) {
 			cout << "\n You cant take this item from the room. \n";
 			return;
 		}
-		if (item->Contains(LIQUID)) {
+		if (item->Contains(ItemType::LIQUID)) {
 			cout << "\n You cant take  this item with your hands. \n";
 			return;
 		}
@@ -306,7 +306,7 @@ void Player::Drop(const vector<string>& args)
 			cout << "\nCan not find '" << args[3] << "' in your inventory or in the room.\n";
 			return;
 		}
-		if (!container->Contains(CONTAINER)) {
+		if (!container->Contains(ItemType::CONTAINER)) {
 			cout << "\n You cant put '" << item->name << "' in '" << container->name << "'.\n";
 			return;
 		}
@@ -371,12 +371,12 @@ void Player::Drop(const vector<string>& args)
 			return;
 		}
 
-		if (container->Contains(CONTAINER) && !item->Contains(LIQUID)) {
+		if (container->Contains(ItemType::CONTAINER) && !item->Contains(ItemType::LIQUID)) {
 			cout << "\nYou put " << item->name << " into " << container->name <<" from " << actualContainer->name << ".\n";
 			item->ChangeParentTo(container);
 			return;
 		}
-		if (container->Contains(LIQUID_CONTAINER) && item->Contains(LIQUID)) {
+		if (container->Contains(ItemType::LIQUID_CONTAINER) && item->Contains(ItemType::LIQUID)) {
 			cout << "\nYou put " << item->name << " into " << container->name << " from " << actualContainer->name << ".\n";
 			item->ChangeParentTo(container);
 			return;
@@ -517,7 +517,7 @@ void Player::Break(const vector<string>& args) {
 			return;
 		}
 
-		if (item->Contains(WEAPON)) {
+		if (item->Contains(ItemType::WEAPON)) {
 			cout << "\nYou break the " << exit->description << "...\n";
 			exit->locked = false;
 			exit->description = "Broken " + exit->description;
@@ -539,14 +539,14 @@ void Player::Break(const vector<string>& args) {
 			cout << "\n'" << args[3] << "' not found in your inventory.\n";
 			return;
 		}
-		if (!container->Contains(DESTRUCTIBLE)) {
+		if (!container->Contains(ItemType::DESTRUCTIBLE)) {
 			cout << "\n" << container->name << " is not breakable.\n";
 			return;
 		}
 
-		if (item->Contains(WEAPON)) {
+		if (item->Contains(ItemType::WEAPON)) {
 			float minDmg = container->dmgResistance;
-			if (item->weaponType == BLUNT) {
+			if (item->weaponType == WeaponType::BLUNT) {
 				minDmg /= 2;//If it's a blunt weapon, it just need half of the dmg
 			}
 
@@ -613,7 +613,7 @@ void Player::Attack(const vector<string>& args)
 			return;
 		}
 
-		if (!item->Contains(WEAPON)) {
+		if (!item->Contains(ItemType::WEAPON)) {
 			cout << "\n" << item->name << " is not a weapon.\n";
 			return;
 		}
@@ -647,7 +647,7 @@ void Player::Stun(const vector<string>& args) {
 	if (item == nullptr) {
 		cout << "\n'" << args[3] << "' is not in your inventory.\n";
 	}
-	if (item->weaponType == BLUNT && item->Contains(WEAPON)) {
+	if (item->weaponType == WeaponType::BLUNT && item->Contains(ItemType::WEAPON)) {
 		cout << "\nYou prepares to stun " << target->name << " with " << item->name << ".\n";
 		combat_target = target;
 		weapon = item;
@@ -671,7 +671,7 @@ void Player::Read(const vector<string>& args) const{
 			return;
 		}
 
-		if (item->Contains(BOOK)) {
+		if (item->Contains(ItemType::BOOK)) {
 			cout << item->bookText;
 			return;
 		}
@@ -696,7 +696,7 @@ void Player::Read(const vector<string>& args) const{
 			return;
 		}
 
-		if (item->Contains(BOOK)) {
+		if (item->Contains(ItemType::BOOK)) {
 			cout << item->bookText;
 			return;
 		}
@@ -755,7 +755,7 @@ void Player::Pour(const vector<string>& args) {
 		return;
 	}
 
-	if (!item->Contains(LIQUID)) {
+	if (!item->Contains(ItemType::LIQUID)) {
 		cout << "\n" << item->name << "is not pourable.\n";
 	}
 
@@ -780,7 +780,7 @@ void Player::Pray(const vector<string>& args,int phase) {
 			return;
 		}
 
-		if (!item->Contains(BOOK)) {
+		if (!item->Contains(ItemType::BOOK)) {
 			cout << "\nYou can't pray the" << item->name << ".\n";
 			return;
 		}
@@ -812,7 +812,7 @@ void Player::Pray(const vector<string>& args,int phase) {
 			return;
 		}
 
-		if (!item->Contains(BOOK)) {
+		if (!item->Contains(ItemType::BOOK)) {
 			cout << "\nYou can't pray the" << item->name << ".\n";
 			return;
 		}
@@ -876,7 +876,7 @@ void Player::Pierce(const vector<string>& args) const {
 	}
 
 	if (Same(tool->name, "Lightning") && Same(container->name, "Altar") && Same(item->name, "Chalice")) {
-		npcG->FinalForm((Room*)parent);
+		GetNpcInstance()->FinalForm((Room*)parent);
 	}
 	else
 	{

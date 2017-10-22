@@ -11,7 +11,6 @@
 
 using namespace std;
 
-Npc* npcG;//variable global definida en Npc.h, mas info alli
 
 World::World()
 {
@@ -46,19 +45,19 @@ World::World()
 
 	// Items -----
 	//Garden
-	Item* rock = new Item("Rock", "One simple rock", gardens, { WEAPON });
-	rock->weaponType = BLUNT;
+	Item* rock = new Item("Rock", "One simple rock", gardens, { ItemType::WEAPON });
+	rock->weaponType = WeaponType::BLUNT;
 	rock->weapondDmg = 3;
-	Item* gargoyle = new Item("Gargoyle", "A gargoyle statue with a hole inside", gardens, { IMMOVABLE,CONTAINER,DESTRUCTIBLE });
+	Item* gargoyle = new Item("Gargoyle", "A gargoyle statue with a hole inside", gardens, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE });
 	gargoyle->maxItems = 1;
 	gargoyle->dmgResistance = 20;
 	Item* cKey = new Item("Copper_Key", "Old copper key.", gargoyle);
 	ex2->key = cKey;
-	Item* shed = new Item("Shed", "An old wooden shed near the church", gardens, {IMMOVABLE,CONTAINER},true);
+	Item* shed = new Item("Shed", "An old wooden shed near the church", gardens, { ItemType::IMMOVABLE,ItemType::CONTAINER},true);
 	shed->maxItems = 10;
 	shed->keyDescription = "It's locked, and its lock seems to be made on iron";
-	Item* hammer = new Item("Hammer", "A wll preserved old war hammer from the templar times", shed, {WEAPON});
-	hammer->weaponType = BLUNT;
+	Item* hammer = new Item("Hammer", "A wll preserved old war hammer from the templar times", shed, { ItemType::WEAPON});
+	hammer->weaponType = WeaponType::BLUNT;
 	hammer->weapondDmg = 15;
 
 	entities.push_back(rock);
@@ -68,19 +67,19 @@ World::World()
 	entities.push_back(hammer);
 
 	//Lobby
-	Item* chalice = new Item("Chalice", "An empty gold chalice", lobby, { CURSED,LIQUID_CONTAINER });
+	Item* chalice = new Item("Chalice", "An empty gold chalice", lobby, { ItemType::CURSED,ItemType::LIQUID_CONTAINER });
 	chalice->maxItems = 1;
 	chalice->cursedText = "You have been possessed by a ghost.";
-	Item* cabinet = new Item("Cabinet", "An old wooden cabinet", lobby, {IMMOVABLE,CONTAINER,DESTRUCTIBLE});
+	Item* cabinet = new Item("Cabinet", "An old wooden cabinet", lobby, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE});
 	cabinet->maxItems = 3;
 	cabinet->dmgResistance = 10;
 	Item* rope = new Item("Rope","A simple rope",cabinet);
-	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, {IMMOVABLE,CONTAINER,DESTRUCTIBLE},true,nullptr);
+	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE},true,nullptr);
 	showcase->maxItems = 2;
 	showcase->dmgResistance = 5;
 	showcase->keyDescription = "This item is closed but it have any visible lock";
-	Item* dagger = new Item("Dagger", "An iron dagger", showcase, {WEAPON});
-	dagger->weaponType = SHARP;
+	Item* dagger = new Item("Dagger", "An iron dagger", showcase, { ItemType::WEAPON});
+	dagger->weaponType = WeaponType::SHARP;
 	dagger->weapondDmg = 10;
 	Item* gKey = new Item("Gold_Key", "Old gold key", showcase);
 
@@ -92,13 +91,13 @@ World::World()
 	entities.push_back(gKey);
 
 	//Central_Nave
-	Item* altar = new Item("Altar", "A well furnished medium height altar", central_nave, { IMMOVABLE,CONTAINER });
+	Item* altar = new Item("Altar", "A well furnished medium height altar", central_nave, { ItemType::IMMOVABLE,ItemType::CONTAINER });
 	altar->maxItems = 3;
-	Item* eBook = new Item("Book", "An old book with mysterious drawings", altar, {BOOK});
+	Item* eBook = new Item("Book", "An old book with mysterious drawings", altar, { ItemType::BOOK});
 	eBook->bookText = "\n\t\t\t\t\tThe exorcism Book\n \n\tIn this book you will discover the ritual to exorcise any kind of evil.\n \n\t1 You need to pour holy water over the afected.\n\t2 You must pray chapter 7 from a bible.\n\t3 Finally you have to touch him with a sacred cross.\n";
-	Item* stoup = new Item("Stoup", "A stone stoup setter in the wall", central_nave, { IMMOVABLE,LIQUID_CONTAINER });
+	Item* stoup = new Item("Stoup", "A stone stoup setter in the wall", central_nave, { ItemType::IMMOVABLE,ItemType::LIQUID_CONTAINER });
 	stoup->maxItems = 1;
-	Item* hwater = new Item("Holy_water", "Water purified by goods", stoup, {LIQUID});
+	Item* hwater = new Item("Holy_water", "Water purified by goods", stoup, { ItemType::LIQUID});
 
 	entities.push_back(altar);
 	entities.push_back(eBook);
@@ -106,19 +105,19 @@ World::World()
 	entities.push_back(hwater);
 
 	//Chapel
-	Item* fake = new Item("Fake_Wall", "A wall with some diferences from the rest", chapel, {IMMOVABLE,CONTAINER,DESTRUCTIBLE},true,nullptr);
+	Item* fake = new Item("Fake_Wall", "A wall with some diferences from the rest", chapel, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE},true,nullptr);
 	fake->maxItems = 1;
 	fake->dmgResistance = 20;
 	fake->keyDescription = "A plain wall, anything else";
-	Item* chapel_chest = new Item("Chest", "A big beautiful chest", fake, {IMMOVABLE,CONTAINER,DESTRUCTIBLE},true,gKey);
+	Item* chapel_chest = new Item("Chest", "A big beautiful chest", fake, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE},true,gKey);
 	chapel_chest->maxItems = 2;
 	chapel_chest->dmgResistance = 30;
 	chapel_chest->keyDescription = "It's locked, and its lock seems to be made on gold";
-	Item* holy_sword = new Item("Lightning", "The holy sword.", chapel_chest, { WEAPON });
-	holy_sword->weaponType = SHARP;
+	Item* holy_sword = new Item("Lightning", "The holy sword.", chapel_chest, { ItemType::WEAPON });
+	holy_sword->weaponType = WeaponType::SHARP;
 	holy_sword->weapondDmg = 20;
-	Item* cross = new Item("Cross", "A sacred cross", chapel, {WEAPON});
-	cross->weaponType = BLUNT;
+	Item* cross = new Item("Cross", "A sacred cross", chapel, { ItemType::WEAPON});
+	cross->weaponType = WeaponType::BLUNT;
 	cross->weapondDmg = 5;
 	ex5->key = cross;
 
@@ -128,28 +127,28 @@ World::World()
 	entities.push_back(cross);
 
 	//Vestry
-	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, {IMMOVABLE,CONTAINER,DESTRUCTIBLE});
+	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE});
 	shelf->maxItems = 5;
 	shelf->dmgResistance = 15;
-	Item* bible = new Item("Bible", "An old bible book, with only some of it's chapters", shelf, {CONTAINER});
+	Item* bible = new Item("Bible", "An old bible book, with only some of it's chapters", shelf, { ItemType::CONTAINER});
 	bible->maxItems = 6;
-	Item* ch1 = new Item("Chapter1", "Genesis", bible, {BOOK});
+	Item* ch1 = new Item("Chapter1", "Genesis", bible, { ItemType::BOOK});
 	ch1->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* ch4 = new Item("Chapter4", "The forth chapter of the bible", bible, {BOOK});
+	Item* ch4 = new Item("Chapter4", "The forth chapter of the bible", bible, { ItemType::BOOK});
 	ch4->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* ch7 = new Item("Chapter7", "The seventh chapter of the bible", bible, { BOOK });
+	Item* ch7 = new Item("Chapter7", "The seventh chapter of the bible", bible, { ItemType::BOOK });
 	ch7->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* ch10 = new Item("Chapter10", "The tenth chapter of the bible", bible, { BOOK });
+	Item* ch10 = new Item("Chapter10", "The tenth chapter of the bible", bible, { ItemType::BOOK });
 	ch10->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* ch15 = new Item("Chapter15", "The fifteen chapter of the bible", bible, { BOOK });
+	Item* ch15 = new Item("Chapter15", "The fifteen chapter of the bible", bible, { ItemType::BOOK });
 	ch15->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
 	Item* iKey = new Item("Iron_Key","Old iron key",bible);
 	shed->key = iKey;
-	Item* phial = new Item("Phial", "A wonderful glass phial", vestry, {LIQUID_CONTAINER});
+	Item* phial = new Item("Phial", "A wonderful glass phial", vestry, { ItemType::LIQUID_CONTAINER});
 	phial->maxItems = 1;
-	Item* wine = new Item("Wine", "The wine representing the blood of our saviour", phial, {LIQUID});
-	Item* mace = new Item("Mace", "An iron mace", vestry,{WEAPON});
-	mace->weaponType = BLUNT;
+	Item* wine = new Item("Wine", "The wine representing the blood of our saviour", phial, { ItemType::LIQUID});
+	Item* mace = new Item("Mace", "An iron mace", vestry,{ ItemType::WEAPON});
+	mace->weaponType = WeaponType::BLUNT;
 	mace->weapondDmg = 10;
 
 	entities.push_back(shelf);
@@ -173,7 +172,7 @@ World::World()
 
 	//Npc -----
 	Npc* luis = new Npc("Luis", "Your allways trustable friend", gardens, {hwater,bible,ch7});
-	npcG = luis;
+	npcSubscribe(luis);
 	luis->basicDmg = 1;
 	luis->hit_points = 1;
 
@@ -243,22 +242,22 @@ bool World::ParseCommand(vector<string>& args)
 		}
 		else if (Same(args[0], "north"))
 		{
-			(args.size() == 1) ? args.push_back("north") : args[1] = "north";
+			args.push_back("north");
 			player->Go(args);
 		}
 		else if (Same(args[0], "south"))
 		{
-			(args.size() == 1) ? args.push_back("south") : args[1] = "south";
+			args.push_back("south");
 			player->Go(args);
 		}
 		else if (Same(args[0], "east"))
 		{
-			(args.size() == 1) ? args.push_back("east") : args[1] = "east";
+			args.push_back("east");
 			player->Go(args);
 		}
 		else if (Same(args[0], "west"))
 		{
-			(args.size() == 1) ? args.push_back("west") : args[1] = "west";
+			args.push_back("west");
 			player->Go(args);
 		}
 		else if (Same(args[0], "inventory"))
@@ -291,7 +290,7 @@ bool World::ParseCommand(vector<string>& args)
 			player->Drop(args);
 		}
 
-		else if (Same(args[0], "attack") )
+		else if (Same(args[0], "attack") || Same(args[0], "hit"))
 		{
 			player->Attack(args);
 		}
@@ -314,10 +313,10 @@ bool World::ParseCommand(vector<string>& args)
 		{
 			player->UnLock(args);
 		}
-		else if (Same(args[0], "break")) {
+		else if (Same(args[0], "break") || Same(args[0], "destroy")) {
 			player->Break(args);
 		}
-		else if (Same(args[0], "lock") )
+		else if (Same(args[0], "lock"))
 		{
 			player->Lock(args);
 		}
@@ -344,7 +343,7 @@ bool World::ParseCommand(vector<string>& args)
 		else if (Same(args[0],"touch")) {
 			player->Touch(args,phase);
 		}
-		else if (Same(args[0], "attack")) {
+		else if (Same(args[0], "attack") || Same(args[0], "hit")) {
 			player->Attack(args);
 		}
 		else

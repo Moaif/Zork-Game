@@ -34,19 +34,17 @@ public:
 	void Killed();
 	void FinalForm(Room*);
 	void Die()override;
+
 private:
 	void RandomMove();
+
 private:
 	bool inLobby;
 	bool posessed;
 	bool chargedAttack;
 	int phase;
 	std::vector<Item*> prohibitedItems;
-	NpcForms form=NpcForms::NONE;
+	NpcForms form = NpcForms::NONE;
 };
-
-extern Npc* npcG;//Hasta tener una idea mejor, se usa para llamarlo cuando se pasa a la ultima fase, 
-				//ya que no se si estara en la mimsma sala del juegador en dicho momento
-
 #endif // _Npc_
 

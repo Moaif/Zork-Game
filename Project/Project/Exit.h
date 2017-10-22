@@ -20,9 +20,11 @@ public:
 
 public:
 	bool locked;
+	Entity* key;
+
+private:
 	std::string opposite_direction;
 	Room* destination;
-	Entity* key;
 	const char* details;
 };
 

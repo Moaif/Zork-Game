@@ -108,6 +108,7 @@ void Creature::Turn()
 						{
 							combat_target->ReceiveAttack(weapon->weapondDmg);
 						}
+						action = Action::NONE;
 					}
 					break;
 					case Action::STUN:
@@ -116,6 +117,7 @@ void Creature::Turn()
 						turnCout(temp);
 
 						combat_target->ReceiveStun(weapon->weapondDmg);
+						action = Action::NONE;
 					}
 					break;
 					default:
@@ -124,7 +126,6 @@ void Creature::Turn()
 				}
 			}
 			combat_target = nullptr;
-			action = Action::NONE;
 		}
 		//If in combat, stun disappear faster
 		else {
@@ -233,6 +234,7 @@ void Creature::ReceiveAttack(float damage)
 	if (hit_points <= 0) {
 		Die();
 	}
+	action = Action::NONE;
 }
 
 void Creature::ReceiveStun(float duration) {

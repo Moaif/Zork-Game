@@ -10,6 +10,7 @@ bool seeded = false;
 bool endGame=false;
 string playerInput;
 World* wInstance;
+Npc* nInstance;
 
 void End() {
 	endGame = true;
@@ -77,11 +78,19 @@ void worldSubscribe(World* world) {
 	wInstance = world;
 }
 
+void npcSubscribe(Npc* npc) {
+	nInstance = npc;
+}
+
+Npc* GetNpcInstance() {
+	return nInstance;
+}
+
 void SetTurnFrec(double value) {
 	wInstance->SetTurnFrec(value);
 }
 
-void SetPlayerInput(string s) {
+void SetPlayerInput(const string s) {
 	playerInput = s;
 }
 

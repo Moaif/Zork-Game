@@ -246,7 +246,7 @@ void Npc::Turn()
 				string temp="Your friend touch the chalice and something start to spawn from it. Before you can advise him, a ghost enter in his body.";
 				turnCout(temp);
 				Item* item = (Item*)parent->Find("chalice", ITEM);
-				item->ChangeItemType(CURSED, COMMON);
+				item->ChangeItemType(ItemType::CURSED, ItemType::COMMON);
 				posessed = true;
 				name = "Mordecai";
 				description = "Your friend beeing possessed by a ghost";
@@ -257,7 +257,7 @@ void Npc::Turn()
 		else
 		{
 			Item* item = (Item*)parent->Find("chalice", ITEM);
-			item->ChangeItemType(CURSED, COMMON);
+			item->ChangeItemType(ItemType::CURSED, ItemType::COMMON);
 			posessed = true;
 			name = "Mordecai";
 			description = "Your friend beeing possessed by a ghost";

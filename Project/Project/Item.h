@@ -8,7 +8,7 @@
 class Room;
 
 
-enum ItemType
+enum class ItemType
 {
 	COMMON,
 	WEAPON,
@@ -21,7 +21,7 @@ enum ItemType
 	DESTRUCTIBLE
 };
 
-enum WeaponType
+enum class WeaponType
 {
 	SHARP,
 	BLUNT
@@ -30,7 +30,7 @@ enum WeaponType
 class Item : public Entity
 {
 public:
-	Item(const char* name, const char* description, Entity* parent, std::vector<ItemType> item_type = { COMMON }, bool locked=false, Entity* key=nullptr);
+	Item(const char* name, const char* description, Entity* parent, std::vector<ItemType> item_type = { ItemType::COMMON }, bool locked=false, Entity* key=nullptr);
 	~Item();
 
 	void Look() const override;
@@ -39,7 +39,6 @@ public:
 	void DropItems();
 
 public:
-	std::vector<ItemType> item_type;
 	bool locked;
 	Entity* key;
 	WeaponType weaponType;//Solo se usa si es un arma
@@ -49,6 +48,9 @@ public:
 	std::string cursedText; // Solo se usa si es cursed
 	float dmgResistance;//Solo se usa si es destructible
 	std::string keyDescription;//Solo se usa si el item tiene llave
+
+private:
+	std::vector<ItemType> item_type;
 };
 
 #endif //__Item__

@@ -21,7 +21,6 @@ public:
 	std::list<Exit*> GetExitsByDirection(const std::string& direction) const;
 	void BlockAllExits();
 
-public:
 };
 
 #endif //__Room__
