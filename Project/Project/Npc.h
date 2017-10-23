@@ -22,7 +22,6 @@ public:
 	Npc(const char* name, const char* description, Room* room, std::vector<Item*> items);
 	~Npc();
 
-	void Dodge()override;
 	void Combat();
 	void ReceiveAttack(float)override;
 	void ReceiveStun(float)override;

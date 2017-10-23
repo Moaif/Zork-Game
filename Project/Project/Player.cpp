@@ -626,6 +626,12 @@ void Player::Attack(const vector<string>& args)
 	}
 }
 
+void Player::Dodge() {
+	Creature::Dodge();
+	string temp = name + " prepares to dodge.";
+	turnCout(temp);
+}
+
 void Player::Talk(const vector<string>& args) {
 	Creature* creature = (Creature*)parent->Find(args[1],CREATURE);
 	if (creature == nullptr) {
@@ -876,7 +882,7 @@ void Player::Pierce(const vector<string>& args) const {
 	}
 
 	if (Same(tool->name, "Lightning") && Same(container->name, "Altar") && Same(item->name, "Chalice")) {
-		GetNpcInstance()->FinalForm((Room*)parent);
+		npcG->FinalForm((Room*)parent);
 	}
 	else
 	{
@@ -898,4 +904,8 @@ int Player::GetPhase() const {
 
 void Player::SetPhase(int phase) {
 	this->phase = phase;
+}
+
+void Player::SetNpcG(Npc* n) {
+	npcG = n;
 }

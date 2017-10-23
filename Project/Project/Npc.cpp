@@ -16,20 +16,32 @@ Creature(name,description,room),prohibitedItems(items)
 	chargedAttack = false;
 	phase = 0;
 	type = CREATURE;
+
+	//Attack
+	//If dodging 15% atac faillure and 35% proc of reduce half-dmg
+	attackProcs[0][0] = 85;
+	attackProcs[0][1] = 50;
+	//Else 5% proc of atac faillure and 10%proc half dmg
+	attackProcs[1][0] = 95;
+	attackProcs[1][1] = 85;
+
+	//Stun
+	//If dodging 90% stun dodge and 10% proc of reduce half-duration
+	stunProcs[0][0] = 10;
+	stunProcs[0][1] = 0;
+	//If stuning 5% proc of stun faillure 25%proc half duration
+	stunProcs[1][0] = 95;
+	stunProcs[1][1] = 70;
+	//Else 75% proc of stun faillure 20%proc half duration
+	stunProcs[2][0] = 25;
+	stunProcs[2][1] = 5;
+
 }
 
 
 Npc::~Npc()
 {
 
-}
-
-
-void Npc::Dodge() {
-	if (!IsAlive() || IsStuned() || IsTiedUp())
-		return;
-
-	action = Action::DODGE;
 }
 
 
@@ -112,46 +124,11 @@ void Npc::Combat()
 
 void Npc::ReceiveAttack(float damage) {
 	if (posessed) {
-		//If dodging 35% proc of reduce half-dmg and 15% atac faillure
 		if (action == Action::DODGE) {
-			int temp = RAND() % 100; //Random value between 0-99
-			if (temp >= 85)
-			{
-				string temp = name + " dodged the attack";
-				turnCout(temp);
-			}
-			else if (temp >= 50) {
-				string temp = name + " dodged half of the attack";
-				turnCout(temp);
-				hit_points -= damage / 2;
-			}
-			else
-			{
-				turnCout("Attack hits");
-				hit_points -= damage;
-			}
+			string temp = name + " tries to dodge" ;
+			turnCout(temp);
 		}
-		//5% proc of atac faillure 10%proc half dmg
-		else
-		{
-			int temp = RAND() % 100;
-			if (temp >= 95)
-			{
-				turnCout("Attack missed");
-			}
-			else if (temp >= 85) {
-				turnCout("Attack hits, but with only half force");
-				hit_points -= damage / 2;
-			}
-			else
-			{
-				turnCout("Attack hits");
-				hit_points -= damage;
-			}
-		}
-		if (hit_points <= 0) {
-			Die();
-		}
+		Creature::ReceiveAttack(damage);
 	}
 	else
 	{
@@ -168,61 +145,7 @@ void Npc::ReceiveStun(float duration) {
 			return;
 		}
 
-		if (IsStuned()) {
-			duration /= 2;
-		}
-
-		//If dodging 10% proc of reduce half-duration and 90% atac faillure
-		if (action == Action::DODGE) {
-
-			int temp = RAND() % 100;//Random value between 0-99
-			if (temp >= 10)
-			{
-				string temp = name + " dodged the stun";
-				turnCout(temp);
-			}
-			else  {
-				string temp = name + " dodged half of the stun";
-				turnCout(temp);
-				stuned = duration / 2;
-			}
-			
-		}
-		// If casting stun, 5%atac faillure 25% half duration
-		else if (action == Action::STUN) {
-			int temp = RAND() % 100;
-			if (temp >= 95)
-			{
-				turnCout("Stun missed");
-			}
-			else if (temp >= 70) {
-				turnCout("Stun hits, but with only half force");
-				stuned = duration / 2;
-			}
-			else
-			{
-				turnCout("Stun hits");
-				stuned = duration;
-			}
-		}
-		//75% proc of stun faillure 20%proc half duration		
-		else
-		{
-			int temp = RAND() % 100; 
-			if (temp >= 25)
-			{
-				turnCout("Stun missed");
-			}
-			else if (temp >= 5) {
-				turnCout("Stun hits, but with only half force");
-				stuned = duration / 2;
-			}
-			else
-			{
-				turnCout("Stun hits");
-				stuned = duration;
-			}
-		}
+		Creature::ReceiveStun(duration);
 	}
 	else {
 		string temp= name + " avoid your hit and look's at you scared.";

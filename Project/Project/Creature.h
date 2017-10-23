@@ -52,6 +52,8 @@ public:
 	float stuned; //Es un float para indicar los turnos que estara stuneado, depende el arma que lo golpee
 	bool tiedUp;
 	bool inCombat;
+	int attackProcs[2][2];//2 modes, 3 procs on each, the las one is allways the remaining from the 2 setted
+	int stunProcs[3][2];//3 modes, 3 proc on each, the las one is allways the remaining from the 2 setted
 };
 
 #endif //__Creature__

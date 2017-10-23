@@ -172,9 +172,9 @@ World::World()
 
 	//Npc -----
 	Npc* luis = new Npc("Luis", "Your allways trustable friend", gardens, {hwater,bible,ch7});
-	npcSubscribe(luis);
 	luis->basicDmg = 1;
 	luis->hit_points = 1;
+	player->SetNpcG(luis);
 
 	entities.push_back(luis);
 

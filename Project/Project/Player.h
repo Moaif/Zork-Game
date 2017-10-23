@@ -21,6 +21,7 @@ public:
 	void UnLock(const std::vector<std::string>& args);
 	void Break(const std::vector<std::string>& args);
 	void Attack(const std::vector<std::string>& args);
+	void Dodge() override;
 	void Talk(const std::vector<std::string>& args);
 	void Stun(const std::vector<std::string>& args);
 	void Read(const std::vector<std::string>& args) const;
@@ -33,9 +34,11 @@ public:
 
 	int GetPhase() const;
 	void SetPhase(int phase);
+	void SetNpcG(Npc* n);
 
 private:
 	int phase;
+	Npc* npcG;
 	int maxItems;//Numero e items maximo en inventario
 };
 

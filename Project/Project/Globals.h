@@ -24,8 +24,6 @@ void turnCout(const char* a);
 int getPseudoRand();
 int getRand();
 void worldSubscribe(World*);
-void npcSubscribe(Npc*);
-Npc* GetNpcInstance();
 void SetTurnFrec(double);
 void SetPlayerInput(const std::string s);
 bool GetEndGame();
