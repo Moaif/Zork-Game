@@ -82,7 +82,7 @@ void SetTurnFrec(double value) {
 	wInstance->SetTurnFrec(value);
 }
 
-void SetPlayerInput(const string s) {
+void SetPlayerInput(const string& s) {
 	playerInput = s;
 }
 

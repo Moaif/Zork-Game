@@ -25,7 +25,7 @@ int getPseudoRand();
 int getRand();
 void worldSubscribe(World*);
 void SetTurnFrec(double);
-void SetPlayerInput(const std::string s);
+void SetPlayerInput(const std::string& s);
 bool GetEndGame();
 
 
