@@ -20,7 +20,7 @@ enum class Action
 class Creature : public Entity
 {
 public:
-	Creature(const char* name, const char* description, Room* room);
+	Creature(const char* name, const char* description, Room* room,float hitpoints);
 	~Creature();
 
 	virtual void Go(const std::vector<std::string>& args);

@@ -8,9 +8,10 @@
 
 using namespace std;
 
-Player::Player(const char* title, const char* description, Room* room) :
-	Creature(title, description, room)
+Player::Player(const char* title, const char* description, Room* room,float hitpoints,float basicDmg) :
+	Creature(title, description, room,hitpoints)
 {
+	this->basicDmg = basicDmg;
 	type = PLAYER;
 	phase = 0;
 	maxItems = 6;

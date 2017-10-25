@@ -22,6 +22,7 @@ public:
 	bool ParseCommand(std::vector<std::string>& args);
 	void GameLoop();
 	void SetTurnFrec(double);
+	void LoadJson(std::string path);
 
 private:
 

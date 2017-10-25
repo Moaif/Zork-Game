@@ -8,8 +8,8 @@
 
 using namespace std;
 
-Npc::Npc(const char* name, const char* description, Room* room,vector<Item*> items) :
-Creature(name,description,room),prohibitedItems(items)
+Npc::Npc(const char* name, const char* description, Room* room,vector<Item*> items,float hitpoints) :
+Creature(name,description,room,hitpoints),prohibitedItems(items)
 {
 	inLobby = false;
 	posessed = false;

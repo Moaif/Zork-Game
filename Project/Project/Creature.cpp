@@ -7,11 +7,11 @@
 
 using namespace std;
 
-Creature::Creature(const char* title, const char* description, Room* room) :
-	Entity(title, description, (Entity*)room),basicDmg(basicDmg)
+Creature::Creature(const char* title, const char* description, Room* room,float hitpoints=1) :
+	Entity(title, description, (Entity*)room)
 {
 	type = CREATURE;
-	hit_points = 1;
+	hit_points = hitpoints;
 	weapon = nullptr;
 	combat_target = nullptr;
 	inCombat = false;

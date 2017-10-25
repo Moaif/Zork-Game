@@ -24,6 +24,7 @@
     <ClInclude Include="Exit.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />

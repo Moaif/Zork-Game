@@ -1,0 +1,666 @@
+{
+    "room": [
+        {
+            "description": "You are in front of a church, surrounded by the flowers of the church's garden.",
+		 "id": "Room1",
+            "name": "Gardens"
+        },
+        {
+            "description": "You are now inside the church, on a small room with low ligth, on the background of the room, you can see a shiny chalice.",
+		 "id": "Room2",
+            "name": "Lobby"
+        },
+        {
+            "description": "You move into the big central nave, the biggest part of the church.",
+		 "id": "Room3",
+            "name": "Central Nave"
+        },
+        {
+            "description": "You are surrounded by all the religious items placed on the wall",
+		 "id": "Room4",
+            "name": "Chapel"
+        },
+        {
+            "description": "The small room seems to not have been open for years.",
+		 "id": "Room5",
+            "name": "Vestry"
+        }
+    ],
+    "exit":  [
+        {
+            "description": "Window",
+		 "details": "Stained glass window",
+		 "destination":"Room2",
+		 "direction": "east",
+		 "id": "Exit1",
+		 "key": "",
+		 "locked": true,
+		 "origin": "Room1",
+		 "oposite_direction": "west"
+        },
+        {
+            "description": "Door",
+		 "details": "A wooden door with a copper lock",
+		 "destination":"Room2",
+		 "direction": "east",
+		 "id": "Exit2",
+		 "key": "Key1",
+		 "locked": true,
+		 "origin": "Room1",
+		 "oposite_direction": "west"
+        },
+        {
+            "description": "Corridor",
+		 "details": "A simple corridor",
+		 "destination":"Room3",
+		 "direction": "east",
+		 "id": "Exit3",
+		 "key": "",
+		 "locked": false,
+		 "origin": "Room2",
+		 "oposite_direction": "west"
+        },
+        {
+            "description": "Arch",
+		 "details": "A wonderfull arch made on stone",
+		 "destination":"Room4",
+		 "direction": "north",
+		 "id": "Exit4",
+		 "key": "",
+		 "locked": false,
+		 "origin": "Room3",
+		 "oposite_direction": "south"
+        },
+        {
+            "description": "Door",
+		 "details": "A weird iron door with a big cross lock",
+		 "destination":"Room5",
+		 "direction": "south",
+		 "id": "Exit5",
+		 "key": "Cross",
+		 "locked": true,
+		 "origin": "Room3",
+		 "oposite_direction": "north"
+        }
+    ],
+    "item":  [
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "One simple rock",
+		 "dmgResistance": 0,
+		 "id": "Rock",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Rock",
+		 "position": "Room1",
+		 "type":  [
+			    "weapon"
+		     ],
+		 "wDamage": 3,
+		 "wType": "blunt"
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A gargoyle statue with a hole inside",
+		 "dmgResistance": 20,
+		 "id": "Gargoyle",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 1,
+		 "name": "Gargoyle",
+		 "position": "Room1",
+		 "type":  [
+			    "container",
+			    "destructible",
+			    "immovable"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "Old copper key.",
+		 "dmgResistance": 0,
+		 "id": "Key1",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Copper_Key",
+		 "position": "Gargoyle",
+		 "type":  [
+			    "common"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "An old wooden shed near the church",
+		 "dmgResistance": 0,
+		 "id": "Shed",
+		 "kDescription": "It's locked, and its lock seems to be made on iron",
+		 "key": "Key2",
+		 "locked": true,
+		 "maxItems": 10,
+		 "name": "Shed",
+		 "position": "Room1",
+		 "type":  [
+			    "immovable",
+			    "container"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A well preserved old war hammer from the templar times",
+		 "dmgResistance": 0,
+		 "id": "Hammer",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Hammer",
+		 "position": "Shed",
+		 "type":  [
+			    "weapon"
+		     ],
+		 "wDamage": 15,
+		 "wType": "blunt"
+        },
+        {
+		 "bText": "",
+		 "cText": "You have been possessed by a ghost.",
+            "description": "An empty gold chalice",
+		 "dmgResistance": 0,
+		 "id": "Chalice",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 1,
+		 "name": "Chalice",
+		 "position": "Room2",
+		 "type":  [
+			    "cursed",
+			    "liquid_container"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "An old wooden cabinet",
+		 "dmgResistance": 10,
+		 "id": "Cabinet",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 3,
+		 "name": "Cabinet",
+		 "position": "Room2",
+		 "type":  [
+			    "immovable",
+			    "container",
+			    "destructible"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A simple rope",
+		 "dmgResistance": 0,
+		 "id": "Rope",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Rope",
+		 "position": "Cabinet",
+		 "type":  [
+			    "common"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A dirty glass showcase",
+		 "dmgResistance": 5,
+		 "id": "Showcase",
+		 "kDescription": "This item is closed and it hasn't any visible lock",
+		 "key": "",
+		 "locked": true,
+		 "maxItems": 2,
+		 "name": "Showcase",
+		 "position": "Room2",
+		 "type":  [
+			    "immovable",
+			    "container",
+			    "destructible"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "An iron dagger",
+		 "dmgResistance": 0,
+		 "id": "Dagger",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Dagger",
+		 "position": "Showcase",
+		 "type":  [
+			    "weapon"
+		     ],
+		 "wDamage": 10,
+		 "wType": "sharp"
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "Old gold key",
+		 "dmgResistance": 0,
+		 "id": "Key3",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Gold_Key",
+		 "position": "Showcase",
+		 "type":  [
+			    "common"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A well furnished medium height altar",
+		 "dmgResistance": 0,
+		 "id": "Altar",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 3,
+		 "name": "Altar",
+		 "position": "Room3",
+		 "type":  [
+			    "immovable",
+			    "container"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "\n\t\t\t\t\tThe exorcism Book\n \n\tIn this book you will discover the ritual to exorcise any kind of evil.\n \n\t1 You need to pour holy water over the afected.\n\t2 You must pray chapter 7 from a bible.\n\t3 Finally you have to touch him with a sacred cross.\n",
+		 "cText": "",
+            "description": "An old book with mysterious drawings",
+		 "dmgResistance": 0,
+		 "id": "Book",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Book",
+		 "position": "Altar",
+		 "type":  [
+			    "book"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A stone stoup setter in the wall",
+		 "dmgResistance": 0,
+		 "id": "Stoup",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 1,
+		 "name": "Stoup",
+		 "position": "Room3",
+		 "type":  [
+			    "immovable",
+			    "liquid_container"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "Water purified by goods",
+		 "dmgResistance": 0,
+		 "id": "Holy_water",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Holy_water",
+		 "position": "Stoup",
+		 "type":  [
+			    "liquid"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A wall with some diferences from the rest",
+		 "dmgResistance": 20,
+		 "id": "Fake_wall",
+		 "kDescription": "A plain wall, anything else",
+		 "key": "",
+		 "locked": true,
+		 "maxItems": 1,
+		 "name": "Fake_Wall",
+		 "position": "Room4",
+		 "type":  [
+			    "immovable",
+			    "container",
+			    "destructible"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A big beautiful chest",
+		 "dmgResistance": 30,
+		 "id": "Chest",
+		 "kDescription": "It's locked, and its lock seems to be made on gold",
+		 "key": "Key3",
+		 "locked": true,
+		 "maxItems": 2,
+		 "name": "Chest",
+		 "position": "Fake_wall",
+		 "type":  [
+			    "immovable",
+			    "container",
+			    "destructible"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "The holy sword.",
+		 "dmgResistance": 0,
+		 "id": "Lightning",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Lightning",
+		 "position": "Chest",
+		 "type":  [
+			    "weapon"
+		     ],
+		 "wDamage": 20,
+		 "wType": "sharp"
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A sacred cross",
+		 "dmgResistance": 0,
+		 "id": "Cross",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Cross",
+		 "position": "Room4",
+		 "type":  [
+			    "weapon"
+		     ],
+		 "wDamage": 5,
+		 "wType": "blunt"
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "An oxidized shelf",
+		 "dmgResistance": 15,
+		 "id": "Shelf",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 5,
+		 "name": "Shelf",
+		 "position": "Room5",
+		 "type":  [
+			    "immovable",
+			    "container",
+			    "destructible"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "An old bible book, with only some of it's chapters",
+		 "dmgResistance": 0,
+		 "id": "Bible",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 6,
+		 "name": "Bible",
+		 "position": "Shelf",
+		 "type":  [
+			    "container"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "\nThe bible is too long to be shown here,but you can still pray the chapter.\n",
+		 "cText": "",
+            "description": "Genesis",
+		 "dmgResistance": 0,
+		 "id": "Chapter1",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Chapter1",
+		 "position": "Bible",
+		 "type":  [
+			    "book"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "\nThe bible is too long to be shown here,but you can still pray the chapter.\n",
+		 "cText": "",
+            "description": "The forth chapter of the bible",
+		 "dmgResistance": 0,
+		 "id": "Chapter4",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Chapter4",
+		 "position": "Bible",
+		 "type":  [
+			    "book"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "\nThe bible is too long to be shown here,but you can still pray the chapter.\n",
+		 "cText": "",
+            "description": "The seventh chapter of the bible",
+		 "dmgResistance": 0,
+		 "id": "Chapter7",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Chapter7",
+		 "position": "Bible",
+		 "type":  [
+			    "book"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "\nThe bible is too long to be shown here,but you can still pray the chapter.\n",
+		 "cText": "",
+            "description": "The tenth chapter of the bible",
+		 "dmgResistance": 0,
+		 "id": "Chapter10",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Chapter10",
+		 "position": "Bible",
+		 "type":  [
+			    "book"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "\nThe bible is too long to be shown here,but you can still pray the chapter.\n",
+		 "cText": "",
+            "description": "The fifteen chapter of the bible",
+		 "dmgResistance": 0,
+		 "id": "Chapter15",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Chapter15",
+		 "position": "Bible",
+		 "type":  [
+			    "book"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "Old iron key",
+		 "dmgResistance": 0,
+		 "id": "Key2",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Iron_Key",
+		 "position": "Bible",
+		 "type":  [
+			    "common"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "A wonderful glass phial",
+		 "dmgResistance": 0,
+		 "id": "Phial",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 1,
+		 "name": "Phial",
+		 "position": "Room5",
+		 "type":  [
+			    "liquid_container"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "The wine representing the blood of our saviour",
+		 "dmgResistance": 0,
+		 "id": "Phial",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Wine",
+		 "position": "Phial",
+		 "type":  [
+			    "liquid"
+		     ],
+		 "wDamage": 0,
+		 "wType": ""
+        },
+        {
+		 "bText": "",
+		 "cText": "",
+            "description": "An iron mace",
+		 "dmgResistance": 0,
+		 "id": "Mace",
+		 "kDescription": "",
+		 "key": "",
+		 "locked": false,
+		 "maxItems": 0,
+		 "name": "Mace",
+		 "position": "Room5",
+		 "type":  [
+			    "weapon"
+		     ],
+		 "wDamage": 10,
+		 "wType": "blunt"
+        }
+    ],
+    "npc": { 
+        
+        "description": "Your allways trustable friend",
+        "hitpoints": 1,
+        "id": "Luis",
+        "items":  [
+            "Holy_water",
+            "Bible",
+            "Chapter7"
+        ],
+        "name": "Luis",
+        "position": "Room1"
+    },
+    "player":  {
+        "basicDmg": 1,
+        "description": "You are investigating a church with your friend",
+        "hitpoints": 30,
+        "id": "Player",
+        "name": "Player",
+        "position": "Room1"
+
+    }
+}

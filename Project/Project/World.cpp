@@ -8,7 +8,10 @@
 #include "player.h"
 #include "world.h"
 #include "npc.h"
+#include "json.hpp"
+#include <fstream>
 
+using json = nlohmann::json;
 using namespace std;
 
 
@@ -16,167 +19,8 @@ World::World()
 {
 	clock_t timer = clock();
 	turnFrec = INIT_TurnFrec;
-
-	// Rooms ----
-	Room* gardens = new Room("Gardens", "You are in front of a church, surrounded by the flowers of the church's garden.");
-	Room* lobby = new Room("Lobby", "You are now inside the church, on a small room with low ligth, on the background of the room, you can see a shiny chalice.");
-	Room* central_nave = new Room("Central Nave", "You move into the big central nave, the biggest part of the church.");
-	Room* chapel = new Room("Chapel", "You are surrounded by all the religious items placed on the wall");
-	Room* vestry = new Room("Vestry", "The small room seems to not have been open for years.");
-
-	Exit* ex1 = new Exit("east", "west", "Window", gardens, lobby,true,NULL,"Stained glass window");
-	Exit* ex2 = new Exit("east", "west", "Door", gardens, lobby,true,NULL,"A wooden door with a copper lock");
-	Exit* ex3 = new Exit("east", "west", "Corridor", lobby, central_nave, false, NULL,"A simple corridor");
-	Exit* ex4 = new Exit("north", "south", "Arch", central_nave, chapel, false, NULL,"A wonderfull arch made on stone");
-	Exit* ex5 = new Exit("south","north","Door",central_nave,vestry,true,NULL,"A weird iron door with a big cross lock");
-
-	entities.push_back(gardens);
-	entities.push_back(lobby);
-	entities.push_back(central_nave);
-	entities.push_back(chapel);
-	entities.push_back(vestry);
-
-	entities.push_back(ex1);
-	entities.push_back(ex2);
-	entities.push_back(ex3);
-	entities.push_back(ex4);
-	entities.push_back(ex5);
-
-
-	// Items -----
-	//Garden
-	Item* rock = new Item("Rock", "One simple rock", gardens, { ItemType::WEAPON });
-	rock->weaponType = WeaponType::BLUNT;
-	rock->weapondDmg = 3;
-	Item* gargoyle = new Item("Gargoyle", "A gargoyle statue with a hole inside", gardens, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE });
-	gargoyle->maxItems = 1;
-	gargoyle->dmgResistance = 20;
-	Item* cKey = new Item("Copper_Key", "Old copper key.", gargoyle);
-	ex2->key = cKey;
-	Item* shed = new Item("Shed", "An old wooden shed near the church", gardens, { ItemType::IMMOVABLE,ItemType::CONTAINER},true);
-	shed->maxItems = 10;
-	shed->keyDescription = "It's locked, and its lock seems to be made on iron";
-	Item* hammer = new Item("Hammer", "A wll preserved old war hammer from the templar times", shed, { ItemType::WEAPON});
-	hammer->weaponType = WeaponType::BLUNT;
-	hammer->weapondDmg = 15;
-
-	entities.push_back(rock);
-	entities.push_back(gargoyle);
-	entities.push_back(cKey);
-	entities.push_back(shed);
-	entities.push_back(hammer);
-
-	//Lobby
-	Item* chalice = new Item("Chalice", "An empty gold chalice", lobby, { ItemType::CURSED,ItemType::LIQUID_CONTAINER });
-	chalice->maxItems = 1;
-	chalice->cursedText = "You have been possessed by a ghost.";
-	Item* cabinet = new Item("Cabinet", "An old wooden cabinet", lobby, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE});
-	cabinet->maxItems = 3;
-	cabinet->dmgResistance = 10;
-	Item* rope = new Item("Rope","A simple rope",cabinet);
-	Item* showcase = new Item("Showcase", "A dirty glass showcase", lobby, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE},true,nullptr);
-	showcase->maxItems = 2;
-	showcase->dmgResistance = 5;
-	showcase->keyDescription = "This item is closed and it hasn't any visible lock";
-	Item* dagger = new Item("Dagger", "An iron dagger", showcase, { ItemType::WEAPON});
-	dagger->weaponType = WeaponType::SHARP;
-	dagger->weapondDmg = 10;
-	Item* gKey = new Item("Gold_Key", "Old gold key", showcase);
-
-	entities.push_back(chalice);
-	entities.push_back(cabinet);
-	entities.push_back(rope);
-	entities.push_back(showcase);
-	entities.push_back(dagger);
-	entities.push_back(gKey);
-
-	//Central_Nave
-	Item* altar = new Item("Altar", "A well furnished medium height altar", central_nave, { ItemType::IMMOVABLE,ItemType::CONTAINER });
-	altar->maxItems = 3;
-	Item* eBook = new Item("Book", "An old book with mysterious drawings", altar, { ItemType::BOOK});
-	eBook->bookText = "\n\t\t\t\t\tThe exorcism Book\n \n\tIn this book you will discover the ritual to exorcise any kind of evil.\n \n\t1 You need to pour holy water over the afected.\n\t2 You must pray chapter 7 from a bible.\n\t3 Finally you have to touch him with a sacred cross.\n";
-	Item* stoup = new Item("Stoup", "A stone stoup setter in the wall", central_nave, { ItemType::IMMOVABLE,ItemType::LIQUID_CONTAINER });
-	stoup->maxItems = 1;
-	Item* hwater = new Item("Holy_water", "Water purified by goods", stoup, { ItemType::LIQUID});
-
-	entities.push_back(altar);
-	entities.push_back(eBook);
-	entities.push_back(stoup);
-	entities.push_back(hwater);
-
-	//Chapel
-	Item* fake = new Item("Fake_Wall", "A wall with some diferences from the rest", chapel, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE},true,nullptr);
-	fake->maxItems = 1;
-	fake->dmgResistance = 20;
-	fake->keyDescription = "A plain wall, anything else";
-	Item* chapel_chest = new Item("Chest", "A big beautiful chest", fake, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE},true,gKey);
-	chapel_chest->maxItems = 2;
-	chapel_chest->dmgResistance = 30;
-	chapel_chest->keyDescription = "It's locked, and its lock seems to be made on gold";
-	Item* holy_sword = new Item("Lightning", "The holy sword.", chapel_chest, { ItemType::WEAPON });
-	holy_sword->weaponType = WeaponType::SHARP;
-	holy_sword->weapondDmg = 20;
-	Item* cross = new Item("Cross", "A sacred cross", chapel, { ItemType::WEAPON});
-	cross->weaponType = WeaponType::BLUNT;
-	cross->weapondDmg = 5;
-	ex5->key = cross;
-
-	entities.push_back(fake);
-	entities.push_back(chapel_chest);
-	entities.push_back(holy_sword);
-	entities.push_back(cross);
-
-	//Vestry
-	Item* shelf = new Item("Shelf", "An oxidized shelf", vestry, { ItemType::IMMOVABLE,ItemType::CONTAINER,ItemType::DESTRUCTIBLE});
-	shelf->maxItems = 5;
-	shelf->dmgResistance = 15;
-	Item* bible = new Item("Bible", "An old bible book, with only some of it's chapters", shelf, { ItemType::CONTAINER});
-	bible->maxItems = 6;
-	Item* ch1 = new Item("Chapter1", "Genesis", bible, { ItemType::BOOK});
-	ch1->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* ch4 = new Item("Chapter4", "The forth chapter of the bible", bible, { ItemType::BOOK});
-	ch4->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* ch7 = new Item("Chapter7", "The seventh chapter of the bible", bible, { ItemType::BOOK });
-	ch7->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* ch10 = new Item("Chapter10", "The tenth chapter of the bible", bible, { ItemType::BOOK });
-	ch10->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* ch15 = new Item("Chapter15", "The fifteen chapter of the bible", bible, { ItemType::BOOK });
-	ch15->bookText = "\nThe bible is too long to be shown here,but you can still pray the chapter.\n";
-	Item* iKey = new Item("Iron_Key","Old iron key",bible);
-	shed->key = iKey;
-	Item* phial = new Item("Phial", "A wonderful glass phial", vestry, { ItemType::LIQUID_CONTAINER});
-	phial->maxItems = 1;
-	Item* wine = new Item("Wine", "The wine representing the blood of our saviour", phial, { ItemType::LIQUID});
-	Item* mace = new Item("Mace", "An iron mace", vestry,{ ItemType::WEAPON});
-	mace->weaponType = WeaponType::BLUNT;
-	mace->weapondDmg = 10;
-
-	entities.push_back(shelf);
-	entities.push_back(bible);
-	entities.push_back(ch1);
-	entities.push_back(ch4);
-	entities.push_back(ch7);
-	entities.push_back(ch10);
-	entities.push_back(ch15);
-	entities.push_back(iKey);
-	entities.push_back(phial);
-	entities.push_back(wine);
-	entities.push_back(mace);
-
-	// Player ----
-	player = new Player("Player", "You are investigating a church with your friend", gardens);
-	player->hit_points = 30;
-	player->basicDmg = 1;
-
-	entities.push_back(player);
-
-	//Npc -----
-	Npc* luis = new Npc("Luis", "Your allways trustable friend", gardens, {hwater,bible,ch7});
-	luis->basicDmg = 1;
-	luis->hit_points = 1;
-	player->SetNpcG(luis);
-
-	entities.push_back(luis);
+	//Load data
+	LoadJson("Info.json");
 
 	//Subscribe to global
 	worldSubscribe(this);
@@ -378,4 +222,195 @@ bool World::ParseCommand(vector<string>& args)
 
 void World::SetTurnFrec(double value) {
 	turnFrec = value;
+}
+
+void World::LoadJson(string path) {
+	json input;
+	ifstream ifs(path);
+	ifs >> input;
+
+	map<Exit*, string> keyExitDependency;
+	map<Item*, string> keyItemDependency;
+	map<Entity*, string> positionDependency;
+	map<string, Entity*> idMap;
+
+
+	//Rooms
+	for (unsigned int i = 0; i < input["room"].size(); ++i) {
+		string id = input["room"][i]["id"];
+		string name = input["room"][i]["name"];
+		string description = input["room"][i]["description"];
+
+		Room * temp = new Room(name.c_str(), description.c_str());
+		entities.push_back(temp);
+		idMap[id] = temp;
+	}
+
+	//Exits
+	for (unsigned int i = 0; i < input["exit"].size(); ++i) {
+		string id = input["exit"][i]["id"];
+		string direction = input["exit"][i]["direction"];
+		string oposite_direction = input["exit"][i]["oposite_direction"];
+		string description = input["exit"][i]["description"];
+		string origin = input["exit"][i]["origin"];
+		string destination = input["exit"][i]["destination"];
+		bool locked = input["exit"][i]["locked"];
+		string key = input["exit"][i]["key"];
+		string details = input["exit"][i]["details"];
+
+		Exit* temp = new Exit(direction.c_str(), oposite_direction.c_str(), description.c_str(), (Room*)idMap[origin], (Room*)idMap[destination], locked, NULL, details.c_str());
+		if (key != "") {
+			keyExitDependency[temp] = key;
+		}
+		entities.push_back(temp);
+		idMap[id] = temp;
+
+	}
+
+	//Items
+	for (unsigned int i = 0; i < input["item"].size(); ++i) {
+		string id = input["item"][i]["id"];
+		string name = input["item"][i]["name"];
+		string description = input["item"][i]["description"];
+		string position = input["item"][i]["position"];
+		vector<ItemType> type;
+		for (unsigned int j = 0; j < input["item"][i]["type"].size(); ++j) {
+			if (Same(input["item"][i]["type"][j], "common")) {
+				type.push_back(ItemType::COMMON);
+			}
+			else if (Same(input["item"][i]["type"][j], "weapon")) {
+				type.push_back(ItemType::WEAPON);
+			}
+			else if (Same(input["item"][i]["type"][j], "immovable")) {
+				type.push_back(ItemType::IMMOVABLE);
+			}
+			else if (Same(input["item"][i]["type"][j], "cursed")) {
+				type.push_back(ItemType::CURSED);
+			}
+			else if (Same(input["item"][i]["type"][j], "container")) {
+				type.push_back(ItemType::CONTAINER);
+			}
+			else if (Same(input["item"][i]["type"][j], "liquid_container")) {
+				type.push_back(ItemType::LIQUID_CONTAINER);
+			}
+			else if (Same(input["item"][i]["type"][j], "liquid")) {
+				type.push_back(ItemType::LIQUID);
+			}
+			else if (Same(input["item"][i]["type"][j], "book")) {
+				type.push_back(ItemType::BOOK);
+			}
+			else if (Same(input["item"][i]["type"][j], "destructible")) {
+				type.push_back(ItemType::DESTRUCTIBLE);
+			}
+		}
+		bool locked = input["item"][i]["locked"];
+		string key = input["item"][i]["key"];
+
+		string wType = input["item"][i]["wType"];
+		float wDamage = input["item"][i]["wDamage"];
+		string bText = input["item"][i]["bText"];
+		int maxItems = input["item"][i]["maxItems"];
+		string cText = input["item"][i]["cText"];
+		float dmgResistance = input["item"][i]["dmgResistance"];
+		string kDescription = input["item"][i]["kDescription"];
+
+		Item * temp = new Item(name.c_str(), description.c_str(), NULL, type, locked, NULL);
+
+		if (wType != "") {
+			if (Same(wType, "blunt")) {
+				temp->weaponType = WeaponType::BLUNT;
+			}
+			else if (Same(wType, "sharp")) {
+				temp->weaponType = WeaponType::SHARP;
+			}
+		}
+
+		if (wDamage != 0) {
+			temp->weapondDmg = wDamage;
+		}
+
+		if (bText != "") {
+			temp->bookText = bText;
+		}
+
+		if (maxItems != 0) {
+			temp->maxItems = maxItems;
+		}
+
+		if (cText != "") {
+			temp->cursedText = cText;
+		}
+
+		if (dmgResistance != 0) {
+			temp->dmgResistance = dmgResistance;
+		}
+
+		if (kDescription != "") {
+			temp->keyDescription = kDescription;
+		}
+
+		map<string, Entity*>::iterator it = idMap.find(position);
+		if (it != idMap.end()) {
+			temp->ChangeParentTo(it->second);
+		}
+		else
+		{
+			positionDependency[temp] = position;
+		}
+
+		if (key != "") {
+			keyItemDependency[temp] = key;
+		}
+		entities.push_back(temp);
+		idMap[id] = temp;
+	}
+
+	//Player
+	string idP = input["player"]["id"];
+	string nameP = input["player"]["name"];
+	string descriptionP = input["player"]["description"];
+	string positionP = input["player"]["position"];
+
+	float hitpointsP = input["player"]["hitpoints"];
+	float basicDmgP = input["player"]["basicDmg"];
+
+	player = new Player(nameP.c_str(), descriptionP.c_str(), (Room*)idMap[positionP], hitpointsP, basicDmgP);
+
+	entities.push_back(player);
+	idMap[idP] = player;
+
+	//NPC
+	string id = input["npc"]["id"];
+	string name = input["npc"]["name"];
+	string description = input["npc"]["description"];
+	string position = input["npc"]["position"];
+	vector<Item*> items;
+	for (unsigned int i = 0; i < input["npc"]["items"].size(); ++i) {
+		string offset = input["npc"]["items"][i];
+		items.push_back((Item*)idMap[offset]);
+	}
+	float hitpoints = input["npc"]["hitpoints"];
+
+	Npc* npc = new Npc(name.c_str(), description.c_str(), (Room*)idMap[position], items,hitpoints);
+
+	entities.push_back(npc);
+	idMap[id] = npc;
+
+	player->SetNpcG(npc);
+	
+
+
+	//Solve dependencies
+	for (map <Entity*, string>::iterator it = positionDependency.begin(); it != positionDependency.end();++it) {
+		it->first->ChangeParentTo(idMap[it->second]);
+	}
+
+	for (map <Exit*, string>::iterator it = keyExitDependency.begin(); it != keyExitDependency.end(); ++it) {
+		it->first->key = idMap[it->second];
+	}
+
+	for (map<Item*, string>::iterator it = keyItemDependency.begin(); it != keyItemDependency.end(); ++it) {
+		it->first->key = idMap[it->second];
+	}
+
 }
