@@ -69,7 +69,7 @@ bool World::ParseCommand(vector<string>& args)
 	player->SetPhase(0);
 
 	if (player->IsStuned()) {
-			cout << "\nYou are stunned.\n";
+			Cout("\nYou are stunned.\n");
 			return ret;
 	}
 

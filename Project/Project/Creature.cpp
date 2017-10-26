@@ -45,13 +45,13 @@ void Creature::Look(const vector<string>& args) const
 {
 	if (IsAlive())
 	{
-		cout << "\n" << name << "\n";
-		cout << description << "\n";
+		Cout("\n" + name + "\n");
+		Cout(description + "\n");
 	}
 	else
 	{
-		cout << name << "'s corpse\n";
-		cout << "Here lies dead: " << description << "\n";
+		Cout(name + "'s corpse\n");
+		Cout("Here lies dead: " + description + "\n");
 	}
 }
 
@@ -73,13 +73,11 @@ void Creature::Go(const vector<string>& args)
 		Exit* ex = (Exit*)*it;
 		if (!ex->locked) {
 			if (PlayerInRoom()) {
-				string temp = name + " leaves the room.";
-				turnCout(temp);
+				turnCout(name + " leaves the room.");
 			}
 			ChangeParentTo(ex->GetDestinationFrom((Room*)parent));
 			if (PlayerInRoom()) {
-				string temp= name + " enter the room.";
-				turnCout(temp);
+				turnCout(name + " enter the room.");
 			}
 			return;
 		}
@@ -117,8 +115,7 @@ void Creature::Turn()
 					{
 					case Action::ATTACK:
 					{
-						string temp = name + " try to attack " + combat_target->name;
-						turnCout(temp);
+						turnCout(name + " try to attack " + combat_target->name);
 						if (weapon == nullptr) {
 							combat_target->ReceiveAttack(basicDmg);
 						}
@@ -131,8 +128,7 @@ void Creature::Turn()
 					break;
 					case Action::STUN:
 					{
-						string temp = name + " try to stun " + combat_target->name;
-						turnCout(temp);
+						turnCout(name + " try to stun " + combat_target->name);
 
 						combat_target->ReceiveStun(weapon->weapondDmg);
 						action = Action::NONE;
@@ -151,8 +147,7 @@ void Creature::Turn()
 				stuned -= 5;
 				if (!IsStuned()) {
 					if (parent->Find(PLAYER) != nullptr) {
-						string temp = name + " is no more stuned.";
-						turnCout(temp);
+						turnCout(name + " is no more stuned.");
 					}
 				}
 
@@ -161,8 +156,7 @@ void Creature::Turn()
 				--stuned;
 				if (!IsStuned()) {
 					if (parent->Find(PLAYER) != nullptr) {
-						string temp = name + " is no more stuned.";
-						turnCout(temp);
+						turnCout(name + " is no more stuned.");
 					}
 				}
 			}
@@ -214,12 +208,10 @@ void Creature::ReceiveAttack(float damage)
 		int temp = RAND() % 100;//Random value between 0-99
 		if (temp >= attackProcs[0][0])
 		{
-			string temp = name + " dodged the attack";
-			turnCout(temp);
+			turnCout(name + " dodged the attack");
 		}
 		else if (temp >= attackProcs[0][1]) {
-			string temp = name + " dodged half of the attack";
-			turnCout(temp);
+			turnCout(name + " dodged half of the attack");
 			hit_points -= damage / 2;
 		}
 		else
@@ -259,12 +251,10 @@ void Creature::ReceiveStun(float duration) {
 		int temp = RAND() % 100;
 		if (temp >= stunProcs[0][0])
 		{
-			string temp = name + " dodged the stun";
-			turnCout(temp);
+			turnCout(name + " dodged the stun");
 		}
 		else if (temp >= stunProcs[0][1]) {
-			string temp = name + " dodged half of the stun";
-			turnCout(temp);
+			turnCout(name + " dodged half of the stun");
 			stuned = duration / 2;
 		}
 		else
@@ -325,7 +315,7 @@ void Creature::Die()
 {
 	if (PlayerInRoom())
 	{
-		cout << "\n" << name << " dies.\n";
+		Cout("\n" + name + " dies.\n");
 	}
 }
 

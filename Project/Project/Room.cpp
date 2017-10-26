@@ -21,8 +21,8 @@ Room::~Room()
 
 void Room::Look() const
 {
-	cout << "\n" << name << "\n";
-	cout << description;
+	Cout("\n" + name + "\n");
+	Cout(description);
 
 
 	// List exits --
@@ -43,7 +43,7 @@ void Room::Look() const
 		if ((*it)->type == ITEM)
 		{
 			Item* item = (Item*)*it;
-			cout << "\nThere is an item here: " << item->name;
+			Cout("\nThere is an item here: " + item->name);
 		}
 	}
 
@@ -53,13 +53,13 @@ void Room::Look() const
 		if ((*it)->type == CREATURE)
 		{
 			Creature* cr = (Creature*)*it;
-			cout << "\nThere is someone else here: " << cr->name;
+			Cout("\nThere is someone else here: " + cr->name);
 			if (cr->IsAlive() == false)
-				cout << " (dead)";
+				Cout(" (dead)");
 		}
 	}
 
-	cout << "\n";
+	cout << endl;
 }
 
 

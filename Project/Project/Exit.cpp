@@ -1,6 +1,7 @@
 #include <iostream>
 #include "room.h"
 #include "Exit.h"
+#include "globals.h"
 
 using namespace std;
 
@@ -23,12 +24,13 @@ Exit::~Exit()
 
 void Exit::Look(const Room* room) const
 {
-	cout << "\n" << description << " to " << GetDestinationFrom(room)->name << " on the "<< GetDirectionFrom(room);
+	Cout("\n" + description + " to " + GetDestinationFrom(room)->name + " on the " + GetDirectionFrom(room));
 }
 
 
 void Exit::LookDetails() const {
-	cout << "\n" <<details << "\n";
+	string temp = details;//cant place details directly
+	Cout("\n" + temp + "\n");
 }
 
 

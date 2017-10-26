@@ -4,6 +4,7 @@
 #include <conio.h>
 #include "globals.h"
 #include "world.h"
+#include <windows.h>
 
 using namespace std;
 
@@ -14,11 +15,22 @@ int main()
 	vector<string> args;
 	args.reserve(10);
 
-	cout << "Welcome to Adrian's Zork\n";
-	cout << "----------------\n";
-	cout << "\nThis journey starts with you and your friend Luis proving who is more brave by entering a haunted church. Now you are in the church gardens trying to enter.\n" ;
+	//Get max console buffer for string delimitation
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	if (!GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+	{
+		// an error occourred
+		cerr << "Cannot determine console size." << endl;
+	}
+	else
+	{
+		SetMaxConsoleBuffer(csbi.srWindow.Right - csbi.srWindow.Left);
+	}
+	Cout("Welcome to Adrian's Zork\n");
+	Cout("----------------\n");
+	Cout("\nThis journey starts with you and your friend Luis proving who is more brave by entering a haunted church. Now you are in the church gardens trying to enter.\n");
 
-	cout << "\n----------------\n";
+	Cout("\n----------------\n");
 	World my_world;
 
 	args.push_back("look");
@@ -68,7 +80,7 @@ int main()
 		SetPlayerInput(player_input);
 
 		if (my_world.Turn(args) == false) {
-			cout << "\nSorry, I do not understand your command.\n";
+			Cout("\nSorry, I do not understand your command.\n");
 		}
 
 		if (args.size() > 0 && Same(args[0], "quit"))
@@ -92,7 +104,7 @@ int main()
 	}
 
 	cout << endl;
-	cout << "\nThanks for playing, Bye!\n";
+	Cout("\nThanks for playing, Bye!\n");
 	cout << endl;
 	system("pause");
 	args.clear();//Autodelete vector when empty and not in use

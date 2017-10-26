@@ -27,6 +27,10 @@ void worldSubscribe(World*);
 void SetTurnFrec(double);
 void SetPlayerInput(const std::string& s);
 bool GetEndGame();
+void SetMaxConsoleBuffer(int);
+void Cout(const char*);
+void Cout(const std::string&);
+
 
 
 #endif //__Globals__
