@@ -258,7 +258,7 @@ void World::LoadJson(string path) {
 		string key = input["exit"][i]["key"];
 		string details = input["exit"][i]["details"];
 
-		Exit* temp = new Exit(direction.c_str(), oposite_direction.c_str(), description.c_str(), (Room*)idMap[origin], (Room*)idMap[destination], locked, NULL, details.c_str());
+		Exit* temp = new Exit(direction.c_str(), oposite_direction.c_str(), description.c_str(), (Room*)idMap[origin], (Room*)idMap[destination], locked, nullptr, details.c_str());
 		if (key != "") {
 			keyExitDependency[temp] = key;
 		}
@@ -314,7 +314,7 @@ void World::LoadJson(string path) {
 		float dmgResistance = input["item"][i]["dmgResistance"];
 		string kDescription = input["item"][i]["kDescription"];
 
-		Item * temp = new Item(name.c_str(), description.c_str(), NULL, type, locked, NULL);
+		Item * temp = new Item(name.c_str(), description.c_str(), nullptr, type, locked, nullptr);
 
 		if (wType != "") {
 			if (Same(wType, "blunt")) {

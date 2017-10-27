@@ -50,7 +50,7 @@ int getPseudoRand(){
 int getRand(){
 
 	if (!seeded) {
-		srand((unsigned int)time(NULL));
+		srand((unsigned int)time(nullptr));
 		seeded = true;
 	}
 

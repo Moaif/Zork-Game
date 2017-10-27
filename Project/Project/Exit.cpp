@@ -52,5 +52,5 @@ Room* Exit::GetDestinationFrom(const Room* room) const
 	if (room == destination)
 		return (Room*)parent;
 
-	return NULL;
+	return nullptr;
 }

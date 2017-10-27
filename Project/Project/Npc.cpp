@@ -178,7 +178,7 @@ void Npc::Turn()
 	}
 
 	//First automatic move, when player enter the church
-	if (parent->Find(PLAYER) == NULL && !posessed) {
+	if (parent->Find(PLAYER) == nullptr && !posessed) {
 		vector<string> args;
 		args.push_back("go");
 		args.push_back("east");

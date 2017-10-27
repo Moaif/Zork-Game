@@ -4,13 +4,13 @@
 
 using namespace std;
 
-Entity::Entity(const char* name, const char* description, Entity* parent = NULL):
+Entity::Entity(const char* name, const char* description, Entity* parent = nullptr):
 	name(name),description(description),parent(parent)
 {
 
 	type = ENTITY;
 
-	if (parent != NULL)
+	if (parent != nullptr)
 		parent->container.push_back(this);
 }
 
@@ -65,7 +65,7 @@ Entity* Entity::Find(EntityType type) const
 			return *it;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -80,7 +80,7 @@ Entity* Entity::Find(const string& name, EntityType type) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

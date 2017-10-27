@@ -8,7 +8,7 @@
 using namespace std;
 
 Room::Room(const char* title, const char* description) :
-	Entity(title, description, NULL)
+	Entity(title, description, nullptr)
 {
 	type = ROOM;
 }
@@ -22,7 +22,7 @@ Room::~Room()
 void Room::Look() const
 {
 	Cout("\n" + name + "\n");
-	Cout(description);
+	Cout(description+"\n");
 
 
 	// List exits --
@@ -75,7 +75,7 @@ Exit* Room::GetExit(const string& description) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
