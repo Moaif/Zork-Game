@@ -15,32 +15,35 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Item.h">
-      <Filter>Archivos de código fuente</Filter>
-    </ClInclude>
-    <ClInclude Include="Npc.h">
-      <Filter>Archivos de código fuente</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Archivos de código fuente</Filter>
-    </ClInclude>
-    <ClInclude Include="Creature.h">
-      <Filter>Archivos de código fuente</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Archivos de código fuente</Filter>
-    </ClInclude>
-    <ClInclude Include="Exit.h">
-      <Filter>Archivos de código fuente</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Archivos de código fuente</Filter>
-    </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Archivos de código fuente</Filter>
+    <ClInclude Include="json.hpp">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Npc.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Exit.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

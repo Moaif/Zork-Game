@@ -19,7 +19,7 @@ enum class NpcForms
 class Npc : public Creature {
 
 public:
-	Npc(const char* name, const char* description, Room* room, std::vector<Item*> items);
+	Npc(const char* name, const char* description, Room* room, std::vector<Item*> items,float hitpoints);
 	~Npc();
 
 	void Combat();

@@ -19,17 +19,17 @@ Item::~Item()
 
 void Item::Look() const
 {
-	cout << "\n" << name << "\n";
-	cout << description << "\n";
+	Cout("\n" + name + "\n");
+	Cout(description + "\n");
 
 	if (locked) {
-		cout << keyDescription << "\n";
+		Cout(keyDescription + "\n");
 	}
 	else
 	{
-		cout << "It contains: " << "\n";
+		Cout("It contains: \n");
 		for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it) {
-			cout << (*it)->name << "\n";
+			Cout((*it)->name + "\n");
 		}
 	}
 }

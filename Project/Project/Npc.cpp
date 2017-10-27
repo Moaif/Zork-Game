@@ -8,8 +8,8 @@
 
 using namespace std;
 
-Npc::Npc(const char* name, const char* description, Room* room,vector<Item*> items) :
-Creature(name,description,room),prohibitedItems(items)
+Npc::Npc(const char* name, const char* description, Room* room,vector<Item*> items,float hitpoints) :
+Creature(name,description,room,hitpoints),prohibitedItems(items)
 {
 	inLobby = false;
 	posessed = false;
@@ -56,7 +56,7 @@ void Npc::Combat()
 	}
 
 	if (target == nullptr) {
-		cout << "\n'" << target->name << "' is not in the room.\n";
+		Cout ("\n'" + target->name + "' is not in the room.\n");
 		return;
 	}
 
@@ -66,27 +66,23 @@ void Npc::Combat()
 		{
 			combat_target = target;
 			action = Action::ATTACK;
-			string temp = name + " prepares his next move " + "!";
-			turnCout(temp);
+			turnCout(name + " prepares his next move " + "!");
 		}
 		else if (temp >= 30) {
 			combat_target = target;
 			chargedAttack = true;
 			action = Action::ATTACK;
-			string temp = name + " charge power for his next attack " + "!";
-			turnCout(temp);
+			turnCout(name + " charge power for his next attack " + "!");
 		}
 		else if (temp >=10) {
 			combat_target = target;
 			action = Action::STUN;
-			string temp = name + " starts with a spell casting " + "!";
-			turnCout(temp);
+			turnCout(name + " starts with a spell casting " + "!");
 		}
 		else
 		{
 			Dodge();
-			string temp = name + " prepares his next move " + "!";
-			turnCout(temp);
+			turnCout(name + " prepares his next move " + "!");
 		}
 	}
 	else if (form == NpcForms::MEDIUM) {
@@ -95,28 +91,24 @@ void Npc::Combat()
 		{
 			combat_target = target;
 			action = Action::ATTACK;
-			string temp= name + " prepares his next move " + "!";
-			turnCout(temp);
+			turnCout(name + " prepares his next move " + "!");
 		}
 		else if (temp >=30)
 		{
 			combat_target = target;
 			chargedAttack = true;
 			action = Action::ATTACK;
-			string temp= name + " charge power for his next attack " + "!";
-			turnCout(temp);
+			turnCout(name + " charge power for his next attack " + "!");
 		}
 		else if (temp >= 20) {
 			combat_target = target;
 			action = Action::STUN;
-			string temp = name + " starts with a spell casting " + "!";
-			turnCout(temp);
+			turnCout(name + " starts with a spell casting " + "!");
 		}
 		else
 		{
 			Dodge();
-			string temp = name + " prepares his next move " + "!";
-			turnCout(temp);
+			turnCout(name + " prepares his next move " + "!");
 		}
 	}
 }
@@ -125,8 +117,7 @@ void Npc::Combat()
 void Npc::ReceiveAttack(float damage) {
 	if (posessed) {
 		if (action == Action::DODGE) {
-			string temp = name + " tries to dodge" ;
-			turnCout(temp);
+			turnCout(name + " tries to dodge");
 		}
 		Creature::ReceiveAttack(damage);
 	}
@@ -165,16 +156,14 @@ void Npc::Turn()
 		Player* player = (Player*)parent->Find(PLAYER);
 		if (player !=nullptr) {
 			if (player->IsAlive()) {
-
-				string temp="Your friend touch the chalice and something start to spawn from it. Before you can advise him, a ghost enter in his body.";
-				turnCout(temp);
+				turnCout("Your friend touch the chalice and something start to spawn from it. Before you can advise him, a ghost enter in his body.");
 				Item* item = (Item*)parent->Find("chalice", ITEM);
 				item->ChangeItemType(ItemType::CURSED, ItemType::COMMON);
 				posessed = true;
 				name = "Mordecai";
 				description = "Your friend beeing possessed by a ghost";
-				temp= "Ghost: \tWhat a wonderfull day, isn't it?.Im Mordecai a poor citizen death in this church when the war started years ago.Im here trapped in that chalice, if we destroy it, i can go free and release your friends body.";
-				turnCout(temp);
+				turnCout("");
+				turnCout("Ghost: \tWhat a wonderfull day, isn't it?. Im Mordecai a poor citizen death in this church when the war started years ago. Im here trapped in that chalice, if we destroy it, i can go free and release your friends body.");
 			}
 		}
 		else
@@ -207,8 +196,7 @@ void Npc::Turn()
 					{
 					case Action::ATTACK:
 					{
-						string temp = name + " attacks " + combat_target->name;
-						turnCout(temp);
+						turnCout(name + " attacks " + combat_target->name);
 						if (chargedAttack) {
 							combat_target->ReceiveAttack(basicDmg * 3);
 						}
@@ -220,8 +208,7 @@ void Npc::Turn()
 					break;
 					case Action::STUN:
 					{
-						string temp = name + " ended his stun spell " + combat_target->name;
-						turnCout(temp);
+						turnCout(name + " ended his stun spell " + combat_target->name);
 
 						combat_target->ReceiveStun(basicDmg*2);
 					}
@@ -239,8 +226,7 @@ void Npc::Turn()
 				stuned -= 5;
 				if (!IsStuned()) {
 					if (parent->Find(PLAYER) != nullptr) {
-						string temp = name + " is no more stuned.";
-						turnCout(temp);
+						turnCout(name + " is no more stuned.");
 					}
 				}
 
@@ -249,8 +235,7 @@ void Npc::Turn()
 				--stuned;
 				if (!IsStuned()) {
 					if (parent->Find(PLAYER) != nullptr) {
-						string temp = name + " is no more stuned.";
-						turnCout(temp);
+						turnCout(name + " is no more stuned.");
 					}
 				}
 			}
@@ -271,7 +256,7 @@ void Npc::Talk() {
 				{
 				case -1:
 				{
-					cout << "\n" << name << ":\t" << "What a wonderfull day, isn't it?.Im Mordecai a poor citizen death in this church when the war started years ago, I've possesed your friend when he touched the chalice.Im trapped in that chalice, if we destroy it, i can go free and release your friends body.\n";
+					Cout("\n" + name + ":\t" + "What a wonderfull day, isn't it?. Im Mordecai a poor citizen death in this church when the war started years ago, I've possesed your friend when he touched the chalice. Im trapped in that chalice, if we destroy it, i can go free and release your friends body.\n");
 					++phase;
 				}
 				break;
@@ -279,12 +264,12 @@ void Npc::Talk() {
 				{
 					if (player->Find("Lightning", ITEM)) {
 						cout << endl;
-						cout << "\n" << name << ":\t" << "Well done, you found 'Lightning', now we can go for the next task\n";
+						Cout("\n" + name + ":\t" + "Well done, you found 'Lightning', now we can go for the next task\n");
 						++phase;
 						break;
 					}
 					cout << endl;
-					cout << "\n" << name << ":\t" << "Your first task to destroy the chalice is search 'Lightning' the holy sword somewhere in this church\n";
+					Cout("\n" + name + ":\t" + "Your first task to destroy the chalice is search 'Lightning' the holy sword somewhere in this church\n");
 				}
 				break;
 				case 1:
@@ -293,18 +278,18 @@ void Npc::Talk() {
 					if (container != nullptr) {
 						if (container->Find("Wine", ITEM) != nullptr) {
 							cout << endl;
-							cout << "\n" << name << ":\t" << "Well done, you found the 'Wine', now we can go for the last task\n";
+							Cout("\n" + name + ":\t" + "Well done, you found the 'Wine', now we can go for the last task\n");
 							++phase;
 							break;
 						}
 					}
 					cout << endl;
-					cout << "\n" << name << ":\t" << "Your second task to destroy the chalice is fill the chalice with 'Wine' the blood of our saviour somewhere in this church\n";
+					Cout("\n" + name + ":\t" + "Your second task to destroy the chalice is fill the chalice with 'Wine' the blood of our saviour somewhere in this church\n");
 				}
 				break;
 				case 2: {
 					cout << endl;
-					cout << "\n" << name << ":\t" << "Now it's time to break this curse, place the filled chalice on the center nave's altar and pierce it with 'Lightning\n";
+					Cout("\n" + name + ":\t" + "Now it's time to break this curse, place the filled chalice on the center nave's altar and pierce it with 'Lightning'\n");
 				}
 						break;
 				default:
@@ -314,17 +299,17 @@ void Npc::Talk() {
 			else
 			{
 				cout << endl;
-				cout << "\n" << name << ":\t" << "I will kill you, DIE, DIE, DIE!";
+				Cout("\n" + name + ":\t" + "I will kill you, DIE, DIE, DIE!");
 			}
 		}
 		else {
 			cout << endl;
-			cout << "\n" << name<< ":\t" << "How we will enter in that church?.Maybe the door or the window?\n";
+			Cout("\n" + name + ":\t" + "How we will enter in that church?. Maybe the door or the window?\n");
 		}
 	}
 	else
 	{
-		cout << "\nHe is stuned,he can't talk.\n";
+		Cout("\nHe is stuned, he can't talk.\n");
 	}
 }
 
@@ -332,7 +317,7 @@ void Npc::Observe(Item* item) {
 	if (!IsTiedUp() && !IsStuned() && IsAlive()) {
 		for (vector<Item*>::const_iterator it = prohibitedItems.begin(); it != prohibitedItems.cend(); ++it) {
 			if (*it == item) {
-				cout << "\n"<< name << " saw you taking " << item->name << ".\n";
+				Cout("\n" + name + " saw you taking " + item->name + ".\n");
 				Stab();
 			}
 		}
@@ -343,7 +328,7 @@ void Npc::Stab() {
 	if (!IsTiedUp() && !IsStuned() && IsAlive()) {
 		Player* player = (Player*)parent->Find(PLAYER);
 		if (player != nullptr) {
-			cout << "\n" << name << " stabs you.\n";
+			Cout("\n" + name + " stabs you.\n");
 			player->Die();
 		}
 	}
@@ -356,9 +341,9 @@ void Npc::Exorciced() {
 	form = NpcForms::LOW;
 	stuned = false;
 	tiedUp = false;
-	cout << "\nWhen you touch your friend with the cross, he start spawning smoke from his entire body covering all exits. When it stops, your friend lies on the floor, and near him you can see an small horned demon.\n";
+	Cout("\nWhen you touch your friend with the cross, he start spawning smoke from his entire body covering all exits. When it stops, your friend lies on the floor, and near him you can see an small horned demon.\n");
 	name = "Lucifer";
-	cout <<"\n"<< name <<":\t" << "You! you betrayed me, now i will show you no mercy!.\n";
+	Cout("\n" + name + ":\t" + "You! you betrayed me, now i will show you no mercy!.\n");
 	StartCombat((Creature*)parent->Find(PLAYER));
 	SetTurnFrec(COMBATFrec);
 }
@@ -370,9 +355,9 @@ void Npc::Killed() {
 	form = NpcForms::MEDIUM;
 	stuned = false;
 	tiedUp = false;
-	cout << "\nYou just murdered your friend, when from its body a dense smoke start spawning blocking all exits and summoning a demon to this world.\n";
+	Cout("\nYou just murdered your friend, when from its body a dense smoke start spawning, blocking all exits and summoning a demon to this world.\n");
 	name = "Lucifer";
-	cout << "\n" << name << ":\t" << "You just killed your friend, you would be a nice demon. However you frustrate my full resurection, and you will pay for it.\n";
+	Cout("\n" + name + ":\t" + "You just killed your friend, you would be a nice demon. However you frustrate my full resurection, and you will pay for it.\n");
 	StartCombat((Creature*)parent->Find(PLAYER));
 	SetTurnFrec(COMBATFrec);
 }
@@ -385,22 +370,22 @@ void Npc::FinalForm(Room* room) {
 	form = NpcForms::HIGH;
 	stuned = false;
 	tiedUp = false;
-	cout << "\nWhen you cut the chalice, the room turns red and all exits disapeared, while a strange smoke start spawning in front of you.\n";
+	Cout("\nWhen you cut the chalice, the room turns red and all exits disapeared, while a strange smoke start spawning in front of you.\n");
 	name = "Lucifer";
-	cout << "\n" << name << ":\t" << "Thanks to you now i've recovered my true form! Now you must die!.\n";
+	Cout("\n" + name + ":\t" + "Thanks to you now i've recovered my true form! Now you must die!.\n");
 	StartCombat((Creature*)parent->Find(PLAYER));
 	SetTurnFrec(COMBATFrec);
 }
 
 void Npc::Die() {
 	if (form == NpcForms::NONE) {
-		cout << "\n" << name << " dies.\n";
+		Cout("\n" + name + " dies.\n");
 		Killed();
 	}
 	else
 	{
 		EndCombat((Creature*)parent->Find(PLAYER));
-		cout << "\n" << name << " dies.\n";
+		Cout("\n" + name + " dies.\n");
 		Win();
 	}
 }
