@@ -136,6 +136,10 @@ void Npc::ReceiveStun(float duration) {
 			return;
 		}
 
+		if (action == Action::DODGE) {
+			turnCout(name + " tries to dodge");
+		}
+
 		Creature::ReceiveStun(duration);
 	}
 	else {

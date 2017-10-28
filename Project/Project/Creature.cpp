@@ -147,7 +147,7 @@ void Creature::Turn()
 				stuned -= 5;
 				if (!IsStuned()) {
 					if (parent->Find(PLAYER) != nullptr) {
-						turnCout(name + " is no more stuned.");
+						turnCout(name + " is no more stunned.");
 					}
 				}
 
@@ -156,7 +156,7 @@ void Creature::Turn()
 				--stuned;
 				if (!IsStuned()) {
 					if (parent->Find(PLAYER) != nullptr) {
-						turnCout(name + " is no more stuned.");
+						turnCout(name + " is no more stunned.");
 					}
 				}
 			}

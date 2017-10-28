@@ -654,7 +654,7 @@ void Player::Stun(const vector<string>& args) {
 		Cout("\n'" + args[3] + "' is not in your inventory.\n");
 	}
 	if (item->weaponType == WeaponType::BLUNT && item->Contains(ItemType::WEAPON)) {
-		Cout("\nYou prepares to stun " + target->name + " with " + item->name + ".\n");
+		Cout("\nYou prepare to stun " + target->name + " with " + item->name + ".\n");
 		combat_target = target;
 		weapon = item;
 		action = Action::STUN;
@@ -682,7 +682,7 @@ void Player::Read(const vector<string>& args) const{
 			return;
 		}
 
-		Cout("\n" + item->name + "is not readable.\n");
+		Cout("\n" + item->name + " is not readable.\n");
 	}
 	else if (args.size() == 4) {
 		Item* cont = (Item*)parent->Find(args[3], ITEM);
@@ -707,7 +707,7 @@ void Player::Read(const vector<string>& args) const{
 			return;
 		}
 
-		Cout("\n" + item->name + "is not readable.\n");
+		Cout("\n" + item->name + " is not readable.\n");
 	}
 }
 
