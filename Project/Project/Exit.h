@@ -25,7 +25,7 @@ public:
 private:
 	std::string opposite_direction;
 	Room* destination;
-	const char* details;
+	std::string details;
 };
 
 #endif //__Exit__

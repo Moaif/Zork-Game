@@ -22,14 +22,16 @@ void Item::Look() const
 	Cout("\n" + name + "\n");
 	Cout(description + "\n");
 
-	if (locked) {
-		Cout(keyDescription + "\n");
-	}
-	else
-	{
-		Cout("It contains: \n");
-		for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it) {
-			Cout((*it)->name + "\n");
+	if (Contains(ItemType::CONTAINER) || Contains(ItemType::LIQUID_CONTAINER)) {
+		if (locked) {
+			Cout(keyDescription + "\n");
+		}
+		else
+		{
+			Cout("It contains: \n");
+			for (vector<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it) {
+				Cout((*it)->name + "\n");
+			}
 		}
 	}
 }

@@ -139,8 +139,7 @@ void Npc::ReceiveStun(float duration) {
 		Creature::ReceiveStun(duration);
 	}
 	else {
-		string temp= name + " avoid your hit and look's at you scared.";
-		turnCout(temp);
+		turnCout(name + " avoid your hit and looks scared at you.");
 	}
 }
 void Npc::Turn() 
@@ -303,8 +302,15 @@ void Npc::Talk() {
 			}
 		}
 		else {
-			cout << endl;
-			Cout("\n" + name + ":\t" + "How we will enter in that church?. Maybe the door or the window?\n");
+			if (inLobby) {
+				cout << endl;
+				Cout("\n" + name + ":\t" + "Have you seen that shiny chalice?. I think that no one here will miss it, if you know what i mean.\n");
+			}
+			else
+			{
+				cout << endl;
+				Cout("\n" + name + ":\t" + "How we will enter in that church?. Maybe the door or the window?\n");
+			}
 		}
 	}
 	else

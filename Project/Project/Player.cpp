@@ -54,6 +54,8 @@ void Player::Look(const vector<string>& args) const
 			Cout("\n" + name + "\n");
 			Cout(description + "\n");
 		}
+
+		Cout("\nThere is no '" + args[1] + "' in this room.\n");
 	}
 	else
 	{
@@ -521,7 +523,7 @@ void Player::Break(const vector<string>& args) {
 		if (item->Contains(ItemType::WEAPON)) {
 			Cout("\nYou break the " + exit->description + "...\n");
 			exit->locked = false;
-			exit->description = "Broken " + exit->description;
+			exit->description = "Broken_" + exit->description;
 			return;
 		}
 		else

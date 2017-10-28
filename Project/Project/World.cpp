@@ -17,10 +17,13 @@ using namespace std;
 
 World::World()
 {
+	loaded = true;
 	clock_t timer = clock();
 	turnFrec = INIT_TurnFrec;
 	//Load data
-	LoadJson("Info.json");
+	if (!LoadJson("Info.json")) {
+		loaded = false;
+	}
 
 	//Subscribe to global
 	worldSubscribe(this);
@@ -35,6 +38,10 @@ World::~World()
 	entities.clear();
 }
 
+
+bool World::IsLoaded() {
+	return loaded;
+}
 
 bool World::Turn(vector<string>& args)
 {
@@ -224,9 +231,13 @@ void World::SetTurnFrec(double value) {
 	turnFrec = value;
 }
 
-void World::LoadJson(string path) {
+bool World::LoadJson(string path) {
 	json input;
 	ifstream ifs(path);
+	if (ifs.fail()) {
+		cerr << "\nThe file Info.json could not be found in it's directory"<< endl;
+		return false;
+	}
 	ifs >> input;
 
 	map<Exit*, string> keyExitDependency;
@@ -259,12 +270,12 @@ void World::LoadJson(string path) {
 		string details = input["exit"][i]["details"];
 
 		Exit* temp = new Exit(direction.c_str(), oposite_direction.c_str(), description.c_str(), (Room*)idMap[origin], (Room*)idMap[destination], locked, nullptr, details.c_str());
+
 		if (key != "") {
 			keyExitDependency[temp] = key;
 		}
 		entities.push_back(temp);
 		idMap[id] = temp;
-
 	}
 
 	//Items
@@ -413,4 +424,5 @@ void World::LoadJson(string path) {
 		it->first->key = idMap[it->second];
 	}
 
+	return true;
 }

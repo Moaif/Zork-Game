@@ -15,6 +15,12 @@ int main()
 	vector<string> args;
 	args.reserve(10);
 
+	World* my_world = new World();
+	if (!my_world->IsLoaded()) {
+		system("pause");
+		return 1;
+	}
+
 	//Get max console buffer for string delimitation
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	if (!GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
@@ -31,7 +37,6 @@ int main()
 	Cout("\nThis journey starts with you and your friend Luis proving who is more brave by entering a haunted church. Now you are in the church gardens trying to enter.\n");
 
 	Cout("\n----------------\n");
-	World my_world;
 
 	args.push_back("look");
 	
@@ -79,7 +84,7 @@ int main()
 		}
 		SetPlayerInput(player_input);
 
-		if (my_world.Turn(args) == false) {
+		if (my_world->Turn(args) == false) {
 			Cout("\nSorry, I do not understand your command.\n");
 		}
 
@@ -108,5 +113,7 @@ int main()
 	cout << endl;
 	system("pause");
 	args.clear();//Autodelete vector when empty and not in use
+	delete(my_world);
+	my_world = nullptr;
 	return 0;
 }

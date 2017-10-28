@@ -30,7 +30,7 @@
         {
             "description": "Window",
 		 "details": "Stained glass window",
-		 "destination":"Room2",
+		 "destination": "Room2",
 		 "direction": "east",
 		 "id": "Exit1",
 		 "key": "",
@@ -41,7 +41,7 @@
         {
             "description": "Door",
 		 "details": "A wooden door with a copper lock",
-		 "destination":"Room2",
+		 "destination": "Room2",
 		 "direction": "east",
 		 "id": "Exit2",
 		 "key": "Key1",
@@ -52,7 +52,7 @@
         {
             "description": "Corridor",
 		 "details": "A simple corridor",
-		 "destination":"Room3",
+		 "destination": "Room3",
 		 "direction": "east",
 		 "id": "Exit3",
 		 "key": "",
@@ -62,8 +62,8 @@
         },
         {
             "description": "Arch",
-		 "details": "A wonderfull arch made on stone",
-		 "destination":"Room4",
+		 "details": "A wonderfull arch made off stone",
+		 "destination": "Room4",
 		 "direction": "north",
 		 "id": "Exit4",
 		 "key": "",
@@ -74,7 +74,7 @@
         {
             "description": "Door",
 		 "details": "A weird iron door with a big cross lock",
-		 "destination":"Room5",
+		 "destination": "Room5",
 		 "direction": "south",
 		 "id": "Exit5",
 		 "key": "Cross",
@@ -146,7 +146,7 @@
             "description": "An old wooden shed near the church",
 		 "dmgResistance": 0,
 		 "id": "Shed",
-		 "kDescription": "It's locked, and its lock seems to be made on iron",
+		 "kDescription": "It's locked, and its lock seems to be made off iron",
 		 "key": "Key2",
 		 "locked": true,
 		 "maxItems": 10,
@@ -390,7 +390,7 @@
             "description": "A big beautiful chest",
 		 "dmgResistance": 30,
 		 "id": "Chest",
-		 "kDescription": "It's locked, and its lock seems to be made on gold",
+		 "kDescription": "It's locked, and its lock seems to be made off gold",
 		 "key": "Key3",
 		 "locked": true,
 		 "maxItems": 2,
@@ -643,7 +643,7 @@
     ],
     "npc": { 
         
-        "description": "Your allways trustable friend",
+        "description": "Your always trustable friend",
         "hitpoints": 1,
         "id": "Luis",
         "items":  [

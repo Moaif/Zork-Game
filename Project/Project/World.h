@@ -22,10 +22,11 @@ public:
 	bool ParseCommand(std::vector<std::string>& args);
 	void GameLoop();
 	void SetTurnFrec(double);
-	void LoadJson(std::string path);
+	bool LoadJson(std::string path);
+	bool IsLoaded();
 
 private:
-
+	bool loaded;
 	std::list<Entity*> entities;
 	Player* player;
 	clock_t timer;
